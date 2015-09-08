@@ -48,15 +48,15 @@ public class HomePage {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    public String getLoginedFirstname() {
+    public String getFirstnameText() {
         return this.firstname.getText();
     }
 
-    public String getLoginedLastname() {
+    public String getLastnameText() {
         return this.lastname.getText();
     }
 
-    public String getLoginedRole() {
+    public String getRoleText() {
         return this.role.getText();
     }
 

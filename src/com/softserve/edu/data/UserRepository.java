@@ -33,6 +33,18 @@ public class UserRepository {
                 .build();
     }
 
+    public static IUser getAdminUserYura() {
+      return User.get()
+              .setLogin("myroslav")
+              .setFirstname("myroslav")
+              .setLastname("shram")
+              .setPassword("qwerty")
+              .setEmail("mail@gmail.com")
+              .setRegion("South")
+              .setRole("Administrator")
+              .build();
+  }
+
     public static IUser getCustomerUser() {
         return User.get()
                 .setLogin("nonelogin1")
