@@ -1,8 +1,10 @@
 package com.softserve.edu.oms.data;
 
+
+
 public class UserRepository {
 
-    public static IUser getAdminUser() {
+   // public static IUser getAdminUser() {
 //        return new User("iva", "ivanka", "horoshko", "qwerty",
 //                "mail@gmail.com", "West", "Administrator");
 //        User user=new User();
@@ -22,16 +24,16 @@ public class UserRepository {
 //             .setEmail("mail@gmail.com")
 //             .setRegion("West")
 //             .setRole("Administrator");
-        return User.get()
-                .setLogin("iva")
-                .setFirstname("ivanka")
-                .setLastname("horoshko")
-                .setPassword("qwerty")
-                .setEmail("mail@gmail.com")
-                .setRegion("West")
-                .setRole("Administrator")
-                .build();
-    }
+//        return User.get()
+//                .setLogin("iva")
+//                .setFirstname("ivanka")
+//                .setLastname("horoshko")
+//                .setPassword("qwerty")
+//                .setEmail("mail@gmail.com")
+//                .setRegion("West")
+//                .setRole("Administrator")
+//                .build();
+//    }
 
     public static IUser getAdminUserYura() {
       return User.get()
@@ -76,6 +78,44 @@ public class UserRepository {
                 .setPassword("abcd")
                 .setEmail("abcd@gmail.com")
                 .setRegion("West")
+                .setRole("Administrator")
+                .build();
+    }
+    
+    public static IUser getUser() {
+        return User.get()
+                .setLogin("orest")
+                .setFirstname("orest")
+                .setLastname("vovchack")
+                .setPassword("qwerty")
+                .setEmail("mail@gmail.com")
+                .setRegion("West")
+                .setRole("Administrator")
+                .build();
+    }
+
+    public static IUser getAdminUser() {
+        return User.get()
+                .setLogin("myroslav")
+                .setFirstname("myroslav")
+                .setLastname("shram")
+                .setPassword("qwerty")
+                .setEmail("mail@gmail.com")
+                .setRegion("South")
+                .setRole("Administrator")
+                .build();
+    }
+
+
+    
+    public static IUser getNewUser(){
+        return User.get()
+                .setLogin("mistergoop")
+                .setFirstname("Petro")
+                .setLastname("Andrushchak")
+                .setPassword("qwerty")
+                .setEmail("nazarpetro@mail.com")
+                .setRegion("South")
                 .setRole("Administrator")
                 .build();
     }

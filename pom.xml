@@ -107,7 +107,7 @@
 						</surefire.reports.directory>
 					</systemPropertyVariables>
 					<suiteXmlFiles>
-						<suiteXmlFile>testng1.xml</suiteXmlFile>
+						<suiteXmlFile>testngPetroAndrushchak.xml</suiteXmlFile>
 					</suiteXmlFiles>
 					<reportsDirectory>${testng.reports.directory}</reportsDirectory>
 				</configuration>

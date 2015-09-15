@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 
 import com.softserve.edu.oms.data.IUser;
 
+
 public class LoginPage {
 
     public static enum LoginPageMessages {
@@ -114,5 +115,12 @@ public class LoginPage {
         setLoginData(invalidUser);
         return new LoginPage(driver); // return this;
     }
+    
+    public HomePage successUserLogin(IUser user){
+        setLoginData(user);
+        return new HomePage(driver);
+    }
+
+  
     
 }
