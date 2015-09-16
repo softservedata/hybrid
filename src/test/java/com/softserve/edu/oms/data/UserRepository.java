@@ -1,6 +1,9 @@
 package com.softserve.edu.oms.data;
 
-public class UserRepository {
+public final class UserRepository {
+
+    private UserRepository() {
+    }
 
     public static IUser getAdminUser() {
 //        return new User("iva", "ivanka", "horoshko", "qwerty",

@@ -1,30 +1,19 @@
 package com.softserve.edu.oms.tests;
 
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
 import com.softserve.edu.oms.data.IUser;
-import com.softserve.edu.oms.data.UserRepository;
 import com.softserve.edu.oms.data.UrlRepository.Urls;
+import com.softserve.edu.oms.data.UserRepository;
 import com.softserve.edu.oms.pages.AdminHomePage;
 import com.softserve.edu.oms.pages.LoginPage;
 import com.softserve.edu.oms.pages.LoginPage.LoginPageMessages;
 
 public class LoginAdminTest {
-    WebDriver driver;
-
-    @BeforeClass
-    public void setUp() {
-        driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
-    }
 
     @DataProvider
     public Object[][] adminProvider() {
@@ -38,14 +27,14 @@ public class LoginAdminTest {
     public void checkAdministratorLogin(String url, IUser adminUser) {
         // Preconditions.
         // WebDriver driver = new FirefoxDriver();
-        driver.get(url);
+        WebDriverUtils.get().loadPage(url);
         //
         //LoginPage loginpage = new LoginPage(driver);
         // Test Steps.
         // loginpage =
         // loginpage.unSuccesfulLogin(UserRepository.getInvalidUser());
         //AdminHomePage adminhomepage = loginpage.successAdminLogin(adminUser);
-        AdminHomePage adminhomepage = (new LoginPage(driver)).successAdminLogin(adminUser);
+        AdminHomePage adminhomepage = (new LoginPage()).successAdminLogin(adminUser);
         // Checking.
         Assert.assertEquals(adminUser.getFirstname(), adminhomepage.getFirstnameText());
         Assert.assertEquals(adminUser.getLastname(), adminhomepage.getLastnameText());
@@ -66,8 +55,8 @@ public class LoginAdminTest {
     public void checkInvalidLogin(String url, IUser invalidUser) {
         // Preconditions.
         // WebDriver driver = new FirefoxDriver();
-        driver.get(url);
-        LoginPage loginpage = new LoginPage(driver);
+        WebDriverUtils.get().loadPage(url);
+        LoginPage loginpage = new LoginPage();
         // loginpage.getValidator(); // Bad Code.
         // Test Steps.
         loginpage = loginpage.unSuccesfulLogin(invalidUser);
@@ -78,7 +67,7 @@ public class LoginAdminTest {
 
     @AfterClass
     public void tearDown() {
-        driver.quit();
+        WebDriverUtils.get().getWebDriver().quit();
     }
 
 }

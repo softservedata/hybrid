@@ -9,8 +9,14 @@ public class AppTest {
     @Test
     public void testApp() {
         // Calendar calendar;
-        System.out.println("RUN TEST");
+        System.out.println("AppTest testApp() thread id=" + Thread.currentThread().getId());
         System.out.println("Var=" + System.getProperty("surefire.reports.directory"));
         Assert.assertTrue(true);
     }
+
+    @Test
+    public void testApp2() {
+        System.out.println("AppTest testApp2() thread id=" + Thread.currentThread().getId());
+    }
+
 }

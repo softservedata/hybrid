@@ -5,10 +5,24 @@
 	<!-- 3 ERROR 5 WARNING 7 INFO -->
 	<test verbose="5" name="ATQC_Test">
 		<classes>
+		<!--
 			<class name="com.softserve.edu.oms.tests.LoginAdminTest">
 				<methods>
 					<include name="checkAdministratorLogin" />
 					<include name="checkInvalidLogin" />
+				</methods>
+			</class>
+	 	-->
+			<class name="com.softserve.edu.AppTest">
+				<methods>
+					<include name="testApp" />
+					<include name="testApp2" />
+				</methods>
+			</class>
+			<class name="com.softserve.edu.App2Test">
+				<methods>
+					<include name="testApp" />
+					<include name="testApp2" />
 				</methods>
 			</class>
 		</classes>

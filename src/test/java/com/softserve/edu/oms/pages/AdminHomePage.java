@@ -1,18 +1,19 @@
 package com.softserve.edu.oms.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
 
 public class AdminHomePage extends HomePage {
     //
     private WebElement administration;
 
-    public AdminHomePage(WebDriver driver) {
-        super(driver);
+    public AdminHomePage() {
+        super();
         // Init Web Elements.
         //this.administration = driver.findElement(By.xpath("//a[text()='Administration']"));
-        this.administration = driver.findElement(By.partialLinkText("Administration"));
+        this.administration = WebDriverUtils.get().getWebDriver().findElement(By.partialLinkText("Administration"));
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -32,7 +33,7 @@ public class AdminHomePage extends HomePage {
 
     public AdministrationPage gotoAdministrationPage() {
         administrationClick();
-        return new AdministrationPage(driver);
+        return new AdministrationPage();
     }    
     
 }

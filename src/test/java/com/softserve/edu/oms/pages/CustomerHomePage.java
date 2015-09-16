@@ -1,17 +1,18 @@
 package com.softserve.edu.oms.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
 
 public class CustomerHomePage extends HomePage {
     //
     private WebElement ordering;
 
-    public CustomerHomePage(WebDriver driver) {
-        super(driver);
+    public CustomerHomePage() {
+        super();
         // Init Web Elements.
-        this.ordering = driver.findElement(By.partialLinkText("Ordering"));
+        this.ordering = WebDriverUtils.get().getWebDriver().findElement(By.partialLinkText("Ordering"));
     }
     
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -31,7 +32,7 @@ public class CustomerHomePage extends HomePage {
 
     public OrderingPage gotoOrderingPage() {
         orderingClick();
-        return new OrderingPage(driver);
+        return new OrderingPage();
     }    
 
 }

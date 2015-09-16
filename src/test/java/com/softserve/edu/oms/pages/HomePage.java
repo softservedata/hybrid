@@ -1,25 +1,23 @@
 package com.softserve.edu.oms.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+
 public class HomePage {
-    protected WebDriver driver;
-    //
     private WebElement firstname;
     private WebElement lastname;
     private WebElement role;
     private WebElement logout;
 
-    public HomePage(WebDriver driver) {
-        this.driver = driver;
+    public HomePage() {
         // Init Web Elements.
-        this.firstname = driver.findElement(By.xpath("//td[text()='First name']/following-sibling::td"));
-        this.lastname = driver.findElement(By.xpath("//td[text()='Last name']/following-sibling::td"));
-        this.role = driver.findElement(By.xpath("//td[text()='Role']/following-sibling::td"));
+        this.firstname = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//td[text()='First name']/following-sibling::td"));
+        this.lastname = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//td[text()='Last name']/following-sibling::td"));
+        this.role = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//td[text()='Role']/following-sibling::td"));
         //this.administration = driver.findElement(By.xpath("//a[text()='Administration']"));
-        this.logout = driver.findElement(By.xpath("//a[@href='/OMS/logout.htm']"));
+        this.logout = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//a[@href='/OMS/logout.htm']"));
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -62,7 +60,7 @@ public class HomePage {
 
     public LoginPage logout() {
         logoutClick();
-        return new LoginPage(driver);
+        return new LoginPage();
     }
     
 }

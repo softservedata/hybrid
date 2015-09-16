@@ -1,9 +1,9 @@
 package com.softserve.edu.oms.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
 import com.softserve.edu.oms.data.IUser;
 
 public class LoginPage {
@@ -27,14 +27,11 @@ public class LoginPage {
         }
     }
 
-    private WebDriver driver;
-    //
     private WebElement username;
     private WebElement password;
     private WebElement submit;
 
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
+    public LoginPage() {
         // Init Web Elements.
         //this.username = driver.findElement(By.name("j_username"));
         //this.password = driver.findElement(By.name("j_password"));
@@ -44,9 +41,9 @@ public class LoginPage {
 
     private void initVisibleWebElements() {
         // Init Web Elements.
-        this.username = driver.findElement(By.name("j_username"));
-        this.password = driver.findElement(By.name("j_password"));
-        this.submit = driver.findElement(By.name("submit"));
+        this.username = WebDriverUtils.get().getWebDriver().findElement(By.name("j_username"));
+        this.password = WebDriverUtils.get().getWebDriver().findElement(By.name("j_password"));
+        this.submit = WebDriverUtils.get().getWebDriver().findElement(By.name("submit"));
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -83,7 +80,7 @@ public class LoginPage {
 
     // Bad Code.
     public WebElement getValidator() {
-        return this.driver.findElement(By.xpath("//font[@color='red']"));
+        return WebDriverUtils.get().getWebDriver().findElement(By.xpath("//font[@color='red']"));
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -101,18 +98,18 @@ public class LoginPage {
     public AdminHomePage successAdminLogin(IUser adminUser) {
         setLoginData(adminUser);
         // Return a new page object representing the destination.
-        return new AdminHomePage(driver);
+        return new AdminHomePage();
     }
 
     public CustomerHomePage successCustomerLogin(IUser customerUser) {
         setLoginData(customerUser);
         // Return a new page object representing the destination.
-        return new CustomerHomePage(driver);
+        return new CustomerHomePage();
     }
 
     public LoginPage unSuccesfulLogin(IUser invalidUser) {
         setLoginData(invalidUser);
-        return new LoginPage(driver); // return this;
+        return new LoginPage(); // return this;
     }
     
 }
