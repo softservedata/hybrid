@@ -389,7 +389,7 @@ public class EmployeePage extends ForLoggedUserPage {
 
 			this.generateNewPassword = driver.findElement(By.xpath("//form/div[3]/div[2]/div[3]/div[2]/button"));
 			this.save = driver.findElement(By.xpath("(//button[@type='submit'])[3]"));
-			this.fire = driver.findElement(By.linkText("Звільнити"));
+			this.fire = driver.findElement(By.linkText("Р—РІС–Р»СЊРЅРёС‚Рё"));
 			this.close = driver.findElement(By.xpath("//form/div[5]/div[2]/button"));
 		}
 

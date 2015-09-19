@@ -11,7 +11,7 @@ public class CalibratorHomePage extends ForLoggedUserPage {
 	public CalibratorHomePage(WebDriver driver) {
 		
 		super(driver);
-		this.employee= driver.findElement(By.linkText("Працівники"));
+		this.employee= driver.findElement(By.linkText("РџСЂР°С†С–РІРЅРёРєРё"));
 	}
 
 	public void linkEmployeeClick() {

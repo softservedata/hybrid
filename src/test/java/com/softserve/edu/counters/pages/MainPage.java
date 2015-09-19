@@ -12,7 +12,7 @@ public class MainPage {
 	
 	public MainPage(WebDriver driver) {
 		this.driver = driver;
-		this.logIn = driver.findElement(By.linkText("”‚≥ÈÚË"));
+		this.logIn = driver.findElement(By.linkText("–£–≤—ñ–π—Ç–∏"));
 	}
 	
 	public void linkLogInClick() {

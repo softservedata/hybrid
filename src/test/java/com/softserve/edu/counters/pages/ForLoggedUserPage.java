@@ -20,7 +20,7 @@ public class ForLoggedUserPage {
 		private WebElement logOut;
 
 		public DropDownList() {
-			this.logOut = driver.findElement(By.linkText("Вилогуватись"));
+			this.logOut = driver.findElement(By.linkText("Р’РёР»РѕРіСѓРІР°С‚РёСЃСЊ"));
 		}
 		
 		public void linkLogOutClick() {
