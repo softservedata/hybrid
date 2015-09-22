@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -73,7 +74,7 @@ public class AdminTests {
                 UserRepository.getAdminUser(), UserRepository.getUser() }, };
     }
 
-   // @Test(dataProvider = "adminProviderUserInUse")
+    @Test(dataProvider = "adminProviderUserInUse")
     public void checkCreatingUserLoginInUse(String url, IUser admin,
             IUser user) {
 
@@ -93,6 +94,8 @@ public class AdminTests {
 
         Assert.assertEquals(createNewUserPage.getUserLoginInUseMessage(user),
                 createNewUserPage.getNameErrorString());
+        
+        createNewUserPage.logout();
 
     }
 
@@ -103,10 +106,9 @@ public class AdminTests {
                 Condition.EQUALS, UserRepository.getUser(), } };
     }
 
-    // @Test(dataProvider = "adminProvider0")
+    @Test(dataProvider = "adminProvider0")
     public void checkFoundNumberUsers(String url, IUser admin,
-            FieldFilter fieldFilter, Condition condition, IUser user,
-            String numUser) {
+            FieldFilter fieldFilter, Condition condition, IUser user) {
 
         driver.get(url);
 
@@ -133,7 +135,7 @@ public class AdminTests {
                 Condition.EQUALS, UserRepository.getUser() } };
     }
 
-    // @Test(dataProvider = "adminProvider1")
+     @Test(dataProvider = "adminProvider1")
     public void checkSearchUserByLogin(String url, IUser admin,
             FieldFilter fieldFilter, Condition condition, IUser user) {
 
@@ -166,7 +168,7 @@ public class AdminTests {
                 UserRepository.getAdminUser(), UserRepository.getNewUser() }, };
     }
 
-    // @Test(dataProvider = "adminProvider2")
+     @Test(dataProvider = "adminProvider2")
     public void checkCreatingUser(String url, IUser admin, IUser newUser) {
 
         driver.get(url);
@@ -201,6 +203,9 @@ public class AdminTests {
 
     }
 
+    
+    
+    
     @DataProvider
     public Object[][] adminProvider3() {
         return new Object[][] {
@@ -272,4 +277,11 @@ public class AdminTests {
         // firefoxProfile.setPreference("pdfjs.disabled", true);
 
     }
+    
+    @AfterClass
+    public void afterClass() {
+        
+        driver.close();
+    }
+
 }

@@ -110,7 +110,7 @@ public class UserRepository {
     
     public static IUser getNewUser(){
         return User.get()
-                .setLogin("mistergoop")
+                .setLogin("mistergowp")
                 .setFirstname("Petro")
                 .setLastname("Andrushchak")
                 .setPassword("qwerty")
