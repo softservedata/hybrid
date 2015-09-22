@@ -1,5 +1,8 @@
 package com.softserve.edu.pages;
 
+import java.util.List;
+import java.util.function.ToDoubleBiFunction;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -45,16 +48,16 @@ public class OrganizationPage {
 
 			this.selectRegionList = driver.findElement(By
 					.xpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[1]/div[2]/div/a/span"));
-			this.searchRegionList = driver.findElement(By.
-					xpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[1]/div[2]/div/div/div/input"));
+			this.searchRegionList = driver.findElement(By.xpath(
+					"html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[1]/div[2]/div/div/div/input"));
 			this.selectDistrictList = driver.findElement(By
 					.xpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[2]/div[2]/div/a/span"));
-			this.searchDistrictlist = driver.findElement(By.
-					xpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[2]/div[2]/div/div/div/input"));
-			this.selectCityList = driver.findElement(By.
-					xpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[3]/div[2]/div/a/span"));
-			this.searchCityList = driver.findElement(By.
-					xpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[3]/div[2]/div/div/div/input"));
+			this.searchDistrictlist = driver.findElement(By.xpath(
+					"html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[2]/div[2]/div/div/div/input"));
+			this.selectCityList = driver.findElement(By
+					.xpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[3]/div[2]/div/a/span"));
+			this.searchCityList = driver.findElement(By.xpath(
+					"html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[3]/div[2]/div/div/div/input"));
 			this.street = driver.findElement(By.name("street"));
 			this.house = driver.findElement(By.name("building"));
 			this.flat = driver.findElement(By.name("flat"));
@@ -65,7 +68,7 @@ public class OrganizationPage {
 			this.resetFormButton = driver.findElement(By.xpath("html/body/div[3]/div/div/div[2]/form/div[4]/div[1]/a"));
 
 		}
-
+        
 		public void setOrganizationName(String organizationName) {
 			this.organizationName.click();
 			this.organizationName.clear();
@@ -116,12 +119,14 @@ public class OrganizationPage {
 			this.searchDistrictlist.sendKeys(district);
 			this.searchDistrictlist.sendKeys(Keys.ENTER);
 		}
+
 		public void selectCityFromList(String city) {
 			this.selectCityList.click();
 			this.searchCityList.click();
 			this.searchCityList.sendKeys(city);
 			this.searchCityList.sendKeys(Keys.ENTER);
 		}
+
 		public void setStreetInForm(String street) {
 			this.street.clear();
 			this.street.click();
@@ -218,12 +223,13 @@ public class OrganizationPage {
 
 	}
 
-	private class AddNewOrganizationForm extends OrganizationForm {
+	private  class AddNewOrganizationForm extends OrganizationForm {
 		private WebElement loginForSystemAdmin;
 		private WebElement passwordForSystemAdmin;
 		private WebElement confirmPasswordForSystemAdmin;
 
-		public AddNewOrganizationForm() {
+		public  AddNewOrganizationForm() {
+
 			initWebElements();
 		}
 
@@ -262,7 +268,8 @@ public class OrganizationPage {
 		public WebElement getConfirmPasswordForSystemAdmin() {
 			return this.confirmPasswordForSystemAdmin;
 		}
-		private void setOrganizationData(IOrganization organization){
+
+		private void setOrganizationData(IOrganization organization) {
 			setOrganizationName(organization.getOrganizationName());
 			setOrganizationTypeChoose(organization.getOrganizationTypeChoose());
 			setPhoneNumber(organization.getPhoneNumber());
@@ -279,8 +286,54 @@ public class OrganizationPage {
 			setFlatInForm(organization.getFlat());
 			submitButtonClick();
 		}
-		
 
+	}
+
+	private class OrganizationTable {
+		private List<WebElement> nameRows;
+		private List<WebElement> allNameRows;
+		private List<WebElement> paginationsButtons;
+		private WebElement pagButton;
+
+		OrganizationTable() {
+			initTableElements();
+		}
+
+		public void initTableElements() {
+			this.nameRows = driver.findElements(By.xpath(".//*[@id='organizationsTable']/tbody/tr/td[2]"));
+			this.paginationsButtons = driver
+					.findElements(By.xpath(".//*[@id='page-wrapper']/div[3]/div/div/div[2]/div[3]/div/ul/li/a"));
+			this.pagButton = driver
+					.findElement(By.xpath(".//*[@id='page-wrapper']/div[3]/div/div/div[2]/div[3]/div/ul/li[5]/a"));
+		}
+
+		// TODO pagination
+//		public void pagNextButtonClick() {
+//			if (pagButton.isEnabled()) {
+//				pagButton.click();
+//			} else {
+//
+//			}
+//		}
+//
+//		public List<WebElement> getNameRows() {
+//			return nameRows;
+//		}
+//
+//		public List<WebElement> getAllNamesRows() {
+//			allNameRows.addAll(getNameRows());
+//			return allNameRows;
+//		}
+//
+//		public OrganizationTable clickOnPaginationsButton() {
+//
+//			for (int i = 3; i <= paginationsButtons.size() - 2; i++) {
+//				pagNextButtonClick();
+//				return new OrganizationPage.OrganizationTable();
+//			}
+//			return new OrganizationPage.OrganizationTable();
+//		}
+		// -------------------------------------------------------------------
 	}
 
 	private WebDriver driver;
@@ -299,4 +352,17 @@ public class OrganizationPage {
 		this.addOrganizationButton.click();
 	}
 
+	public AddNewOrganizationForm addNewOrganizationClick() {
+		addOrganizationButtonClick();
+		return new OrganizationPage.AddNewOrganizationForm();
+	}
+
+	public OrganizationPage successAddOrganization(IOrganization newOrg) {
+		addNewOrganizationClick();
+		AddNewOrganizationForm newOrganization = new AddNewOrganizationForm();
+		newOrganization.setOrganizationData(newOrg);
+		return new OrganizationPage(driver);
+	}
+
+	
 }

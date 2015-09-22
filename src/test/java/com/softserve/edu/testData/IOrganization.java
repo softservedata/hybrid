@@ -12,6 +12,7 @@ public interface IOrganization {
        String getConfirmPasswordForSystemAdmin();
        String getSearchRegionList();
        String getSearchDistrictlist();
+       String getSearchCityList();
        String getStreet();
        String getHouse();
        String getFlat();

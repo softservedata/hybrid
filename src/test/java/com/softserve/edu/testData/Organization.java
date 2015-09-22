@@ -15,7 +15,7 @@ interface IEmail {
 }
 
 interface IMaxSizeEpmloyers{
-	IMaxTimeForFinishRequestInDays setMaxSizeEpmloyer(String maxSizeEpmloyer);
+	IMaxTimeForFinishRequestInDays setMaxSizeEpmloyers(String maxSizeEpmloyer);
 }
 interface  IMaxTimeForFinishRequestInDays{
 	ILoginForSystemAdmin setMaxTimeForFinishRequestInDays(String maxTime);
@@ -55,6 +55,175 @@ interface IBuildOrganization{
 	IOrganization build();
 }
 
-public class OrganizationForm {
+public class Organization implements IOrganizationName,IOrganizationTypeChoose,IPhoneNumber,
+                                         IEmail,IMaxSizeEpmloyers,IMaxTimeForFinishRequestInDays,
+                                         ILoginForSystemAdmin,IPasswordForSystemAdmin,
+                                         IConfirmPasswordForSystemAdmin,ISelectRegionFromList,ISelectDistrictFromList,
+                                         ISelectCityFromList,IStreet,IHouse,IFlat,IBuildOrganization, IOrganization {
+	
+	String organizationName;
+	String organizationTypeChoose;
+	String phoneNumber;
+	String email;
+	String maxSizeEpmloyers;
+	String maxTimeForFinishRequestInDays;
+	String loginForSystemAdmin;
+	String passwordForSystemAdmin;
+	String confirmPasswordForSystemAdmin;
+	String selectRegionFromList;
+	String selectDistrictFromList;
+	String selectCityFromList;
+	String street;
+	String house;
+    String flat;
+    
+    private Organization(){
+    	
+    }
+    public static IOrganizationName get(){
+    	return new Organization();
+    }
+    
+    public IOrganizationTypeChoose setOrganizationName(String organizationName){
+    	this.organizationName = organizationName;
+    	return this;
+    }
+    
+    public IPhoneNumber setOrganizationTypeChoose(String organizationType){
+    	this.organizationTypeChoose = organizationType;
+    	return this;
+    }
+    
+    public IEmail setPhoneNumber(String phoneNumber){
+    	this.phoneNumber = phoneNumber;
+    	return this;
+    }
+    
+    public IMaxSizeEpmloyers setEmail(String email){
+    	return this;
+    }
+    
+    public IMaxTimeForFinishRequestInDays setMaxSizeEpmloyers(String maxSizeEpmloyer){
+    	this.maxSizeEpmloyers = maxSizeEpmloyer;
+    	return this;
+    }
+    
+    public ILoginForSystemAdmin setMaxTimeForFinishRequestInDays(String maxTime){
+    	this.maxTimeForFinishRequestInDays = maxTime;
+    	return this;
+    }
+    public IPasswordForSystemAdmin setLoginForSystemAdmin(String login){
+    	this.loginForSystemAdmin = login;
+    	return this;
+    }
+    public IConfirmPasswordForSystemAdmin setPasswordForSystemAdmin(String password){
+    	this.passwordForSystemAdmin = password;
+    	return this;
+    }
+    
+    public ISelectRegionFromList setConfirmPasswordForSystemAdmin(String password){
+    	this.confirmPasswordForSystemAdmin = password;
+    	return this;
+    }
+    
+    public ISelectDistrictFromList selectRegionFromList(String region){
+    	this.selectRegionFromList = region;
+    	return this;
+    }
+    public ISelectCityFromList selectDistrictFromList(String district){
+    	this.selectDistrictFromList = district;
+    	return this;
+    }
+    
+    public IStreet selectCityFromList(String city){
+    	this.selectCityFromList = city;
+    	return this;
+    }
+    
+    public IHouse setStreetInForm(String street){
+    	this.street = street;
+    	return this;
+    }
+    public IFlat setHouseInForm(String house){
+    	this.house = house;
+    	return this;
+    }
+    public IBuildOrganization setFlatInForm(String flat){
+    	this.flat = flat;
+    	return this;
+    }
+    public IOrganization build(){
+    	return this;
+    }
+	
+	public String getOrganizationName() {
+		return organizationName;
+	}
+	
+	public String getOrganizationTypeChoose() {
+		return organizationTypeChoose;
+	}
 
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	
+	public String getEmail() {
+		
+		return email;
+	}
+	
+	public String getMaxSizeEpmloyers() {
+		
+		return maxSizeEpmloyers;
+	}
+	
+	public String getMaxTimeForFinishRequestInDays() {
+		
+		return maxTimeForFinishRequestInDays;
+	}
+	
+	public String getLoginForSystemAdmin() {
+		
+		return loginForSystemAdmin;
+	}
+	
+	public String getPasswordForSystemAdmin() {
+		
+		return passwordForSystemAdmin;
+	}
+	
+	public String getConfirmPasswordForSystemAdmin() {
+		
+		return confirmPasswordForSystemAdmin;
+	}
+	
+	public String getSearchRegionList() {
+		
+		return selectRegionFromList;
+	}
+	
+	public String getSearchDistrictlist() {
+		
+		return selectDistrictFromList;
+	}
+	public String getSearchCityList(){
+		return selectCityFromList;
+	}
+	
+	public String getStreet() {
+		
+		return street;
+	}
+	
+	public String getHouse() {
+		
+		return house;
+	}
+	
+	public String getFlat() {
+	
+		return flat;
+	}
+    
 }
