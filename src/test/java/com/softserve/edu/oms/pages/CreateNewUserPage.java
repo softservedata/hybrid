@@ -2,6 +2,7 @@ package com.softserve.edu.oms.pages;
 
 import java.util.List;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -12,8 +13,27 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.softserve.edu.oms.data.IUser;
 
-
 public class CreateNewUserPage {
+
+    public static enum CreateNewUserPageMessages {
+        LOGIN_ERROR_IN_USE_TEXT(" already in use"), 
+        CREATE_USER_ALL_FIELDS_EMPTY("check all fields for valid data");
+
+        private String field;
+
+        private CreateNewUserPageMessages(String field) {
+            this.field = field;
+        }
+
+        public int getLenght() {
+            return this.field.length();
+        }
+
+        @Override
+        public String toString() {
+            return this.field;
+        }
+    }
 
     WebDriver driver;
     WebElement login;
@@ -27,25 +47,39 @@ public class CreateNewUserPage {
     WebElement create;
     WebElement cancel;
     WebElement nameError;
+    WebElement logout;
+    Alert alert;
 
     public CreateNewUserPage(WebDriver driver) {
         this.driver = driver;
-        login = driver.findElement(By.name("login"));
-        firstName = driver.findElement(By.name("firstName"));
-        lastName = driver.findElement(By.name("lastName"));
-        password = driver.findElement(By.name("password"));
-        confirmPassword = driver.findElement(By.name("confirmPassword"));
-        email = driver.findElement(By.name("email"));
-        regionID = driver.findElement(By.name("regionID"));
-        roleID = driver.findElements(By.name("roleID"));
-        create = driver.findElement(By.xpath("//*[@id='userModel']/input[4]"));
-        cancel = driver.findElement(By.xpath("//*[@id='userModel']/input[5]"));
-        nameError = driver.findElement(By.id("nameError"));
+        initVisibleWebElements();
+    }
+
+    //------------------------------------------------------------------------
+    
+    private void initVisibleWebElements() {
+
+        this.login = driver.findElement(By.name("login"));
+        this.firstName = driver.findElement(By.name("firstName"));
+        this.lastName = driver.findElement(By.name("lastName"));
+        this.password = driver.findElement(By.name("password"));
+        this.confirmPassword = driver.findElement(By.name("confirmPassword"));
+        this.email = driver.findElement(By.name("email"));
+        this.regionID = driver.findElement(By.name("regionID"));
+        this.roleID = driver.findElements(By.name("roleID"));
+        this.create = driver
+                .findElement(By.xpath("//*[@id='userModel']/input[4]"));
+        this.cancel = driver
+                .findElement(By.xpath("//*[@id='userModel']/input[5]"));
+        this.logout = driver
+                .findElement(By.xpath("//a[@href='/OMS/logout.htm']"));
+        this.nameError = driver.findElement(By.id("nameError"));
+
     }
 
     public AdministrationPage createUser(IUser user) {
 
-        setLogin(user.getLogin());
+        setLogin(user);
         setFirstName(user.getFirstname());
         setLastName(user.getLastname());
         setPassword(user.getPassword());
@@ -58,15 +92,75 @@ public class CreateNewUserPage {
         return new AdministrationPage(driver);
     }
 
+    public void setLogin(IUser user) {
+        setLoginData(user.getLogin());
+    }
+
+    public void setUserLoginInUse(IUser user) {
+
+        setLogin(user);
+    }
+
+    public LoginPage logout() {
+        logoutClick();
+        return new LoginPage(driver);
+    }
+
+    public String getUserLoginInUseMessage(IUser user) {
+
+        return getUserLoginInUseMessageString(user.getLogin());
+
+    }
+
+    public String getTextFromAlert() {
+
+        switchToAlert();
+        String alertText = getAlert().getText();
+        dismisAlert();
+
+        return alertText;
+
+    }
+
+    // ---------------------------------------------------------
+
+    public void switchToAlert() {
+        alert = driver.switchTo().alert();
+    }
+
+    public void dismisAlert() {
+        alert.dismiss();
+    }
+
     public void buttonSubmitClick() {
         this.create.click();
 
     }
+    
+    public void logoutClick() {
+        this.logout.click();
+    }
+    
 
-    public void setLogin(String userLogin) {
+    public void setLoginData(String userLogin) {
         this.login.click();
         this.login.clear();
+
         this.login.sendKeys(userLogin);
+
+        // this.login.sendKeys("o");
+        // this.login.sendKeys("r");
+        // this.login.sendKeys("e");
+        // this.login.sendKeys("s");
+        // this.login.sendKeys("t");
+        // (new WebDriverWait(driver, 10))
+        // .until(new ExpectedCondition<Boolean>( ) {
+        // public Boolean apply(WebDriver d) {
+        // return (d.findElement(By.id("nameError"))
+        // .getText(
+        // ).endsWith(CreateNewUserPageMessages.LOGIN_ERROR_IN_USE_TEXT.toString()));
+        // } } );
+
         this.login.sendKeys(Keys.LEFT);
     }
 
@@ -124,6 +218,11 @@ public class CreateNewUserPage {
             }
         }
 
+    }
+
+    public String getUserLoginInUseMessageString(String login) {
+
+        return "" + login + CreateNewUserPageMessages.LOGIN_ERROR_IN_USE_TEXT;
     }
 
     public WebDriver getDriver() {
@@ -214,15 +313,24 @@ public class CreateNewUserPage {
         this.cancel = cancel;
     }
 
+    public String getNameErrorString() {
+
+        return getNameError().getText();
+    }
+
     public WebElement getNameError() {
-        return nameError;
+        return driver.findElement(By.id("nameError"));
     }
 
-    public void setNameError(WebElement nameError) {
-        this.nameError = nameError;
+    public WebElement getLogout() {
+        return logout;
     }
 
-    
-    
+
+    public Alert getAlert() {
+        return alert;
+    }
+
+
     
 }

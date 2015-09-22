@@ -19,6 +19,7 @@ import com.softserve.edu.oms.pages.AdministrationPage;
 import com.softserve.edu.oms.pages.AdministrationPage.Condition;
 import com.softserve.edu.oms.pages.AdministrationPage.FieldFilter;
 import com.softserve.edu.oms.pages.CreateNewUserPage;
+import com.softserve.edu.oms.pages.CreateNewUserPage.CreateNewUserPageMessages;
 import com.softserve.edu.oms.pages.HomePage;
 import com.softserve.edu.oms.pages.LoginPage;
 
@@ -35,86 +36,80 @@ public class AdminTests {
     }
 
     @DataProvider
-    public Object[][] adminProvider3() {
-        return new Object[][] {
-                { Urls.LOCAL_HOST.toString(), UserRepository.getAdminUser(),
-                        FieldFilter.LOGIN_NAME, Condition.EQUALS } };
+    public Object[][] adminProviderEmptyFields() {
+        return new Object[][] { { Urls.LOCAL_HOST.toString(),
+                UserRepository.getAdminUser() }, };
     }
 
-    // @Test(dataProvider = "adminProvider3")
-    public void checkCreateReport(String url, IUser admin,
-            FieldFilter fieldFilter, Condition condition) {
-
-        FirefoxProfile firefoxProfile = new FirefoxProfile();
-
-        // Set profile to accept untrusted certificates
-        firefoxProfile.setAcceptUntrustedCertificates(true);
-
-        // Set profile to not assumet certificate issuer is untrusted
-        firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
-
-        // Set download location and file types
-        firefoxProfile.setPreference("browser.download.folderList", 2);
-        firefoxProfile.setPreference(
-                "browser.download.manager.showWhenStarting", false);
-        firefoxProfile.setPreference("browser.download.dir", "D:\\tmp");
-        firefoxProfile.setPreference("browser.helperApps.neverAsk.saveToDisk",
-                "text/csv,application/pdf,application/csv,application/vnd.ms-excel");
-
-        // Set to false so popup not displayed when download finished.
-        firefoxProfile.setPreference(
-                "browser.download.manager.showAlertOnComplete", false);
-
-        firefoxProfile.setPreference(
-                "browser.download.manager.showAlertOnComplete", false);
-        firefoxProfile.setPreference(
-                "browser.download.manager.showWhenStartinge", false);
-        firefoxProfile.setPreference("browser.download.panel.shown", false);
-        firefoxProfile.setPreference("browser.download.useToolkitUI", true);
-        firefoxProfile.setPreference(
-                "plugin.disable_full_page_plugin_for_types",
-                "application/pdf,application/vnd.adobe.xfdf,application/vnd.fdf,application/vnd.adobe.xdp+xml");
-        // Set this to true to disable the pdf opening
-        firefoxProfile.setPreference("pdfjs.disabled", true);
-
-        driver = new FirefoxDriver(firefoxProfile);
-
-        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+    @Test(dataProvider = "adminProviderEmptyFields")
+    public void checkAlertEmptyFieldCreateUser(String url, IUser admin) {
 
         driver.get(url);
-        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
         //
         LoginPage loginpage = new LoginPage(driver);
         // Test Steps.
+
         AdminHomePage adminhomepage = loginpage.successAdminLogin(admin);
         AdministrationPage administrationPage = adminhomepage
                 .gotoAdministrationPage();
 
-        driver.findElement(By.partialLinkText("create report")).click();
-        driver.findElement(By.partialLinkText("(Save report)")).click();
+        CreateNewUserPage createNewUserPage = administrationPage
+                .gotoCreateNewUserPage();
 
-        // for (String winHandle : driver.getWindowHandles()) {
-        // driver.switchTo().window(winHandle);
-        // }
+        createNewUserPage.buttonSubmitClick();
+
+        Assert.assertEquals(
+                CreateNewUserPageMessages.CREATE_USER_ALL_FIELDS_EMPTY
+                        .toString(),
+                createNewUserPage.getTextFromAlert());
+        
+        createNewUserPage.logout();
+
+    }
+
+    @DataProvider
+    public Object[][] adminProviderUserInUse() {
+        return new Object[][] { { Urls.LOCAL_HOST.toString(),
+                UserRepository.getAdminUser(), UserRepository.getUser() }, };
+    }
+
+   // @Test(dataProvider = "adminProviderUserInUse")
+    public void checkCreatingUserLoginInUse(String url, IUser admin,
+            IUser user) {
+
+        driver.get(url);
         //
-        // driver.findElement(By.id("download")).click();
+        LoginPage loginpage = new LoginPage(driver);
+        // Test Steps.
 
-        // administrationPage.logout();
+        AdminHomePage adminhomepage = loginpage.successAdminLogin(admin);
+        AdministrationPage administrationPage = adminhomepage
+                .gotoAdministrationPage();
+
+        CreateNewUserPage createNewUserPage = administrationPage
+                .gotoCreateNewUserPage();
+
+        createNewUserPage.setUserLoginInUse(user);
+
+        Assert.assertEquals(createNewUserPage.getUserLoginInUseMessage(user),
+                createNewUserPage.getNameErrorString());
+
     }
 
     @DataProvider
     public Object[][] adminProvider0() {
         return new Object[][] { { Urls.LOCAL_HOST.toString(),
                 UserRepository.getAdminUser(), FieldFilter.LOGIN_NAME,
-                Condition.EQUALS, UserRepository.getUser() } };
+                Condition.EQUALS, UserRepository.getUser(), } };
     }
 
-    @Test(dataProvider = "adminProvider0")
+    // @Test(dataProvider = "adminProvider0")
     public void checkFoundNumberUsers(String url, IUser admin,
-            FieldFilter fieldFilter, Condition condition, IUser user) {
+            FieldFilter fieldFilter, Condition condition, IUser user,
+            String numUser) {
 
         driver.get(url);
-        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+
         //
         LoginPage loginpage = new LoginPage(driver);
         // Test Steps.
@@ -138,12 +133,12 @@ public class AdminTests {
                 Condition.EQUALS, UserRepository.getUser() } };
     }
 
-     @Test(dataProvider = "adminProvider1")
+    // @Test(dataProvider = "adminProvider1")
     public void checkSearchUserByLogin(String url, IUser admin,
             FieldFilter fieldFilter, Condition condition, IUser user) {
 
         driver.get(url);
-        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+
         //
         LoginPage loginpage = new LoginPage(driver);
         // Test Steps.
@@ -162,8 +157,7 @@ public class AdminTests {
                 user.getLogin());
 
         administrationPage.logout();
-        
-       
+
     }
 
     @DataProvider
@@ -172,11 +166,11 @@ public class AdminTests {
                 UserRepository.getAdminUser(), UserRepository.getNewUser() }, };
     }
 
-    @Test(dataProvider = "adminProvider2")
+    // @Test(dataProvider = "adminProvider2")
     public void checkCreatingUser(String url, IUser admin, IUser newUser) {
 
         driver.get(url);
-        //
+
         LoginPage loginpage = new LoginPage(driver);
         // Test Steps.
 
@@ -200,6 +194,82 @@ public class AdminTests {
         Assert.assertEquals(newUser.getRole(), userHomePage.getRoleText());
 
         userHomePage.logout();
+
+    }
+
+    void gotoAdminHomePage() {
+
+    }
+
+    @DataProvider
+    public Object[][] adminProvider3() {
+        return new Object[][] {
+                { Urls.LOCAL_HOST.toString(), UserRepository.getAdminUser(),
+                        FieldFilter.LOGIN_NAME, Condition.EQUALS } };
+    }
+
+    // @Test(dataProvider = "adminProvider3")
+    public void checkCreateReport(String url, IUser admin,
+            FieldFilter fieldFilter, Condition condition) {
+
+        FirefoxProfile firefoxProfile = new FirefoxProfile();
+        setProperty(firefoxProfile);
+
+        driver = new FirefoxDriver(firefoxProfile);
+
+        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+
+        driver.get(url);
+        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+        //
+        LoginPage loginpage = new LoginPage(driver);
+        // Test Steps.
+        AdminHomePage adminhomepage = loginpage.successAdminLogin(admin);
+        adminhomepage.gotoAdministrationPage();
+
+        driver.findElement(By.partialLinkText("create report")).click();
+        driver.findElement(By.partialLinkText("(Save report)")).click();
+
+        for (String winHandle : driver.getWindowHandles()) {
+            driver.switchTo().window(winHandle);
+        }
+
+        driver.findElement(By.id("download")).click();
+
+        // administrationPage.logout();
+    }
+
+    public void setProperty(FirefoxProfile firefoxProfile) {
+
+        // Set profile to accept untrusted certificates
+        firefoxProfile.setAcceptUntrustedCertificates(true);
+
+        // Set profile to not assumet certificate issuer is untrusted
+        firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
+
+        // Set download location and file types
+        firefoxProfile.setPreference("browser.download.folderList", 2);
+        firefoxProfile.setPreference(
+                "browser.download.manager.showWhenStarting", false);
+        firefoxProfile.setPreference("browser.download.dir", "D:\\tmp");
+        firefoxProfile.setPreference("browser.helperApps.neverAsk.saveToDisk",
+                "text/csv,application/pdf,application/csv,application/vnd.ms-excel");
+
+        // Set to false so popup not displayed when download finished.
+        firefoxProfile.setPreference(
+                "browser.download.manager.showAlertOnComplete", false);
+
+        firefoxProfile.setPreference(
+                "browser.download.manager.showAlertOnComplete", false);
+        firefoxProfile.setPreference(
+                "browser.download.manager.showWhenStartinge", false);
+        // firefoxProfile.setPreference("browser.download.panel.shown", false);
+        // firefoxProfile.setPreference("browser.download.useToolkitUI", true);
+        // firefoxProfile.setPreference(
+        // "plugin.disable_full_page_plugin_for_types",
+        // "application/pdf,application/vnd.adobe.xfdf,application/vnd.fdf,application/vnd.adobe.xdp+xml");
+        // Set this to true to disable the pdf opening
+        // firefoxProfile.setPreference("pdfjs.disabled", true);
 
     }
 }

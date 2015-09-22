@@ -7,9 +7,11 @@
 		<classes>
 			<class name="com.softserve.edu.oms.tests.AdminTests">
 				<methods>
+					<include name="checkCreatingUserLoginInUse" />
 					<include name="checkFoundNumberUsers" />
 					<include name="checkSearchUserByLogin" />
 					<include name="checkCreatingUser" />
+
 				</methods>
 			</class>
 		</classes>

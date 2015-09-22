@@ -1,7 +1,5 @@
 package com.softserve.edu.oms.pages;
 
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -141,6 +139,7 @@ public class AdministrationPage {
         return new AdministrationPage(driver);
 
     }
+   
 
     public CreateNewUserPage gotoCreateNewUserPage() {
         createNewUserCick();
