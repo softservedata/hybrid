@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 import com.softserve.edu.atqc.tools.browsers.ABrowser;
 import com.softserve.edu.atqc.tools.browsers.BrowserRepository;
 import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.atqc.tools.loggers.LoggerRepository;
+import com.softserve.edu.atqc.tools.loggers.LoggerWrapper;
 import com.softserve.edu.oms.data.IUser;
 import com.softserve.edu.oms.data.UrlRepository.Urls;
 import com.softserve.edu.oms.data.UserRepository;
@@ -30,6 +32,8 @@ public class LoginAdminTest {
 
     @Test(dataProvider = "adminProvider")
     public void checkAdministratorLogin(ABrowser browser, String url, IUser adminUser) {
+        LoggerWrapper.get().setLogger(LoggerRepository.getLog4jLogger()).infoLog("Thread ID= " + Thread.currentThread().getId()
+                + "  User is " + adminUser.getLogin());
         System.out.println("\t+++Thread ID= " + Thread.currentThread().getId()
                 + "  User is " + adminUser.getLogin());
         // Preconditions.
