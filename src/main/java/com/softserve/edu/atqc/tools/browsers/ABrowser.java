@@ -2,7 +2,8 @@ package com.softserve.edu.atqc.tools.browsers;
 
 import org.openqa.selenium.WebDriver;
 
-abstract class ABrowser {
+public abstract class ABrowser {
+    private final String BROWSER_CLOSED = "Browser was Closed.";
     protected WebDriver driver = null;
 
     WebDriver getWebDriver() {
@@ -10,12 +11,21 @@ abstract class ABrowser {
         return driver;
         } else {
             // TODO Create class Exception + log + report.
-            throw new RuntimeException("Driver not Found.");
+            throw new RuntimeException(BROWSER_CLOSED);
         }
     }
 
     String getWebDriverName() {
         return this.getClass().getName();
+    }
+
+    boolean isEnabled() {
+        return driver != null;
+    }
+    
+    void close() {
+        getWebDriver().close();
+        driver = null;
     }
 
     void quit() {
