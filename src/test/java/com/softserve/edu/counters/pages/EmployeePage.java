@@ -2,171 +2,125 @@ package com.softserve.edu.counters.pages;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.counters.data.AttributeRepository.Attribute;
 import com.softserve.edu.counters.data.IUser;
-import com.softserve.edu.counters.data.UserRepository;
-
-import wtbox.util.WaitTool;
 
 public class EmployeePage extends ForLoggedUserPage {
+	public static final String ROW_IS_NOT_VISIBLE = "ng-scope incorrect";
+	public static final String ROW_IS_VISIBLE = "ng-scope";
 
-	public class Row {
-		private WebElement row;
-		private WebElement login;
-		private WebElement role;
-		private WebElement firstname;
-		private WebElement lastname;
-		private WebElement organization;
-		private WebElement phoneNumber;
-		private WebElement workInProgress;
-		private WebElement edit;
+	private class Table {
 
-		public Row(WebElement row) {
-			this.row = row;
-			List<WebElement> elements = row.findElements(By.xpath("//td"));
-			System.out.println(elements);
-			this.login = elements.get(0);
-			this.role = elements.get(1);
-			this.firstname = elements.get(2);
-			this.lastname = elements.get(3);
-			this.organization = elements.get(4);
-			this.phoneNumber = elements.get(5);
-			this.workInProgress = elements.get(6);
-			//this.edit = elements.get(7).findElement(By.xpath("//button"));
-			//TODO
-			this.edit = row.findElement(By.xpath("(//td[8]/button)"));
-	
-		}
+		private class Row {
+			public final WebElement row;
+			public final WebElement login;
+			public final WebElement role;
+			public final WebElement firstname;
+			public final WebElement lastname;
+			public final WebElement organization;
+			public final WebElement phoneNumber;
+			public final WebElement workInProgress;
+			public final WebElement edit;
 
-		public Form editClick() {
-			// TODO
-			edit.click();
-			if (this.getRow().getAttribute("class").equals("ng-scope incorrect"))
-				return new RestoreForm();
-			else
-				return new ChangeEmployeeForm();
-		}
-
-		public WebElement getRow() {
-			return this.row;
-		}
-
-		public WebElement getLogin() {
-			return this.login;
-		}
-
-		public WebElement getRole() {
-			return this.role;
-		}
-
-		public WebElement getFirstname() {
-			return this.firstname;
-		}
-
-		public WebElement getLastname() {
-			return this.lastname;
-		}
-
-		public WebElement getOrganization() {
-			return this.organization;
-		}
-
-		public WebElement getPhoneNumber() {
-			return this.phoneNumber;
-		}
-
-		public WebElement getWorkInProgress() {
-			return this.workInProgress;
-		}
-
-		public WebElement getEdit() {
-			return this.edit;
-		}
-
-	}
-
-	public class Table {////////////// ???????????????????????????????
-
-		List<Row> rows = new ArrayList<Row>();
-
-		public Table() {
-			List<WebElement> list = driver.findElements(By.xpath("//tbody//tr"));
-			for (WebElement webElement : list) {
-				System.out.println(webElement.getText());
-				rows.add(new Row(webElement));
+			Row(WebElement row) {
+				this.row = row;
+				List<WebElement> elements = row.findElements(By.tagName("td"));
+				this.login = elements.get(0);
+				this.role = elements.get(1);
+				this.firstname = elements.get(2);
+				this.lastname = elements.get(3);
+				this.organization = elements.get(4);
+				this.phoneNumber = elements.get(5);
+				this.workInProgress = elements.get(6);
+				this.edit = elements.get(7).findElement(By.tagName("button"));
 			}
 
+			public FormOnPage editClick() {
+				edit.click();
+				if (row.getAttribute(Attribute.CLASS.toString()).equals(ROW_IS_NOT_VISIBLE))
+					return new RestoreForm();
+				else
+					return new ChangeEmployeeForm();
+			}
+		}
+
+		private List<Row> rows = new ArrayList<Row>();
+
+		public Table() {
+			this.initVisibleRows();
+		}
+
+		private void initVisibleRows() {
+			List<WebElement> listRows = WebDriverUtils.get().getWebDriver().findElements(By.xpath("//tbody//tr"));
+			for (WebElement row : listRows) {
+				rows.add(new Row(row));
+			}
 		}
 
 		public Row getRow(String login) {
 			for (Row row : rows) {
-				if (row.getLogin().getText().equals(login))
-				return row;
+				if (row.login.getText().equals(login))
+					return row;
 			}
-			// TODO
 			return null;
 		}
 
 	}
 
-	interface Form {
+	private interface FormOnPage {
 	}
 
-	public abstract class FormForEmployee implements Form {
+	private abstract class FormForEmployee implements FormOnPage {
 
-		private class DropDownList {
-			List<WebElement> allOptions;
+		public final WebElement firstname;
+		public final WebElement lastname;
+		public final WebElement middleName;
+		public final WebElement phoneNumber;
+		public final WebElement email;
 
-			public DropDownList() {
-				(new WebDriverWait(driver, 10))
-						.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("active-result")));
-				allOptions = driver.findElements(By.className("active-result"));
-			}
+		public final WebElement login;
 
-			public void chooseElement(String element) {
-				for (WebElement option : allOptions) {
-					if (option.getText().equals(element)) {
-						option.click();
-						break;
-					}
-				}
-			}
-		}
+		public final WebElement region;
+		public final WebElement regionSearch;
+		public final WebElement district;
+		public final WebElement districtSearch;
+		public final WebElement city;
+		public final WebElement citySearch;
+		public final WebElement street;
+		public final WebElement building;
+		public final WebElement flat;
 
-		private WebElement firstname;
-		private WebElement lastname;
-		private WebElement middleName;
-		private WebElement phoneNumber;
-		private WebElement email;
-
-		private WebElement login;
-
-		private WebElement region;
-		private WebElement district;
-		private WebElement sity;
-		private WebElement street;
-		private WebElement building;
-		private WebElement flat;
-
-		public FormForEmployee() {
-			this.firstname = driver.findElement(By.id("firstName"));
-			this.lastname = driver.findElement(By.id("lastName"));
-			this.middleName = driver.findElement(By.id("middleName"));
-			this.phoneNumber = driver.findElement(By.id("phone"));
-			this.email = driver.findElement(By.id("email"));
-			this.login = driver.findElement(By.id("username"));
-			this.region = driver.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[1]/div[2]/div/a/span"));
-			this.district = driver.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[2]/div[2]/div/a/span"));
-			this.sity = driver.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[3]/div[2]/div/a/span"));
-			this.street = driver.findElement(By.name("street"));
-			this.building = driver.findElement(By.name("building"));
-			this.flat = driver.findElement(By.name("flat"));
+		FormForEmployee() {
+			this.firstname = WebDriverUtils.get().getWebDriver().findElement(By.id("firstName"));
+			this.lastname = WebDriverUtils.get().getWebDriver().findElement(By.id("lastName"));
+			this.middleName = WebDriverUtils.get().getWebDriver().findElement(By.id("middleName"));
+			this.phoneNumber = WebDriverUtils.get().getWebDriver().findElement(By.id("phone"));
+			this.email = WebDriverUtils.get().getWebDriver().findElement(By.id("email"));
+			this.login = WebDriverUtils.get().getWebDriver().findElement(By.id("username"));
+			this.region = WebDriverUtils.get().getWebDriver()
+					.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[1]/div[2]/div/a/span"));
+			this.regionSearch = WebDriverUtils.get().getWebDriver()
+					.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[1]/div[2]/div/div/div/input"));
+			this.district = WebDriverUtils.get().getWebDriver()
+					.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[2]/div[2]/div/a/span"));
+			this.districtSearch = WebDriverUtils.get().getWebDriver()
+					.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[2]/div[2]/div/div/div/input"));
+			this.city = WebDriverUtils.get().getWebDriver()
+					.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[3]/div[2]/div/a/span"));
+			this.citySearch = WebDriverUtils.get().getWebDriver()
+					.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[3]/div[2]/div/div/div/input"));
+			this.street = WebDriverUtils.get().getWebDriver().findElement(By.name("street"));
+			this.building = WebDriverUtils.get().getWebDriver().findElement(By.name("building"));
+			this.flat = WebDriverUtils.get().getWebDriver().findElement(By.name("flat"));
 		}
 
 		public void setFirstname(String firstname) {
@@ -207,26 +161,32 @@ public class EmployeePage extends ForLoggedUserPage {
 
 		public void setRegion(String region) {
 			this.region.click();
-			new DropDownList().chooseElement(region);
+			this.regionSearch.sendKeys(region);
+			this.regionSearch.sendKeys(Keys.ENTER);
 		}
 
 		public void setDistrict(String district) {
-			// TODO
-			(new WebDriverWait(driver, 2)).until(ExpectedConditions
-					.not(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("active-result"))));
-			///
+			// // 
+			WebDriverUtils.get().getWebDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+			(new WebDriverWait(WebDriverUtils.get().getWebDriver(), 10))
+			.until(ExpectedConditions.invisibilityOfElementLocated(By.className("active-result")));
 			this.district.click();
-			new DropDownList().chooseElement(district);
+			(new WebDriverWait(WebDriverUtils.get().getWebDriver(), 10))
+					.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("active-result")));
+			this.districtSearch.sendKeys(district);
+			this.districtSearch.sendKeys(Keys.ENTER);
 		}
 
-		public void setSity(String sity) {
-			///
-			(new WebDriverWait(driver, 2)).until(ExpectedConditions
-					.not(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("active-result"))));
-			///
-
-			this.sity.click();
-			new DropDownList().chooseElement(sity);
+		public void setCity(String city) {
+			// ///
+			WebDriverUtils.get().getWebDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+			(new WebDriverWait(WebDriverUtils.get().getWebDriver(), 10))
+			.until(ExpectedConditions.invisibilityOfElementLocated(By.className("active-result")));
+			this.city.click();
+			(new WebDriverWait(WebDriverUtils.get().getWebDriver(), 10))
+					.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("active-result")));
+			this.citySearch.sendKeys(city);
+			this.citySearch.sendKeys(Keys.ENTER);
 		}
 
 		public void setStreet(String street) {
@@ -247,70 +207,18 @@ public class EmployeePage extends ForLoggedUserPage {
 			this.flat.sendKeys(flat);
 		}
 
-		////////////////////////////////////
-
-		public WebElement getFirstname() {
-			return this.firstname;
-		}
-
-		public WebElement getLastname() {
-			return this.lastname;
-		}
-
-		public WebElement getMiddleName() {
-			return this.middleName;
-		}
-
-		public WebElement getPhoneNumber() {
-			return this.phoneNumber;
-		}
-
-		public WebElement getEmail() {
-			return this.email;
-		}
-
-		public WebElement getLogin() {
-			return this.login;
-		}
-
-		public WebElement getRegion() {
-			return this.region;
-		}
-
-		public WebElement getDistrict() {
-			return this.district;
-		}
-
-		public WebElement getSity() {
-			return this.sity;
-		}
-
-		public WebElement getStreet() {
-			return this.street;
-		}
-
-		public WebElement getBuilding() {
-			return this.building;
-		}
-
-		public WebElement getFlat() {
-			return this.flat;
-		}
-
 	}
 
-	public class AddNewEmployeeForm extends FormForEmployee {
+	private class AddNewEmployeeForm extends FormForEmployee {
 
-		private WebElement password;
-		private WebElement rePassword;
+		public final WebElement password;
+		public final WebElement rePassword;
+		public final WebElement submit;
 
-		private WebElement submit;
-
-		public AddNewEmployeeForm() {
-
-			this.password = driver.findElement(By.name("password"));
-			this.rePassword = driver.findElement(By.name("rePassword"));
-			this.submit = driver.findElement(By.xpath("(//button[@type='submit'])[2]"));
+		AddNewEmployeeForm() {
+			this.password = WebDriverUtils.get().getWebDriver().findElement(By.name("password"));
+			this.rePassword = WebDriverUtils.get().getWebDriver().findElement(By.name("rePassword"));
+			this.submit = WebDriverUtils.get().getWebDriver().findElement(By.xpath("(//button[@type='submit'])[2]"));
 		}
 
 		public void setPassword(String password) {
@@ -325,22 +233,6 @@ public class EmployeePage extends ForLoggedUserPage {
 			this.rePassword.sendKeys(rePassword);
 		}
 
-		public void submitClick() {
-			this.submit.click();
-		}
-
-		public WebElement getPassword() {
-			return this.password;
-		}
-
-		public WebElement getRePassword() {
-			return this.rePassword;
-		}
-
-		public WebElement getSubmit() {
-			return this.submit;
-		}
-
 		public void setAddNewEmployeeData(IUser user) {
 			setFirstname(user.getFirstname());
 			setLastname(user.getLastname());
@@ -352,77 +244,31 @@ public class EmployeePage extends ForLoggedUserPage {
 			setRePassword(user.getPassword());
 			setRegion(user.getRegion());
 			setDistrict(user.getDistrict());
-			setSity(user.getSity());
+			setCity(user.getCity());
 			setStreet(user.getStreet());
 			setBuilding(user.getBuilding());
 			setFlat(user.getFlat());
-			submitClick();
+			submit.click();
 		}
 	}
 
-	public class RestoreForm implements Form {
-		private WebElement restore;
+	private class RestoreForm implements FormOnPage {
+		public final WebElement restore;
 
-		public RestoreForm() {
-			this.restore = driver.findElement(By.xpath("/html/body/div[3]/div/div/div[2]/div/div/button"));
+		RestoreForm() {
+			this.restore = WebDriverUtils.get().getWebDriver()
+					.findElement(By.xpath("/html/body/div[3]/div/div/div[2]/div/div/button"));
 		}
-
-		public ChangeEmployeeForm restoreClick() {
-			this.restore.click();
-			return new ChangeEmployeeForm();
-		}
-
-		public WebElement getRestore() {
-			return this.restore;
-		}
-
 	}
 
-	public class ChangeEmployeeForm extends FormForEmployee {
+	private class ChangeEmployeeForm extends FormForEmployee {
 
-		private WebElement generateNewPassword;
-		private WebElement save;
-		private WebElement fire;
-		private WebElement close;
+		public final WebElement save;
+		public final WebElement fire;
 
-		public ChangeEmployeeForm() {
-
-			this.generateNewPassword = driver.findElement(By.xpath("//form/div[3]/div[2]/div[3]/div[2]/button"));
-			this.save = driver.findElement(By.xpath("(//button[@type='submit'])[3]"));
-			this.fire = driver.findElement(By.linkText("Звільнити"));
-			this.close = driver.findElement(By.xpath("//form/div[5]/div[2]/button"));
-		}
-
-		public void generateNewPasswordClick() {
-			this.generateNewPassword.click();
-		}
-
-		public void saveClick() {
-			this.save.click();
-		}
-
-		public void fireClick() {
-			this.fire.click();
-		}
-
-		public void closeClick() {
-			this.close.click();
-		}
-
-		public WebElement getGenerateNewPassword() {
-			return this.generateNewPassword;
-		}
-
-		public WebElement getSave() {
-			return this.save;
-		}
-
-		public WebElement getFire() {
-			return this.fire;
-		}
-
-		public WebElement getClose() {
-			return this.close;
+		ChangeEmployeeForm() {
+			this.save = WebDriverUtils.get().getWebDriver().findElement(By.xpath("(//button[@type='submit'])[3]"));
+			this.fire = WebDriverUtils.get().getWebDriver().findElement(By.linkText("Звільнити"));
 		}
 
 	}
@@ -431,26 +277,32 @@ public class EmployeePage extends ForLoggedUserPage {
 	private WebElement fieldForSearchLogin;
 	private Table table;
 
-	public EmployeePage(WebDriver driver) {
-		super(driver);
-		this.addNewEmployee = driver.findElement(By.xpath("//button[@type='submit']"));
-		this.fieldForSearchLogin = driver
+	public EmployeePage() {
+		initVisibleWebElements();
+	}
+
+	private void initVisibleWebElements() {
+		this.addNewEmployee = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//button[@type='submit']"));
+		this.fieldForSearchLogin = WebDriverUtils.get().getWebDriver()
 				.findElement(By.xpath("//tr[@class='ng-table-filters ng-scope']/th[1]//input"));
 		this.table = new Table();
 	}
 
-	public AddNewEmployeeForm addNewEmployeeClick() {
+	public void addNewEmployeeClick() {
+		this.addNewEmployee = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//button[@type='submit']"));
 		addNewEmployee.click();
-		return new AddNewEmployeeForm();
 	}
 
 	public void setFieldForSearchLogin(String login) {
 		searchLogin(login);
-		// --------------------------------------------------------------------------------------------
-		WaitTool.waitForElementPresent(driver, By.xpath("(//tr[1]/td[1])"), 20);
-		WaitTool.waitForTextPresent(driver, By.xpath("(//tr[1]/td[1])"), UserRepository.getEmployee().getLogin(), 20);
-		// --------------------------------------------------------------------------------------------
 		
+		WebDriverUtils.get().getWebDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+		(new WebDriverWait(WebDriverUtils.get().getWebDriver(), 10))
+				.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("(//tr[2]/td[1])")));
+		(new WebDriverWait(WebDriverUtils.get().getWebDriver(), 10))
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//tr[1]/td[1])")));
+		WebDriverUtils.get().getWebDriver().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
 		this.table = new Table();
 	}
 
@@ -462,8 +314,12 @@ public class EmployeePage extends ForLoggedUserPage {
 		return this.fieldForSearchLogin;
 	}
 
-	public Table getTable() {
-		return this.table;
+//	private Table getTable() {
+//		return this.table;
+//	}
+
+	public String getLoginText(IUser user) {
+		return this.table.getRow(user.getLogin()).login.getText();
 	}
 
 	public void searchLogin(String login) {
@@ -474,6 +330,57 @@ public class EmployeePage extends ForLoggedUserPage {
 		// this.fieldForSearchLogin.sendKeys(login);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////
+	public void successAddEmployee(IUser user) {
+		addNewEmployeeClick();
+		(new AddNewEmployeeForm()).setAddNewEmployeeData(user);
+	}
+
+	public void restoreEmployee(IUser user) {
+		((RestoreForm) this.table.getRow(user.getLogin()).editClick()).restore.click();
+		(new ChangeEmployeeForm()).save.click();
+	}
+
+	public void fireEmployee(IUser user) {
+		((ChangeEmployeeForm) this.table.getRow(user.getLogin()).editClick()).fire.click();
+	}
+
+	public void changeLastNameEmployee(IUser changedEmployee) {
+		ChangeEmployeeForm changeEmployeeForm = ((ChangeEmployeeForm) this.table.getRow(changedEmployee.getLogin())
+				.editClick());
+		changeEmployeeForm.setLastname(changedEmployee.getLastname());
+		changeEmployeeForm.save.click();
+	}
+
+	public String getAttributeRow(IUser user) {
+		return this.table.getRow(user.getLogin()).row.getAttribute(Attribute.CLASS.toString());
+	}
+
+	public String getLoginFromRow(IUser user) {
+		return this.table.getRow(user.getLogin()).login.getText();
+	}
+
+	public String getRoleFromRow(IUser user) {
+		return this.table.getRow(user.getLogin()).role.getText();
+	}
+
+	public String getFirstnameFromRow(IUser user) {
+		return this.table.getRow(user.getLogin()).firstname.getText();
+	}
+
+	public String getLastnameFromRow(IUser user) {
+		return this.table.getRow(user.getLogin()).lastname.getText();
+	}
+
+	public String getOrganizationFromRow(IUser user) {
+		return this.table.getRow(user.getLogin()).organization.getText();
+	}
+
+	public String getPhoneNumberFromRow(IUser user) {
+		return this.table.getRow(user.getLogin()).phoneNumber.getText();
+	}
+
+	public String getWorkInProgressFromRow(IUser user) {
+		return this.table.getRow(user.getLogin()).workInProgress.getText();
+	}
 
 }

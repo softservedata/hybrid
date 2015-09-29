@@ -48,7 +48,7 @@ public final class WebDriverUtils {
 
     public WebDriver getWebDriver() {
         // TODO Move to Search Classes
-        browser.getWebDriver().manage().timeouts().implicitlyWait(getImplicitlyWaitTimeout(), TimeUnit.SECONDS);
+      //  browser.getWebDriver().manage().timeouts().implicitlyWait(getImplicitlyWaitTimeout(), TimeUnit.SECONDS);
         //browser.getWebDriver().manage().window().maximize();
         //
         return browser.getWebDriver();

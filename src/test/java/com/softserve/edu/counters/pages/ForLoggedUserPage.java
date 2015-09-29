@@ -1,49 +1,45 @@
 package com.softserve.edu.counters.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+
 public class ForLoggedUserPage {
-	protected WebDriver driver;
+
+	private class DropDownList {
+		public final WebElement logOut;
+
+		public DropDownList() {
+			this.logOut = WebDriverUtils.get().getWebDriver().findElement(By.linkText("Вилогуватись"));
+		}
+	}
 
 	private WebElement nameUser;
 	private DropDownList dropDownList;
 
-	public ForLoggedUserPage(WebDriver driver) {
-		this.driver = driver;
-		this.nameUser = driver.findElement(By.xpath("//a[@class='dropdown-toggle']/label"));
+	public ForLoggedUserPage() {
+		initVisibleWebElements();
 	}
-	
-	public class DropDownList { ///??????
-		
-		private WebElement logOut;
 
-		public DropDownList() {
-			this.logOut = driver.findElement(By.linkText("Вилогуватись"));
-		}
-		
-		public void linkLogOutClick() {
-			this.logOut.click();
-		}
-		///////////&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-		public WebElement getLogOut() {
-			return this.logOut;
-		}
+	private void initVisibleWebElements() {
+		this.nameUser = WebDriverUtils.get().getWebDriver()
+				.findElement(By.xpath("//a[@class='dropdown-toggle']/label"));
 	}
 
 	public void nameUserClick() {
 		this.nameUser.click();
 		this.dropDownList = new DropDownList();
 	}
-	
+
 	public WebElement getNameUser() {
 		return this.nameUser;
 	}
-	
+
 	public MainPage logout() {
 		nameUserClick();
-		dropDownList.linkLogOutClick();
-		return new MainPage(driver);
+		dropDownList.logOut.click();
+		return new MainPage();
 	}
+
 }

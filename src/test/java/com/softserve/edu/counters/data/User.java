@@ -33,11 +33,11 @@ interface IRegion {
 }
 
 interface IDistrict {
-	ISity setDistrict(String district);
+	ICity setDistrict(String district);
 }
 
-interface ISity {
-	IStreet setSity(String sity);
+interface ICity {
+	IStreet setCity(String city);
 }
 
 interface IStreet {
@@ -70,7 +70,7 @@ interface IBuild {
 
 
 public class User implements IUser, IFirstname, ILastname, IMiddleName, IPhoneNumber, IEmail, ILogin, IPassword, IRegion,
-		IDistrict, ISity, IStreet, IBuilding, IFlat, IRole, IOrganization, IWorkInProgress, IBuild {
+		IDistrict, ICity, IStreet, IBuilding, IFlat, IRole, IOrganization, IWorkInProgress, IBuild {
 
 	String firstname;
 	String lastname;
@@ -83,7 +83,7 @@ public class User implements IUser, IFirstname, ILastname, IMiddleName, IPhoneNu
 	
 	String region;
 	String district;
-	String sity;
+	String city;
 	String street;
 	String building;
 	String flat;
@@ -138,13 +138,13 @@ public class User implements IUser, IFirstname, ILastname, IMiddleName, IPhoneNu
 		return this;
 	}
 
-	public ISity setDistrict(String district) {
+	public ICity setDistrict(String district) {
 		this.district = district;
 		return this;
 	}
 
-	public IStreet setSity(String sity) {
-		this.sity = sity;
+	public IStreet setCity(String city) {
+		this.city = city;
 		return this;
 	}
 
@@ -219,8 +219,8 @@ public class User implements IUser, IFirstname, ILastname, IMiddleName, IPhoneNu
 		return district;
 	}
 
-	public String getSity() {
-		return sity;
+	public String getCity() {
+		return city;
 	}
 
 	public String getStreet() {

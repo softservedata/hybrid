@@ -13,7 +13,7 @@ public interface IUser {
 
     String getRegion();    
     String getDistrict();    
-    String getSity();    
+    String getCity();    
     String getStreet();    
     String getBuilding();    
     String getFlat();
