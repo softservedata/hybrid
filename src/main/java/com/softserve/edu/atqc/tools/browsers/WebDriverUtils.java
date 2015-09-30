@@ -19,7 +19,7 @@ public final class WebDriverUtils {
 
     public static WebDriverUtils get() {
         System.out.println("WebDriverUtils_get()");
-        return get(null);
+        return get(BrowserRepository.getDefault());
     }
 
     public static WebDriverUtils get(ABrowser browser) {

@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.atqc.tools.exceptions.ScreenCapturingCustomException;
 import com.softserve.edu.oms.data.IUser;
 
 public class LoginPage {
@@ -44,6 +45,11 @@ public class LoginPage {
         this.username = WebDriverUtils.get().getWebDriver().findElement(By.name("j_username"));
         this.password = WebDriverUtils.get().getWebDriver().findElement(By.name("j_password"));
         this.submit = WebDriverUtils.get().getWebDriver().findElement(By.name("submit"));
+//        try {
+//            this.submit = WebDriverUtils.get().getWebDriver().findElement(By.name("submit1"));
+//        } catch(Exception e) {
+//            throw new ScreenCapturingCustomException("submit");
+//        }
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

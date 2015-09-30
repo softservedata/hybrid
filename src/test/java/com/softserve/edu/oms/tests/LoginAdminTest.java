@@ -20,19 +20,20 @@ import com.softserve.edu.oms.pages.StartLoginPage;
 
 public class LoginAdminTest {
 
-    @DataProvider(parallel = true)
+    @DataProvider//(parallel = true)
     public Object[][] adminProvider() {
         return new Object[][] {
-            { BrowserRepository.getFirefoxByTemporaryProfile(),
+            { BrowserRepository.getDefault(),
                     Urls.LOCAL_HOST.toString(), UserRepository.getAdminUser() },
-            { BrowserRepository.getFirefoxByTemporaryProfile(),
+            { BrowserRepository.getDefault(),
                     Urls.LOCAL_HOST.toString(), UserRepository.getAdminUserYura() },
         };
     }
 
     @Test(dataProvider = "adminProvider")
     public void checkAdministratorLogin(ABrowser browser, String url, IUser adminUser) {
-        LoggerWrapper.get().setLogger(LoggerRepository.getLog4jLogger()).infoLog("Thread ID= " + Thread.currentThread().getId()
+        //LoggerWrapper.get().setLogger(LoggerRepository.getLog4jLogger()).infoLog("Thread ID= " + Thread.currentThread().getId() + "  User is " + adminUser.getLogin());
+        LoggerWrapper.get().infoLog("Thread ID= " + Thread.currentThread().getId()
                 + "  User is " + adminUser.getLogin());
         System.out.println("\t+++Thread ID= " + Thread.currentThread().getId()
                 + "  User is " + adminUser.getLogin());
@@ -61,7 +62,7 @@ public class LoginAdminTest {
     @DataProvider
     public Object[][] invalidProvider() {
         return new Object[][] { {
-                BrowserRepository.getFirefoxByTemporaryProfile(),
+                BrowserRepository.getDefault(),
                 Urls.LOCAL_HOST.toString(),
                 UserRepository.getInvalidUser() },
         };

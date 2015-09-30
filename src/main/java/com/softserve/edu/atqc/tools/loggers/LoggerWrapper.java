@@ -43,7 +43,7 @@ public class LoggerWrapper {
         this.logger.info(message);
     }
 
-    public void infoLogInsertScreenShot(String fileNamePath) {
+    public void insertScreenShot(String fileNamePath) {
         this.logger.insertScreenShot(fileNamePath);
     }
 
