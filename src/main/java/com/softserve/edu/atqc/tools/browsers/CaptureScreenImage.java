@@ -58,6 +58,8 @@ public class CaptureScreenImage {
 	public String captureAndSaveScreen() {
 		String absolutePathFileName = getAbsolutePathFileName();
 		try {
+		    // TODO Remove Thread sleep. 
+		    Thread.sleep(2000);
 			File srcFile = ((TakesScreenshot) WebDriverUtils.get()
 					.getWebDriver()).getScreenshotAs(OutputType.FILE);
 			FileUtils.copyFile(srcFile, new File(absolutePathFileName));

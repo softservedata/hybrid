@@ -1,6 +1,6 @@
 package com.softserve.edu.atqc.tools.exceptions;
 
-import com.softserve.edu.atqc.tools.loggers.LoggerWrapper;
+import com.softserve.edu.atqc.tools.loggers.LoggerUtils;
 
 public class GeneralCustomException extends RuntimeException {
     private static final long serialVersionUID = 1L;
@@ -18,7 +18,7 @@ public class GeneralCustomException extends RuntimeException {
     }
 
     private void performLogging(String message) {
-        LoggerWrapper.get().errorLog(GENERAL_CUSTOM_EXCEPTION + message);
+        LoggerUtils.get().errorLog(GENERAL_CUSTOM_EXCEPTION + message);
     }
 
 }

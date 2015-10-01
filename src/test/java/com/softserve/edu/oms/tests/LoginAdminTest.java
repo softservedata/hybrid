@@ -9,7 +9,8 @@ import com.softserve.edu.atqc.tools.browsers.ABrowser;
 import com.softserve.edu.atqc.tools.browsers.BrowserRepository;
 import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
 import com.softserve.edu.atqc.tools.loggers.LoggerRepository;
-import com.softserve.edu.atqc.tools.loggers.LoggerWrapper;
+import com.softserve.edu.atqc.tools.loggers.LoggerUtils;
+import com.softserve.edu.atqc.tools.verifications.AssertWrapper;
 import com.softserve.edu.oms.data.IUser;
 import com.softserve.edu.oms.data.UrlRepository.Urls;
 import com.softserve.edu.oms.data.UserRepository;
@@ -33,7 +34,7 @@ public class LoginAdminTest {
     @Test(dataProvider = "adminProvider")
     public void checkAdministratorLogin(ABrowser browser, String url, IUser adminUser) {
         //LoggerWrapper.get().setLogger(LoggerRepository.getLog4jLogger()).infoLog("Thread ID= " + Thread.currentThread().getId() + "  User is " + adminUser.getLogin());
-        LoggerWrapper.get().infoLog("Thread ID= " + Thread.currentThread().getId()
+        LoggerUtils.get().infoLog("Thread ID= " + Thread.currentThread().getId()
                 + "  User is " + adminUser.getLogin());
         System.out.println("\t+++Thread ID= " + Thread.currentThread().getId()
                 + "  User is " + adminUser.getLogin());
@@ -51,12 +52,24 @@ public class LoginAdminTest {
         //AdminHomePage adminhomepage = (new LoginPage()).successAdminLogin(adminUser);
         AdminHomePage adminhomepage = StartLoginPage.load(browser, url).successAdminLogin(adminUser);
         // Checking.
-        Assert.assertEquals(adminUser.getFirstname(), adminhomepage.getFirstnameText());
-        Assert.assertEquals(adminUser.getLastname(), adminhomepage.getLastnameText());
-        Assert.assertEquals(adminUser.getRole(), adminhomepage.getRoleText());
+        //Assert.assertEquals(adminUser.getFirstname(), adminhomepage.getFirstnameText());
+        //Assert.assertEquals(adminUser.getLastname(), adminhomepage.getLastnameText());
+        //Assert.assertEquals(adminUser.getRole(), adminhomepage.getRoleText());
+        //
+        AssertWrapper.get()
+            .forElement(adminhomepage.getFirstnameText())
+                .valueMatch(adminUser.getFirstname())
+                .next()
+            .forElement(adminhomepage.getLastnameText())
+                .valueMatch(adminUser.getLastname())
+                .next()
+            .forElement(adminhomepage.getRoleText())
+                .valueMatch(adminUser.getRole());
         // Return to previous state.
         adminhomepage.logout();
         System.out.println("TEST DONE \t+++Thread ID= " + Thread.currentThread().getId());
+        // Check
+        AssertWrapper.get().check();
     }
 
     @DataProvider
@@ -81,8 +94,13 @@ public class LoginAdminTest {
         // Test Steps.
         loginpage = loginpage.unSuccesfulLogin(invalidUser);
         // Checking.
-        Assert.assertEquals(LoginPageMessages.VALIDATOR_TEXT.toString(), loginpage.getValidatorText());
+        //Assert.assertEquals(LoginPageMessages.VALIDATOR_TEXT.toString(), loginpage.getValidatorText());
+        AssertWrapper.get()
+            .forElement(loginpage.getValidatorText())
+                .valueMatch(LoginPageMessages.VALIDATOR_TEXT.toString());
         // Return to previous state.
+        // Check
+        AssertWrapper.get().check();
         //WebDriverUtils.get().quit();
     }
 

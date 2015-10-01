@@ -1,19 +1,19 @@
 package com.softserve.edu.atqc.tools.loggers;
 
-public class LoggerWrapper {
-    private static volatile LoggerWrapper instance = null;
+public class LoggerUtils {
+    private static volatile LoggerUtils instance = null;
     private ILogger logger;
 
-    private LoggerWrapper() {
+    private LoggerUtils() {
         // Set Strategy by Default.
         this.logger = LoggerRepository.getReporterLogger();
     }
 
-    public static LoggerWrapper get() {
+    public static LoggerUtils get() {
         if (instance == null) {
-            synchronized (LoggerWrapper.class) {
+            synchronized (LoggerUtils.class) {
                 if (instance == null) {
-                    instance = new LoggerWrapper();
+                    instance = new LoggerUtils();
                 }
             }
         }
@@ -21,8 +21,8 @@ public class LoggerWrapper {
     }
 
     // Set Strategy.
-    public LoggerWrapper setLogger(ILogger logger) {
-        synchronized (LoggerWrapper.class) {
+    public LoggerUtils setLogger(ILogger logger) {
+        synchronized (LoggerUtils.class) {
             this.logger = logger;
         }
         return this;

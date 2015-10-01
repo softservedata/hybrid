@@ -1,7 +1,7 @@
 package com.softserve.edu.atqc.tools.exceptions;
 
 import com.softserve.edu.atqc.tools.browsers.CaptureScreenImage;
-import com.softserve.edu.atqc.tools.loggers.LoggerWrapper;
+import com.softserve.edu.atqc.tools.loggers.LoggerUtils;
 
 public class ScreenCapturingCustomException extends GeneralCustomException {
     private static final long serialVersionUID = 1L;
@@ -20,8 +20,8 @@ public class ScreenCapturingCustomException extends GeneralCustomException {
 
     private void takeScreenshot() {
         String fileNamePath = CaptureScreenImage.get().captureAndSaveScreen();
-        LoggerWrapper.get().errorLog(SCREENSHOT_FILENAME + fileNamePath);
-        LoggerWrapper.get().insertScreenShot(fileNamePath);
+        LoggerUtils.get().errorLog(SCREENSHOT_FILENAME + fileNamePath);
+        LoggerUtils.get().insertScreenShot(fileNamePath);
     }
 
 }

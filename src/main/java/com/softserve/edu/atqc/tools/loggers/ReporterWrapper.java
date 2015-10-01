@@ -24,7 +24,7 @@ public class ReporterWrapper implements ILogger {
     
     private static enum ReporterLevels {
         SCREENSHOT_LEVEL(2),
-        ERROR_LEVEL(3),
+        ERROR_LEVEL(2),
         WARNING_LEVEL(5),
         INFO_LEVEL(7);
         private int level;
@@ -44,6 +44,7 @@ public class ReporterWrapper implements ILogger {
 
     private ReporterWrapper(boolean consoleOutput) {
         this.consoleOutput = consoleOutput;
+        // TODO Set default verbose.
     }
 
     public static ReporterWrapper get() {

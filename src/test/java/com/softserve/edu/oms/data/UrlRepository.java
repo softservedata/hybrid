@@ -3,7 +3,8 @@ package com.softserve.edu.oms.data;
 public final class UrlRepository {
 
     public static enum Urls {
-        LOCAL_HOST("http://localhost:8080/OMS/login.htm"), SSU_HOST("http://ssu-oms:8180/OMS/login.htm");
+        LOCAL_HOST("http://localhost:8080/OMS/login.htm"),
+        SSU_HOST("http://ssu-oms:8180/OMS/login.htm");
 
         private String field;
 
