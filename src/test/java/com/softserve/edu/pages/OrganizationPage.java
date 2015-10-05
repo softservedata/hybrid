@@ -1,12 +1,15 @@
 package com.softserve.edu.pages;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.function.ToDoubleBiFunction;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.softserve.edu.testData.IOrganization;
 
@@ -92,6 +95,8 @@ public class OrganizationPage {
 			this.email.click();
 			this.email.clear();
 			this.email.sendKeys(email);
+			
+			
 		}
 
 		public void setMaxSizeEpmloyers(String maxSizeEpmloyers) {
@@ -111,9 +116,11 @@ public class OrganizationPage {
 			this.searchRegionList.click();
 			this.searchRegionList.sendKeys(region);
 			this.searchRegionList.sendKeys(Keys.ENTER);
+			
 		}
 
-		public void selectDistrictFromList(String district) {
+		public void selectDistrictFromList(String district) throws InterruptedException {
+			
 			this.selectDistrictList.click();
 			this.searchDistrictlist.click();
 			this.searchDistrictlist.sendKeys(district);
@@ -196,7 +203,9 @@ public class OrganizationPage {
 		public WebElement getSearchDistrictlist() {
 			return this.searchDistrictlist;
 		}
-
+		public WebElement getSelectCityList() {
+			return this.selectCityList;
+		}
 		public WebElement getStreet() {
 			return this.street;
 		}
@@ -223,7 +232,7 @@ public class OrganizationPage {
 
 	}
 
-	private  class AddNewOrganizationForm extends OrganizationForm {
+	public  class AddNewOrganizationForm extends OrganizationForm {
 		private WebElement loginForSystemAdmin;
 		private WebElement passwordForSystemAdmin;
 		private WebElement confirmPasswordForSystemAdmin;
@@ -269,10 +278,12 @@ public class OrganizationPage {
 			return this.confirmPasswordForSystemAdmin;
 		}
 
-		private void setOrganizationData(IOrganization organization) {
+		private void setOrganizationData(IOrganization organization) throws InterruptedException {
+			WebDriverWait wait = new WebDriverWait(driver, 10);
 			setOrganizationName(organization.getOrganizationName());
 			setOrganizationTypeChoose(organization.getOrganizationTypeChoose());
 			setPhoneNumber(organization.getPhoneNumber());
+			
 			setEmail(organization.getEmail());
 			setMaxSizeEpmloyers(organization.getMaxSizeEpmloyers());
 			setMaxTimeForFinishRequestInDays(organization.getMaxTimeForFinishRequestInDays());
@@ -280,11 +291,23 @@ public class OrganizationPage {
 			setPasswordForSystemAdmin(organization.getPasswordForSystemAdmin());
 			setConfirmPasswordForSystemAdmin(organization.getConfirmPasswordForSystemAdmin());
 			selectRegionFromList(organization.getSearchRegionList());
+			Thread.sleep(2000);
+			//wait.until(ExpectedConditions.elementToBeClickable(getSelectDistrictList()));
 			selectDistrictFromList(organization.getSearchDistrictlist());
+			Thread.sleep(2000);
+			//wait.until(ExpectedConditions.elementToBeClickable(getSelectCityList()));
+			selectCityFromList(organization.getSearchCityList());
 			setStreetInForm(organization.getStreet());
 			setHouseInForm(organization.getHouse());
 			setFlatInForm(organization.getFlat());
 			submitButtonClick();
+		}
+		public OrganizationPage successAddOrganization(IOrganization newOrg) throws InterruptedException {
+			//addNewOrganizationClick();
+			//AddNewOrganizationForm newOrganization = new AddNewOrganizationForm();
+			//newOrganization.setOrganizationData(newOrg);
+			setOrganizationData(newOrg);
+			return new OrganizationPage(driver);
 		}
 
 	}
@@ -357,12 +380,7 @@ public class OrganizationPage {
 		return new OrganizationPage.AddNewOrganizationForm();
 	}
 
-	public OrganizationPage successAddOrganization(IOrganization newOrg) {
-		addNewOrganizationClick();
-		AddNewOrganizationForm newOrganization = new AddNewOrganizationForm();
-		newOrganization.setOrganizationData(newOrg);
-		return new OrganizationPage(driver);
-	}
+	
 
 	
 }

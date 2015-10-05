@@ -10,12 +10,17 @@ public class AdminHomePage {
 	private WebElement pageHeader;
 	private WebElement leftSideBar;
 	private WebElement organizationTabLink;
+	private WebElement logoutLink;
+	private WebElement logoutDropDown;
+	
 	
 	public AdminHomePage(WebDriver driver){
 		this.driver = driver;
 		this.pageHeader = driver.findElement(By.xpath(".//*[@id='page-wrapper']/div[1]/div/h1"));
 		this.leftSideBar = driver.findElement(By.id("side-menu"));
 		this.organizationTabLink = driver.findElement(By.xpath(".//*[@id='side-menu']/li[2]/a"));
+		this.logoutLink = driver.findElement(By.xpath(".//*[@id='adminModule']/nav/ul/li/ul/li[2]/div[3]/a"));
+		this.logoutDropDown = driver.findElement(By.xpath(".//*[@id='adminModule']/nav/ul/li/a/i[1]"));
 	}
 	public void organizationTabLinkClick(){
 		this.organizationTabLink.click();
@@ -32,6 +37,10 @@ public class AdminHomePage {
 	public String getPageHeaderText(){
 		return getPageHeader().getText();
 	}
+	 public void logOut(){
+		 logoutDropDown.click();
+		 logoutLink.click();
+	 }
 	public OrganizationPage gotoOrganizationPage(){
 		organizationTabLinkClick();
 		return new OrganizationPage(driver);

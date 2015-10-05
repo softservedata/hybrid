@@ -11,7 +11,7 @@ public class StartPage {
 	
 	public StartPage(WebDriver driver){
 		this.driver = driver;
-		this.logIn = driver.findElement(By.partialLinkText("”‚≥ÈÚË"));
+		this.logIn = driver.findElement(By.partialLinkText("–£–≤—ñ–π—Ç–∏"));
 		
 	}
     public void logInButtonClick(){
