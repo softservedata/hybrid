@@ -2,11 +2,21 @@ package com.softserve.edu.tests;
 
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.softserve.edu.atqc.tools.browsers.ABrowser;
+import com.softserve.edu.atqc.tools.browsers.BrowserRepository;
+import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.atqc.tools.loggers.LoggerRepository;
+import com.softserve.edu.atqc.tools.loggers.LoggerUtils;
+import com.softserve.edu.atqc.tools.verifications.AssertWrapper;
 
 import com.softserve.edu.pages.AdminHomePage;
 import com.softserve.edu.pages.LoginPage;
