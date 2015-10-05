@@ -1,62 +1,97 @@
 package com.softserve.edu.atqc.tools.browsers;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 
 public final class WebDriverUtils {
     private static volatile WebDriverUtils instance = null;
-    private ABrowser browser;
+    //private final ThreadLocal<ABrowser> browsers;
+    private final HashMap<Long, ABrowser> browsers;
     // TODO Move to Search Classes
     private long implicitlyWaitTimeout = 20L;
 
-    private WebDriverUtils(ABrowser browser) {
-        this.browser = browser;
+    private WebDriverUtils() {
+        //this.browsers = new ThreadLocal<ABrowser>();
+        this.browsers = new HashMap<Long, ABrowser>();
     }
 
     public static WebDriverUtils get() {
+        System.out.println("WebDriverUtils_get()");
+        return get(BrowserRepository.getDefault());
+    }
+
+    public static WebDriverUtils get(ABrowser browser) {
+        System.out.print("**********WebDriverUtils_get(ABrowser) browser is null:");
+        System.out.print(browser == null);
+        System.out.println(" *****Thread ID= " + Thread.currentThread().getId());
         if (instance == null) {
             synchronized (WebDriverUtils.class) {
                 if (instance == null) {
-                    instance = new WebDriverUtils(BrowserRepository.getFirefoxByTemporaryProfile());
+                    instance = new WebDriverUtils();
+//                    if (browser == null) {
+//                        browser = BrowserRepository.getFirefoxByTemporaryProfile();
+//                    }
+                    System.out.println("*****Create instance.");
+//                    instance.setBrowser(browser);
+                }
+            }
+        }
+        if (instance != null) {
+            synchronized (WebDriverUtils.class) {
+                if ((browser == null)
+                        && ((instance.getBrowser() == null)
+                                || !instance.getBrowser().isEnabled())) {
+                    browser = BrowserRepository.getFirefoxByTemporaryProfile();
+                }
+                if ((browser != null)
+                        && (instance.getBrowser() != null)
+                        && instance.getBrowser().isEnabled()
+                        && (!instance.getBrowser().getWebDriverName().equals(browser.getWebDriverName()))) {
+                    instance.closeTab();
+                }
+                if ((instance.getBrowser() == null)
+                        || ((browser != null)
+                                && (!instance.getBrowser().getWebDriverName().equals(browser.getWebDriverName())))
+                        || (!instance.getBrowser().isEnabled())) {
+                    System.out.println("Create browser  "
+                            +"\tThread ID= " + Thread.currentThread().getId());
+                    instance.setBrowser(browser);
                 }
             }
         }
         return instance;
     }
 
-    public static WebDriverUtils get(ABrowser browser) {
+    public static void quitAll() {
         if (instance != null) {
-            synchronized (WebDriverUtils.class) {
-                if (instance != null) {
-                    if (!instance.browser.getWebDriverName().equals(browser.getWebDriverName())) {
-                        instance.quit();
-                        instance = null;
-                    }
-                }
+            // for (Long threadId : instance.browsers.keySet()) {
+            for (ABrowser browser : instance.browsers.values()) {
+                browser.quit();
             }
         }
-        if (instance == null) {
-            synchronized (WebDriverUtils.class) {
-                if (instance == null) {
-                    instance = new WebDriverUtils(browser);
-                }
-            }
-        }
-        return instance;
+    }
+
+    private void setBrowser(ABrowser browser) {
+        this.browsers.put(Thread.currentThread().getId(), browser);
+    }
+
+    private ABrowser getBrowser() {
+        return browsers.get(Thread.currentThread().getId());
     }
 
     public WebDriver getWebDriver() {
         // TODO Move to Search Classes
-        browser.getWebDriver().manage().timeouts().implicitlyWait(getImplicitlyWaitTimeout(), TimeUnit.SECONDS);
+        getBrowser().getWebDriver().manage().timeouts().implicitlyWait(getImplicitlyWaitTimeout(), TimeUnit.SECONDS);
         //browser.getWebDriver().manage().window().maximize();
         //
-        return browser.getWebDriver();
+        return getBrowser().getWebDriver();
     }
 
     // TODO Move to Search Classes
     void setImplicitlyWaitTimeout(long implicitlyWaitTimeout) {
-        browser.getWebDriver().manage().timeouts().implicitlyWait(implicitlyWaitTimeout, TimeUnit.SECONDS);
+        getBrowser().getWebDriver().manage().timeouts().implicitlyWait(implicitlyWaitTimeout, TimeUnit.SECONDS);
     }
 
     // TODO Move to Search Classes
@@ -74,11 +109,11 @@ public final class WebDriverUtils {
     }
 
     public void closeTab() {
-        browser.getWebDriver().close();
+        getBrowser().close();
     }
 
     public void quit() {
-        browser.quit();
+        getBrowser().quit();
     }
 
     public void forwardPage() {
