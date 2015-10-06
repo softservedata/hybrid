@@ -87,7 +87,7 @@ public final class ContextUtils {
 	 * Wait until an element is no longer attached to the DOM.
 	 * Do not mix implicit and explicit waits.
 	 */
-    public boolean isStalenessOfWebElement(WebElementWrapper webElementWrapper) {
+    public boolean isStatelessOfWebElement(WebElementWrapper webElementWrapper) {
         return context.isStatelessOfWebElement(webElementWrapper);
     }
 
@@ -138,6 +138,7 @@ public final class ContextUtils {
                 }
             }
         }
+        // TODO MultiThread Correction
         if (countLoadCompletePages != this.observeLoad.size()) {
             throw new GeneralCustomException(
                     String.format(ContextUtils.ERROR_LOAD_FAILED, WebDriverUtils.get().getWebDriver().getCurrentUrl()));

@@ -34,8 +34,10 @@ public class App
         //        ((JavascriptExecutor)driver).executeScript("return $('#main').is(':hidden')"));
         //System.out.println("executeScript "+
         //        ((JavascriptExecutor)driver).executeScript("return document.getElementById('main').style.opacity"));
+        //System.out.println("executeScript "+
+        //        ((JavascriptExecutor)driver).executeScript("return  $('#main').opacity"));
         System.out.println("executeScript "+
-                ((JavascriptExecutor)driver).executeScript("return  $('#main').opacity"));
+                ((JavascriptExecutor)driver).executeScript("return $('.all')[0].style.opacity == ''"));
 
         File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(srcFile, new File("Proba.png"));

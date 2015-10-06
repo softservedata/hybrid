@@ -8,6 +8,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
 import com.softserve.edu.atqc.tools.exceptions.GeneralCustomException;
+import com.softserve.edu.atqc.tools.search.ContextUtils;
 
 public class CaptureScreenImage {
     private final String TIME_TEMPLATE = "yyyy_MM_dd HH-mm-ss";
@@ -59,10 +60,12 @@ public class CaptureScreenImage {
 		String absolutePathFileName = getAbsolutePathFileName();
 		try {
 		    // TODO Remove Thread sleep. 
-		    Thread.sleep(2000);
-			File srcFile = ((TakesScreenshot) WebDriverUtils.get()
-					.getWebDriver()).getScreenshotAs(OutputType.FILE);
-			FileUtils.copyFile(srcFile, new File(absolutePathFileName));
+		    //Thread.sleep(2000);
+            if (ContextUtils.get().isLoadComplete()) {
+                File srcFile = ((TakesScreenshot) WebDriverUtils.get()
+                        .getWebDriver()).getScreenshotAs(OutputType.FILE);
+                FileUtils.copyFile(srcFile, new File(absolutePathFileName));
+            }
 		} catch (Exception e) {
 			// Develop custom exception.
 			throw new GeneralCustomException(String.format(FAILED_TO_CREATE,
