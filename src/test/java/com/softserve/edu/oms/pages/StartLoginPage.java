@@ -15,6 +15,6 @@ public class StartLoginPage extends LoginPage {
         // driver.get(url);
         ContextUtils.get().addLoadCompleteEvent(new PageLoadComplete());
         WebDriverUtils.get(browser).loadPage(url);
-        return new LoginPage();
+        return new StartLoginPage();
     }
 }
