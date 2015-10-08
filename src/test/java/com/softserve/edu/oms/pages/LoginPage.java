@@ -1,99 +1,63 @@
 package com.softserve.edu.oms.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
-import com.softserve.edu.atqc.tools.exceptions.ScreenCapturingCustomException;
+import com.softserve.edu.atqc.tools.controls.Button;
+import com.softserve.edu.atqc.tools.controls.IButton;
+import com.softserve.edu.atqc.tools.controls.ITextField;
+import com.softserve.edu.atqc.tools.controls.TextField;
 import com.softserve.edu.oms.data.IUser;
 
 public class LoginPage {
 
-    public static enum LoginPageMessages {
-        VALIDATOR_TEXT("Your login attempt was not successful, try again.");
+    private class LoginPageUIMap {
+        public final ITextField username;
+        public final ITextField password;
+        public final IButton submit;
 
-        private String field;
-
-        private LoginPageMessages(String field) {
-            this.field = field;
+        public LoginPageUIMap() {
+            this.username = TextField.get().getByName("j_username");
+            this.password = TextField.get().getByName("j_password");
+            this.submit = Button.get().getByName("submit");
         }
-
-        public int getLenght() {
-            return this.field.length();
-        }
-
-        @Override
-        public String toString() {
-            return this.field;
-        }
-    }
-
-    private WebElement username;
-    private WebElement password;
-    private WebElement submit;
-
-    public LoginPage() {
-        // Init Web Elements.
-        //this.username = driver.findElement(By.name("j_username"));
-        //this.password = driver.findElement(By.name("j_password"));
-        //this.submit = driver.findElement(By.name("submit"));
-        initVisibleWebElements();
-    }
-
-    private void initVisibleWebElements() {
-        // Init Web Elements.
-        this.username = WebDriverUtils.get().getWebDriver().findElement(By.name("j_username"));
-        this.password = WebDriverUtils.get().getWebDriver().findElement(By.name("j_password"));
-        this.submit = WebDriverUtils.get().getWebDriver().findElement(By.name("submit"));
-//        try {
-//            this.submit = WebDriverUtils.get().getWebDriver().findElement(By.name("submit1"));
-//        } catch(Exception e) {
-//            throw new ScreenCapturingCustomException("submit");
-//        }
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    // Elements
+    private LoginPageUIMap controls;
+
+    public LoginPage() {
+        controls = new LoginPageUIMap();
+    }
+
+    // PageObject - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     public void setUsername(String username) {
-        this.username.click();
-        this.username.clear();
-        this.username.sendKeys(username);
+        this.controls.username.sendKeysClear(username);
     }
     
     public void setPassword(String password) {
-        this.password.click();
-        this.password.clear();
-        this.password.sendKeys(password);
+        this.controls.password.sendKeysClear(password);
     }
 
     public void buttonSubmitClick() {
-        this.submit.click();
+        this.controls.submit.click();
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     
-    public WebElement getUsername() {
-        return this.username;
+    public ITextField getUsername() {
+        return this.controls.username;
     }
 
-    public WebElement getPassword() {
-        return this.password;
+    public ITextField getPassword() {
+        return this.controls.password;
     }
 
-    public WebElement getSubmit() {
-        return this.submit;
+    public IButton getSubmit() {
+        return this.controls.submit;
     }
 
-    // Bad Code.
-    public WebElement getValidator() {
-        return WebDriverUtils.get().getWebDriver().findElement(By.xpath("//font[@color='red']"));
-    }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    public String getValidatorText() {
-        return getValidator().getText().trim().substring(0, LoginPageMessages.VALIDATOR_TEXT.getLenght());
-    }
+    // business - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     
     private void setLoginData(IUser user) {
         setUsername(user.getLogin());
@@ -113,9 +77,9 @@ public class LoginPage {
         return new CustomerHomePage();
     }
 
-    public LoginPage unSuccesfulLogin(IUser invalidUser) {
+    public ValidatorLoginPage unSuccesfulLogin(IUser invalidUser) {
         setLoginData(invalidUser);
-        return new LoginPage(); // return this;
+        return new ValidatorLoginPage(); // return this;
     }
-    
+
 }

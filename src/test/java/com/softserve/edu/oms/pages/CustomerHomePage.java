@@ -1,34 +1,42 @@
 package com.softserve.edu.oms.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.atqc.tools.controls.ILink;
+import com.softserve.edu.atqc.tools.controls.Link;
 
 public class CustomerHomePage extends HomePage {
-    //
-    private WebElement ordering;
+    
+    private class CustomerHomePageUIMap {
+        public final ILink ordering;
+
+        public CustomerHomePageUIMap() {
+            this.ordering = Link.get()
+                    .getByPartialLinkText("Ordering");
+        }
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // Elements
+    private CustomerHomePageUIMap controls;
 
     public CustomerHomePage() {
         super();
-        // Init Web Elements.
-        this.ordering = WebDriverUtils.get().getWebDriver().findElement(By.partialLinkText("Ordering"));
+        this.controls = new CustomerHomePageUIMap();
     }
-    
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    // PageObject - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public void orderingClick() {
-        this.ordering.click();
+        this.controls.ordering.click();
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    public WebElement getOrdering() {
-        return this.ordering;
+    public ILink getOrdering() {
+        return this.controls.ordering;
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // business - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public OrderingPage gotoOrderingPage() {
         orderingClick();

@@ -1,23 +1,17 @@
 package com.softserve.edu.atqc.tools.controls;
 
-public class Link<TComponent> extends LabelClickable<TComponent> implements ILink {
+public final class Link extends GLink<ILink> {
 
     // implements constructor
-    protected Link() {
+    private Link() {
     }
 
     // implements static factory
 
-    public static AComponent<ILink> getLink() {
-        Link<ILink> instance = new Link<ILink>();
+    public static AComponent<ILink> get() {
+        Link instance = new Link();
         instance.setTComponent(instance);
         return instance;
-    }
-
-    // implements interface
-
-    public String getUrl() {
-        return getWebElementWrapper().getUrl();
     }
 
 }

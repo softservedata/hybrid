@@ -1,23 +1,17 @@
 package com.softserve.edu.atqc.tools.controls;
 
-public class LabelClickable<TComponent> extends Label<TComponent> implements ILabelClickable {
+public final class LabelClickable extends GLabelClickable<ILabelClickable> {
 
     // implements constructor
-    protected LabelClickable() {
+    private LabelClickable() {
     }
 
     // implements static factory
 
-    public static AComponent<ILabelClickable> getLabelClickable() {
-        LabelClickable<ILabelClickable> instance = new LabelClickable<ILabelClickable>();
+    public static AComponent<ILabelClickable> get() {
+        LabelClickable instance = new LabelClickable();
         instance.setTComponent(instance);
         return instance;
     }
 
-    // implements interface
-
-    public void click(){
-        getWebElementWrapper().click();
-    }
-    
 }

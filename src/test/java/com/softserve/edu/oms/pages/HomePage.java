@@ -1,61 +1,75 @@
 package com.softserve.edu.oms.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.atqc.tools.controls.ILabel;
+import com.softserve.edu.atqc.tools.controls.ILink;
+import com.softserve.edu.atqc.tools.controls.Label;
+import com.softserve.edu.atqc.tools.controls.Link;
 
 public class HomePage {
-    private WebElement firstname;
-    private WebElement lastname;
-    private WebElement role;
-    private WebElement logout;
 
-    public HomePage() {
-        // Init Web Elements.
-        this.firstname = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//td[text()='First name']/following-sibling::td"));
-        this.lastname = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//td[text()='Last name']/following-sibling::td"));
-        this.role = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//td[text()='Role']/following-sibling::td"));
-        //this.administration = driver.findElement(By.xpath("//a[text()='Administration']"));
-        this.logout = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//a[@href='/OMS/logout.htm']"));
+    private class HomePageUIMap {
+        public final ILabel firstname;
+        public final ILabel lastname;
+        public final ILabel role;
+        public final ILink logout;
+
+        public HomePageUIMap() {
+            this.firstname = Label.get()
+                    .getByXpath("//tbody/tr/td[text( )='First name']/following-sibling::td");
+            this.lastname = Label.get()
+                    .getByXpath("//tbody/tr/td[text( )='Last name']/following-sibling::td");
+            this.role = Label.get()
+                    .getByXpath("//tbody/tr/td[text( )='Role']/following-sibling::td");
+            this.logout = Link.get()
+                    .getByXpath("//a[@href='/OMS/logout.htm']");
+        }
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // Elements
+    private HomePageUIMap controls;
+
+    protected HomePage() {
+        this.controls = new HomePageUIMap();
+    }
+
+    // PageObject - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public void logoutClick() {
-        this.logout.click();
+        this.controls.logout.click();
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    public WebElement getFirstname() {
-        return this.firstname;
+    public ILabel getFirstname() {
+        return this.controls.firstname;
     }
 
-    public WebElement getLastname() {
-        return this.lastname;
+    public ILabel getLastname() {
+        return this.controls.lastname;
     }
 
-    public WebElement getRole() {
-        return this.role;
+    public ILabel getRole() {
+        return this.controls.role;
     }
 
-    public WebElement getLogout() {
-        return this.logout;
+    public ILink getLogout() {
+        return this.controls.logout;
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // business - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public String getFirstnameText() {
-        return this.firstname.getText();
+        return getFirstname().getText();
     }
 
     public String getLastnameText() {
-        return this.lastname.getText();
+        return getLastname().getText();
     }
 
     public String getRoleText() {
-        return this.role.getText();
+        return getRole().getText();
     }
 
     public LoginPage logout() {

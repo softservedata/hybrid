@@ -1,27 +1,17 @@
 package com.softserve.edu.atqc.tools.controls;
 
-public class Button<TComponent> extends LabelClickable<TComponent> implements IButton {
+public final class Button extends GButton<IButton> {
 
     // implements constructor
-    protected Button() {
+    private Button() {
     }
 
     // implements static factory
 
-    public static AComponent<IButton> getButton() {
-        Button<IButton> instance = new Button<IButton>();
+    public static AComponent<IButton> get() {
+        Button instance = new Button();
         instance.setTComponent(instance);
         return instance;
-    }
-
-    // implements interface
-
-    public void setFocus(){
-        getWebElementWrapper().setFocus();
-    }
-
-    public void submit(){
-        getWebElementWrapper().submit();
     }
 
 }

@@ -1,6 +1,5 @@
 package com.softserve.edu.oms.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -8,16 +7,15 @@ import org.testng.annotations.Test;
 import com.softserve.edu.atqc.tools.browsers.ABrowser;
 import com.softserve.edu.atqc.tools.browsers.BrowserRepository;
 import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
-import com.softserve.edu.atqc.tools.loggers.LoggerRepository;
 import com.softserve.edu.atqc.tools.loggers.LoggerUtils;
 import com.softserve.edu.atqc.tools.verifications.AssertWrapper;
 import com.softserve.edu.oms.data.IUser;
 import com.softserve.edu.oms.data.UrlRepository.Urls;
 import com.softserve.edu.oms.data.UserRepository;
 import com.softserve.edu.oms.pages.AdminHomePage;
-import com.softserve.edu.oms.pages.LoginPage;
-import com.softserve.edu.oms.pages.LoginPage.LoginPageMessages;
 import com.softserve.edu.oms.pages.StartLoginPage;
+import com.softserve.edu.oms.pages.ValidatorLoginPage;
+import com.softserve.edu.oms.pages.ValidatorLoginPage.LoginPageMessages;
 
 public class LoginAdminTest {
 
@@ -89,14 +87,15 @@ public class LoginAdminTest {
         // WebDriverUtils.get().loadPage(url);
         // old
         // LoginPage loginpage = new LoginPage();
-        LoginPage loginpage = StartLoginPage.load(browser, url);
+        //LoginPage loginpage = StartLoginPage.load(browser, url);
         // loginpage.getValidator(); // Bad Code.
         // Test Steps.
-        loginpage = loginpage.unSuccesfulLogin(invalidUser);
+        //ValidatorLoginPage validatorLoginPage = loginpage.unSuccesfulLogin(invalidUser);
+        ValidatorLoginPage validatorLoginPage = StartLoginPage.load(browser, url).unSuccesfulLogin(invalidUser);
         // Checking.
         //Assert.assertEquals(LoginPageMessages.VALIDATOR_TEXT.toString(), loginpage.getValidatorText());
         AssertWrapper.get()
-            .forElement(loginpage.getValidatorText())
+            .forElement(validatorLoginPage.getValidatorText())
                 .valueMatch(LoginPageMessages.VALIDATOR_TEXT.toString());
         // Return to previous state.
         // Check

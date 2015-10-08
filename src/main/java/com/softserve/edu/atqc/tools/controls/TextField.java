@@ -1,27 +1,17 @@
 package com.softserve.edu.atqc.tools.controls;
 
-public class TextField<TComponent> extends LabelClickable<TComponent> implements ITextField {
+public final class TextField extends GTextField<ITextField> {
 
     // implements constructor
-    protected TextField() {
+    private TextField() {
     }
 
     // implements static factory
 
-    public static AComponent<ITextField> getTextField() {
-        TextField<ITextField> instance = new TextField<ITextField>();
+    public static AComponent<ITextField> get() {
+        TextField instance = new TextField();
         instance.setTComponent(instance);
         return instance;
-    }
-
-    // implements interface
-
-    public void clear() {
-        getWebElementWrapper().clear();
-    }
-
-    public void sendKeys(String text) {
-        getWebElementWrapper().sendKeys(text);
     }
 
 }

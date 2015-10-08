@@ -1,35 +1,42 @@
 package com.softserve.edu.oms.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.atqc.tools.controls.ILink;
+import com.softserve.edu.atqc.tools.controls.Link;
 
 public class AdminHomePage extends HomePage {
-    //
-    private WebElement administration;
+    
+    private class AdminHomePageUIMap {
+        public final ILink administration;
+
+        public AdminHomePageUIMap() {
+            this.administration = Link.get()
+                    .getByPartialLinkText("Administration");
+        }
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // Elements
+    private AdminHomePageUIMap controls;
 
     public AdminHomePage() {
         super();
-        // Init Web Elements.
-        //this.administration = driver.findElement(By.xpath("//a[text()='Administration']"));
-        this.administration = WebDriverUtils.get().getWebDriver().findElement(By.partialLinkText("Administration"));
+        this.controls = new AdminHomePageUIMap();
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+    // PageObject - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public void administrationClick() {
-        this.administration.click();
+        this.controls.administration.click();
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    public WebElement getAdministration() {
-        return this.administration;
+    public ILink getAdministration() {
+        return this.controls.administration;
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // business - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public AdministrationPage gotoAdministrationPage() {
         administrationClick();

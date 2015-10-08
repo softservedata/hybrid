@@ -99,6 +99,11 @@ public final class WebElementWrapper {
         getWebElement().sendKeys(text);
     }
 
+    public void sendKeysClear(String text) {
+        clear();
+        getWebElement().sendKeys(text);
+    }
+
     public void setFocus() {
         // TODO Make Visible
         sendKeys(new String());

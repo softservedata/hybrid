@@ -51,7 +51,8 @@ public class App
         //component.getContent();
         IComponent component = Component.get().getByXpath("");
         component.getTagName();
-        ILabel label =Label.getLabel().getByXpath("");
+        ILabel label =Label.get().getByXpath("");
+        //ILabel label =Label.get().getByCssSelector("");
         label.getText();
         }
 }
