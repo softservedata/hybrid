@@ -5,61 +5,65 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.atqc.tools.controls.Button;
+import com.softserve.edu.atqc.tools.controls.IButton;
+import com.softserve.edu.atqc.tools.controls.ITextField;
+import com.softserve.edu.atqc.tools.controls.TextField;
 import com.softserve.edu.testData.IUsers;
 import com.softserve.edu.testData.User;
 
 public class LoginPage {
-	private WebDriver driver;
-	private WebElement login;
-	private WebElement password;
-	private WebElement submitLoginButton;
 
+	private class LoginPageUIMap {
+		private ITextField login;
+		private ITextField password;
+		private IButton submitLoginButton;
+    public LoginPageUIMap(){
+    	this.login = TextField.get().getByXpath(".//*[@id='loginTable']/tbody/tr[1]/td[2]/input"); 
+    	this.password = TextField.get().getById("inputPassword");
+    	this.submitLoginButton = Button.get().getByClassName("btn");
+      }
+	}
+    LoginPageUIMap controls;
 	public LoginPage() {
-		
-
-		this.login = WebDriverUtils.get().getWebDriver().findElement(By.xpath(".//*[@id='loginTable']/tbody/tr[1]/td[2]/input"));
-		this.password = WebDriverUtils.get().getWebDriver().findElement(By.id("inputPassword"));
-		this.submitLoginButton = WebDriverUtils.get().getWebDriver().findElement(By.className("btn"));
-
+		this.controls = new LoginPageUIMap();
 	}
 
 	public void setUsername(String login) {
-		this.login.click();
-		this.login.sendKeys(login);
+		this.controls.login.sendKeysClear(login);
 	}
-    
-	public void setPassword(String password){
-		this.password.click();
-		this.password.sendKeys(password);
-		
+
+	public void setPassword(String password) {
+		this.controls.password.sendKeysClear(password);
+
 	}
-	public void submitLoginButtonClick(){
-		this.submitLoginButton.click();
+
+	public void submitLoginButtonClick() {
+		this.controls.submitLoginButton.click();
 	}
-	
-	public WebElement getUsername(){
-		return this.login;
+
+	public ITextField getUsername() {
+		return this.controls.login;
 	}
-	public WebElement getPassword(){
-		return this.password;
+
+	public ITextField getPassword() {
+		return this.controls.password;
 	}
-	
-	public WebElement getLoginSubmitButton(){
-		return this.submitLoginButton;
+
+	public IButton getLoginSubmitButton() {
+		return this.controls.submitLoginButton;
 	}
-	
-	private void setLoginData(IUsers user){
+
+	private void setLoginData(IUsers user) {
 		setUsername(user.getLogin());
 		setPassword(user.getPassword());
 		submitLoginButtonClick();
 	}
+
 	public AdminHomePage successAdminLogin(IUsers adminUser) {
-        setLoginData(adminUser);
-        // Return a new page object representing the destination.
-        return new AdminHomePage(driver);
-    }
-	
-	
-	
-	
+		setLoginData(adminUser);
+		// Return a new page object representing the destination.
+		return new AdminHomePage();
+	}
+
 }

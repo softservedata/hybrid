@@ -34,7 +34,10 @@ public abstract class AComponent<TComponent> {
     public TComponent getByTagName(String tagName) {
         return get(ByWrapper.getByTagName(tagName));
     }
-
+    public TComponent getByClassName(String className){
+    	return get(ByWrapper.getByClassName(className));
+    }
+    
     private TComponent get(ByWrapper byWrapper) {
         this.byWrapper = byWrapper;
         this.webElementWrapper = WebElementWrapper.getVisibleWebElement(byWrapper);

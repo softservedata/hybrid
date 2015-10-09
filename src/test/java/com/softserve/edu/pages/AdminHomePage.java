@@ -14,8 +14,8 @@ public class AdminHomePage {
 	private WebElement logoutDropDown;
 	
 	
-	public AdminHomePage(WebDriver driver){
-		this.driver = driver;
+	public AdminHomePage(){
+		
 		this.pageHeader = driver.findElement(By.xpath(".//*[@id='page-wrapper']/div[1]/div/h1"));
 		this.leftSideBar = driver.findElement(By.id("side-menu"));
 		this.organizationTabLink = driver.findElement(By.xpath(".//*[@id='side-menu']/li[2]/a"));

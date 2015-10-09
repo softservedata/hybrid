@@ -36,7 +36,10 @@ public final class ByWrapper {
 	public static ByWrapper getByTagName(String tagName) {
 		return new ByWrapper(new By.ByTagName(tagName), tagName);
 	}
-
+     
+	public static ByWrapper getByClassName(String className){
+		return new ByWrapper(new By.ByClassName(className),className);
+	}
 	By getBy() {
 		return by;
 	}

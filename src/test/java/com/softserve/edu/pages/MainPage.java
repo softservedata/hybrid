@@ -1,26 +1,33 @@
 package com.softserve.edu.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
-
+import com.softserve.edu.atqc.tools.controls.ILink;
+import com.softserve.edu.atqc.tools.controls.Link;
 
 public class MainPage {
-	private WebDriver driver;
-	private WebElement logIn;
-	
-	public MainPage(){
-		
-		this.logIn = WebDriverUtils.get().getWebDriver().findElement(By.partialLinkText("Увійти"));
-		
+
+	private class MainPageUIMap {
+		public final ILink logIn;
+
+		public MainPageUIMap() {
+			this.logIn = Link.get().getByPartialLinkText("Увійти");
+		}
+
 	}
-    public void logInButtonClick(){
-    	this.logIn.click();
-    }
-    public LoginPage gotoLoginPage(){
-    	logInButtonClick();
-    	return new LoginPage();
-    }
+
+	public MainPageUIMap controls;
+
+	public MainPage() {
+
+		this.controls = new MainPageUIMap();
+
+	}
+
+	public void logInButtonClick() {
+		this.controls.logIn.click();
+	}
+
+	public LoginPage gotoLoginPage() {
+		logInButtonClick();
+		return new LoginPage();
+	}
 }
