@@ -76,24 +76,22 @@ public class OrganizationPage {
 						.getByXpath("html/body/div[3]/div/div/div[2]/form/div[4]/div[1]/a");
 			}
 		}
-		
+		OrganizationFormUIMap controlsForm;
 		public OrganizationForm() {
-			
+			this.controlsForm = new OrganizationFormUIMap();
 		}
 
 		
         
 		public void setOrganizationName(String organizationName) {
-			this.organizationName.click();
-			this.organizationName.clear();
-			this.organizationName.sendKeys(organizationName);
+			
+			this.controlsForm.organizationName.sendKeysClear(organizationName);
 		}
 
 		public void setOrganizationTypeChoose(String organizationType) {
-			this.organizationTypeChoose.click();
-
-			this.organizationTypeChoose.sendKeys(organizationType);
-			this.organizationTypeChoose.sendKeys(Keys.ENTER);
+			
+			this.controlsForm.organizationTypeChoose.sendKeysClear(organizationType);
+			this.controlsForm.organizationTypeChoose.sendKeysControl(Keys.ENTER);
 		}
 
 		public void setPhoneNumber(String phoneNumber) {

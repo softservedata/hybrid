@@ -3,6 +3,7 @@ package com.softserve.edu.atqc.tools.search;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import com.softserve.edu.atqc.tools.exceptions.GeneralCustomException;
@@ -102,6 +103,9 @@ public final class WebElementWrapper {
     public void sendKeysClear(String text) {
         clear();
         getWebElement().sendKeys(text);
+    }
+    public void sendKeysControl(Keys keys){
+    	getWebElement().sendKeys(keys);
     }
 
     public void setFocus() {
