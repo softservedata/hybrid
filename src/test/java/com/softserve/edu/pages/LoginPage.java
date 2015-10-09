@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
 import com.softserve.edu.testData.IUsers;
 import com.softserve.edu.testData.User;
 
@@ -13,12 +14,12 @@ public class LoginPage {
 	private WebElement password;
 	private WebElement submitLoginButton;
 
-	public LoginPage(WebDriver driver) {
-		this.driver = driver;
+	public LoginPage() {
+		
 
-		this.login = driver.findElement(By.xpath(".//*[@id='loginTable']/tbody/tr[1]/td[2]/input"));
-		this.password = driver.findElement(By.id("inputPassword"));
-		this.submitLoginButton = driver.findElement(By.className("btn"));
+		this.login = WebDriverUtils.get().getWebDriver().findElement(By.xpath(".//*[@id='loginTable']/tbody/tr[1]/td[2]/input"));
+		this.password = WebDriverUtils.get().getWebDriver().findElement(By.id("inputPassword"));
+		this.submitLoginButton = WebDriverUtils.get().getWebDriver().findElement(By.className("btn"));
 
 	}
 

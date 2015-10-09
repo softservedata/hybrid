@@ -11,6 +11,11 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.softserve.edu.atqc.tools.controls.Component;
+import com.softserve.edu.atqc.tools.controls.IComponent;
+import com.softserve.edu.atqc.tools.controls.ILabel;
+import com.softserve.edu.atqc.tools.controls.Label;
+
 
 /**
  * Hello world!
@@ -34,11 +39,20 @@ public class App
         //        ((JavascriptExecutor)driver).executeScript("return $('#main').is(':hidden')"));
         //System.out.println("executeScript "+
         //        ((JavascriptExecutor)driver).executeScript("return document.getElementById('main').style.opacity"));
+        //System.out.println("executeScript "+
+        //        ((JavascriptExecutor)driver).executeScript("return  $('#main').opacity"));
         System.out.println("executeScript "+
-                ((JavascriptExecutor)driver).executeScript("return  $('#main').opacity"));
+                ((JavascriptExecutor)driver).executeScript("return $('.all')[0].style.opacity == ''"));
 
         File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(srcFile, new File("Proba.png"));
         System.out.println("DONE");
-    }
+        //IComponent component = Component.getByCssSelector("");
+        //component.getContent();
+        IComponent component = Component.get().getByXpath("");
+        component.getTagName();
+        ILabel label =Label.get().getByXpath("");
+        //ILabel label =Label.get().getByCssSelector("");
+        label.getText();
+        }
 }

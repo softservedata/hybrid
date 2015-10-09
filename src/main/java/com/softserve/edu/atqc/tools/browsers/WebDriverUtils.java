@@ -1,7 +1,6 @@
 package com.softserve.edu.atqc.tools.browsers;
 
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 
@@ -9,8 +8,6 @@ public final class WebDriverUtils {
     private static volatile WebDriverUtils instance = null;
     //private final ThreadLocal<ABrowser> browsers;
     private final HashMap<Long, ABrowser> browsers;
-    // TODO Move to Search Classes
-    private long implicitlyWaitTimeout = 20L;
 
     private WebDriverUtils() {
         //this.browsers = new ThreadLocal<ABrowser>();
@@ -82,21 +79,8 @@ public final class WebDriverUtils {
     }
 
     public WebDriver getWebDriver() {
-        // TODO Move to Search Classes
-        getBrowser().getWebDriver().manage().timeouts().implicitlyWait(getImplicitlyWaitTimeout(), TimeUnit.SECONDS);
-        //browser.getWebDriver().manage().window().maximize();
-        //
+        // TODO browser.getWebDriver().manage().window().maximize();
         return getBrowser().getWebDriver();
-    }
-
-    // TODO Move to Search Classes
-    void setImplicitlyWaitTimeout(long implicitlyWaitTimeout) {
-        getBrowser().getWebDriver().manage().timeouts().implicitlyWait(implicitlyWaitTimeout, TimeUnit.SECONDS);
-    }
-
-    // TODO Move to Search Classes
-    public long getImplicitlyWaitTimeout() {
-        return implicitlyWaitTimeout;
     }
 
     // Wrap WebDriver.
