@@ -4,46 +4,60 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.softserve.edu.atqc.tools.controls.Component;
+import com.softserve.edu.atqc.tools.controls.IComponent;
+import com.softserve.edu.atqc.tools.controls.ILabel;
+import com.softserve.edu.atqc.tools.controls.ILabelClickable;
+import com.softserve.edu.atqc.tools.controls.ILink;
+import com.softserve.edu.atqc.tools.controls.Label;
+import com.softserve.edu.atqc.tools.controls.Link;
+
 public class AdminHomePage {
-    private WebDriver driver;
-	
-	private WebElement pageHeader;
-	private WebElement leftSideBar;
-	private WebElement organizationTabLink;
-	private WebElement logoutLink;
-	private WebElement logoutDropDown;
-	
-	
-	public AdminHomePage(){
+	private class AdminHomePageUIMap {
+		private ILabel pageHeader;
+		private IComponent leftSideBar;
+		private ILink organizationTabLink;
+		private ILink logoutLink;
+		private ILink logoutDropDown;
 		
-		this.pageHeader = driver.findElement(By.xpath(".//*[@id='page-wrapper']/div[1]/div/h1"));
-		this.leftSideBar = driver.findElement(By.id("side-menu"));
-		this.organizationTabLink = driver.findElement(By.xpath(".//*[@id='side-menu']/li[2]/a"));
-		this.logoutLink = driver.findElement(By.xpath(".//*[@id='adminModule']/nav/ul/li/ul/li[2]/div[3]/a"));
-		this.logoutDropDown = driver.findElement(By.xpath(".//*[@id='adminModule']/nav/ul/li/a/i[1]"));
+		public AdminHomePageUIMap(){
+			this.pageHeader = Label.get().getByXpath(".//*[@id='page-wrapper']/div[1]/div/h1");
+			this.leftSideBar = Component.get().getById("side-menu");
+			this.organizationTabLink = Link.get().getByXpath(".//*[@id='side-menu']/li[2]/a");
+			this.logoutLink = Link.get().getByXpath(".//*[@id='adminModule']/nav/ul/li/ul/li[2]/div[3]/a");
+			this.logoutDropDown = Link.get().getByXpath(".//*[@id='adminModule']/nav/ul/li/a/i[1]");
+		}
 	}
-	public void organizationTabLinkClick(){
-		this.organizationTabLink.click();
+    AdminHomePageUIMap controls;
+	public AdminHomePage() {
+      this.controls = new AdminHomePageUIMap();
+				
 	}
-	
-	public WebElement getPageHeader(){
-		return this.pageHeader;
+
+	public void organizationTabLinkClick() {
+		this.controls.organizationTabLink.click();
 	}
-	
-	public WebElement getLeftSideBar(){
-		return this.leftSideBar;
+
+	public ILabel getPageHeader() {
+		return this.controls.pageHeader;
 	}
-	
-	public String getPageHeaderText(){
+
+	public IComponent getLeftSideBar() {
+		return this.controls.leftSideBar;
+	}
+
+	public String getPageHeaderText() {
 		return getPageHeader().getText();
 	}
-	 public void logOut(){
-		 logoutDropDown.click();
-		 logoutLink.click();
-	 }
-	public OrganizationPage gotoOrganizationPage(){
+
+	public void logOut() {
+		controls.logoutDropDown.click();
+		controls.logoutLink.click();
+	}
+
+	public OrganizationPage gotoOrganizationPage() {
 		organizationTabLinkClick();
-		return new OrganizationPage(driver);
-		
+		return new OrganizationPage();
+
 	}
 }

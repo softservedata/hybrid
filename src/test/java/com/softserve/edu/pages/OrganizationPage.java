@@ -1,76 +1,87 @@
 package com.softserve.edu.pages;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.function.ToDoubleBiFunction;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.softserve.edu.atqc.tools.controls.Button;
+import com.softserve.edu.atqc.tools.controls.IButton;
+import com.softserve.edu.atqc.tools.controls.ILabelClickable;
+import com.softserve.edu.atqc.tools.controls.ITextField;
+import com.softserve.edu.atqc.tools.controls.LabelClickable;
+import com.softserve.edu.atqc.tools.controls.TextField;
 import com.softserve.edu.testData.IOrganization;
 
 public class OrganizationPage {
 
 	private class OrganizationForm {
-		// private WebDriver driver;
-		private WebElement organizationName;
-		private WebElement organizationTypeChoose;
-		private WebElement phoneNumber;
-		private WebElement email;
-		private WebElement maxSizeEpmloyers;
-		private WebElement maxTimeForFinishRequestInDays;
-
-		private WebElement selectRegionList;
-		private WebElement searchRegionList;
-		private WebElement selectDistrictList;
-		private WebElement searchDistrictlist;
-		private WebElement selectCityList;
-		private WebElement searchCityList;
-		private WebElement street;
-		private WebElement house;
-		private WebElement flat;
-		private WebElement submitButton;
-		private WebElement resetFormButton;
-		private WebElement cancelButton;
-
+		private class OrganizationFormUIMap{
+			private ITextField organizationName;
+			private ITextField organizationTypeChoose;
+			private ITextField phoneNumber;
+			private ITextField email;
+			private ITextField maxSizeEpmloyers;
+			private ITextField maxTimeForFinishRequestInDays;
+			
+			private ILabelClickable selectRegionList;
+			private ITextField searchRegionList;
+			private ILabelClickable selectDistrictList;
+			private ITextField searchDistrictlist;
+			private ILabelClickable selectCityList;
+			private ITextField searchCityList;
+			private ITextField street;
+			private ITextField house;
+			private ITextField flat;
+			private IButton submitButton;
+			private IButton resetFormButton;
+			private IButton cancelButton;
+			
+			public OrganizationFormUIMap(){
+				
+			}
+			public void initOrganizationWebElements(){
+				this.organizationName = TextField.get().getByName("name");
+				this.organizationTypeChoose = TextField.get().getByClassName("default");
+				this.phoneNumber = TextField.get().getById("phoneNumber");
+				this.email = TextField.get().getById("email");
+				this.maxSizeEpmloyers = TextField.get().getById("capacity");
+				this.maxTimeForFinishRequestInDays = TextField.get().getById("processTime");
+				this.selectRegionList = LabelClickable.get()
+						.getByXpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[1]/div[2]/div/a/span");
+			
+				this.searchRegionList = TextField.get()
+						.getByXpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[1]/div[2]/div/div/div/input");
+			    
+				this.selectDistrictList = LabelClickable.get()
+						.getByXpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[2]/div[2]/div/a/span");
+			
+				this.searchDistrictlist = TextField.get()
+						.getByXpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[2]/div[2]/div/div/div/input");
+				this.selectCityList = LabelClickable.get()
+						.getByXpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[3]/div[2]/div/a/span");
+				this.searchCityList = TextField.get()
+						.getByXpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[3]/div[2]/div/div/div/input");
+				this.street = TextField.get().getByName("street");
+				this.house = TextField.get().getByName("building");
+				this.flat = TextField.get().getByName("flat");
+				this.submitButton = Button.get()
+						.getByXpath("html/body/div[3]/div/div/div[2]/form/div[4]/div[1]/button");
+				this.cancelButton = Button.get()
+						.getByXpath("html/body/div[3]/div/div/div[2]/form/div[4]/div[2]/button");
+				this.resetFormButton = Button.get()
+						.getByXpath("html/body/div[3]/div/div/div[2]/form/div[4]/div[1]/a");
+			}
+		}
+		
 		public OrganizationForm() {
-			initOrganizationWebElements();
+			
 		}
 
-		public void initOrganizationWebElements() {
-			this.organizationName = driver.findElement(By.name("name"));
-			this.organizationTypeChoose = driver.findElement(By.className("default"));
-			this.phoneNumber = driver.findElement(By.id("phoneNumber"));
-			this.email = driver.findElement(By.id("email"));
-			this.maxSizeEpmloyers = driver.findElement(By.id("capacity"));
-			this.maxTimeForFinishRequestInDays = driver.findElement(By.id("processTime"));
-
-			this.selectRegionList = driver.findElement(By
-					.xpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[1]/div[2]/div/a/span"));
-			this.searchRegionList = driver.findElement(By.xpath(
-					"html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[1]/div[2]/div/div/div/input"));
-			this.selectDistrictList = driver.findElement(By
-					.xpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[2]/div[2]/div/a/span"));
-			this.searchDistrictlist = driver.findElement(By.xpath(
-					"html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[2]/div[2]/div/div/div/input"));
-			this.selectCityList = driver.findElement(By
-					.xpath("html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[3]/div[2]/div/a/span"));
-			this.searchCityList = driver.findElement(By.xpath(
-					"html/body/div[3]/div/div/div[2]/form/div[3]/div/div/div[2]/div/div[3]/div[2]/div/div/div/input"));
-			this.street = driver.findElement(By.name("street"));
-			this.house = driver.findElement(By.name("building"));
-			this.flat = driver.findElement(By.name("flat"));
-			this.submitButton = driver
-					.findElement(By.xpath("html/body/div[3]/div/div/div[2]/form/div[4]/div[1]/button"));
-			this.cancelButton = driver
-					.findElement(By.xpath("html/body/div[3]/div/div/div[2]/form/div[4]/div[2]/button"));
-			this.resetFormButton = driver.findElement(By.xpath("html/body/div[3]/div/div/div[2]/form/div[4]/div[1]/a"));
-
-		}
+		
         
 		public void setOrganizationName(String organizationName) {
 			this.organizationName.click();
@@ -362,7 +373,7 @@ public class OrganizationPage {
 	private WebDriver driver;
 	private WebElement addOrganizationButton;
 
-	public OrganizationPage(WebDriver driver) {
+	public OrganizationPage() {
 		this.driver = driver;
 		initOrganizationPageElements();
 	}
