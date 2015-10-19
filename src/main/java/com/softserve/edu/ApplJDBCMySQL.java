@@ -29,7 +29,9 @@ public class ApplJDBCMySQL {
         System.out.println("Start...");
         //DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
         //////DriverManager.registerDriver(new net.sourceforge.jtds.jdbc.Driver());
-        Class.forName("com.mysql.jdbc.Driver");
+        //
+        DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+        //Class.forName("com.mysql.jdbc.Driver");
         // Load the driver
         con = DriverManager.getConnection(URL, username, password);
         if (con != null)
@@ -41,7 +43,7 @@ public class ApplJDBCMySQL {
         //ResultSet rs = st.executeQuery("select * from Users");
         //ResultSet rs = st.executeQuery("SELECT ID, Login, Password, FirstName, LastName, Email, RegionRef, RoleRef FROM dbo.Users WHERE Login = 'aaai';");
         ////ResultSet rs = st.executeQuery("SELECT * FROM dbo.Users;");
-        st.execute("INSERT INTO user (username,isAvaliable,password,organization_organizationId) VALUES ('provider-lv1',1,'$2a$10$59Mv7tEUrVH8iBeDsm9y7.zUcJoPHnnyOvMnC4zKRV8.wlnugQ2G2',43);");
+        st.execute("INSERT INTO user (username,isAvaliable,password,organization_organizationId) VALUES ('provider-lv2',1,'$2a$10$59Mv7tEUrVH8iBeDsm9y7.zUcJoPHnnyOvMnC4zKRV8.wlnugQ2G2',43);");
         ResultSet rs = st.executeQuery("SELECT * FROM user;");
         // ResultSet gets the result table
         int x = rs.getMetaData().getColumnCount();

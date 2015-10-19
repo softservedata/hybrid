@@ -26,10 +26,13 @@ public class ApplJDBC {
     private static String URL = "jdbc:jtds:sqlserver://CLASS02/Lv-157_OMS;instance=SQLEXPRESS;";
     ////private static String URL = "jdbc:mysql://localhost:3306/measurement_devices";
     
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         System.out.println("Start...");
         //DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
-        DriverManager.registerDriver(new net.sourceforge.jtds.jdbc.Driver());
+        //DriverManager.registerDriver(new net.sourceforge.jtds.jdbc.Driver());
+        //
+        ////DriverManager.registerDriver(new net.sourceforge.jtds.jdbc.Driver());
+        Class.forName("net.sourceforge.jtds.jdbc.Driver");
         // Load the driver
         con = DriverManager.getConnection(URL, username, password);
         if (con != null)
