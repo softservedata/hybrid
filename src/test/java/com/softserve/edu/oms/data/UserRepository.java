@@ -60,6 +60,18 @@ public final class UserRepository {
                 .build();
     }
 
+    public static IUser getNewUser() {
+        return User.get()
+                .setLogin("aaaad")
+                .setFirstname("aaaad")
+                .setLastname("aaaad")
+                .setPassword("aaaad")
+                .setEmail("aaaad@gmail.com")
+                .setRegion("East")
+                .setRole("Customer")
+                .build();
+    }
+
     public static IUser getInvalidUser() {
 //        return new User("abcd", "abcd", "abcd", "abcd",
 //                "abcd@gmail.com", "West", "Administrator");

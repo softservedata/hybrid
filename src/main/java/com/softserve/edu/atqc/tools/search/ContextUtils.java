@@ -83,6 +83,10 @@ public final class ContextUtils {
 	    return context.isInvisibleWebElement(byWrapper);
 	}
 
+	public boolean isInvisibleWebElementById(String id) {
+	    return isInvisibleWebElement(ByWrapper.getById(id));
+	}
+
 	/**
 	 * Wait until an element is no longer attached to the DOM.
 	 * Do not mix implicit and explicit waits.

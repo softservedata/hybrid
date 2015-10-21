@@ -65,6 +65,12 @@ public class LoginPage {
         buttonSubmitClick();
     }
 
+    public HomePage successLogin(IUser user) {
+        setLoginData(user);
+        // Return a new page object representing the destination.
+        return new HomePage();
+    }
+
     public AdminHomePage successAdminLogin(IUser adminUser) {
         setLoginData(adminUser);
         // Return a new page object representing the destination.
