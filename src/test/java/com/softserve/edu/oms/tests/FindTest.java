@@ -7,7 +7,9 @@ import org.testng.annotations.Test;
 import com.softserve.edu.atqc.tools.browsers.ABrowser;
 import com.softserve.edu.atqc.tools.browsers.BrowserRepository;
 import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.atqc.tools.data.ConnectionUtils;
 import com.softserve.edu.atqc.tools.verifications.AssertWrapper;
+import com.softserve.edu.oms.data.DataSourceRepository;
 import com.softserve.edu.oms.data.IUser;
 import com.softserve.edu.oms.data.UrlRepository.Urls;
 import com.softserve.edu.oms.data.UserRepository;
@@ -17,6 +19,7 @@ import com.softserve.edu.oms.pages.AdministrationPage.AdministrationPageFields;
 import com.softserve.edu.oms.pages.CreateNewUserPage;
 import com.softserve.edu.oms.pages.HomePage;
 import com.softserve.edu.oms.pages.StartLoginPage;
+import com.softserve.edu.oms.service.UserService;
 
 public final class FindTest {
 
@@ -82,10 +85,11 @@ public final class FindTest {
                 .successLogin(newUser);
         // Save Actual Result. Preparation for Checking
         AssertWrapper.get()
-                .forElement(homePage.getFirstname().getText())
+                .forElement(homePage.getFirstname())
                     .valueMatch(newUser.getFirstname())
+                    .valueStartsWith(newUser.getFirstname().substring(0,1))
                     .next()
-                .forElement(homePage.getLastname().getText())
+                .forElement(homePage.getLastname())
                     .valueMatch(newUser.getLastname())
                     .next()
                 .forElement(homePage.getRole().getText())
@@ -96,6 +100,8 @@ public final class FindTest {
                 .gotoAdministrationPage();
         // Return to Previous State
         administrationPage.deleteByLoginName(newUser);
+        UserService.get(DataSourceRepository.getJtdsMsSqlLocal())
+            .deleteUsersByPartialLogin(newUser.getLogin());
         // Save Actual Result. Preparation for Checking
 //        AssertWrapper.get()
 //                .forElement(administrationPage.getAlert())
@@ -110,6 +116,7 @@ public final class FindTest {
     @AfterClass
     public void tearDown() {
         WebDriverUtils.quitAll();
+        ConnectionUtils.closeConnection();
     }
 
 }

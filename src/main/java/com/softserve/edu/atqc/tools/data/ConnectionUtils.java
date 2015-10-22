@@ -56,12 +56,14 @@ public class ConnectionUtils {
         return connection;
     }
 
-    public void closeConnection() {
-        if (getConnection() != null) {
-            try {
-                getConnection().close();
-            } catch (SQLException e) {
-                throw new GeneralCustomException(FAILED_REGISTRATE_DRIVER, e);
+    public static void closeConnection() {
+        if (instance != null) {
+            if (instance.getConnection() != null) {
+                try {
+                    instance.getConnection().close();
+                } catch (SQLException e) {
+                    throw new GeneralCustomException(FAILED_REGISTRATE_DRIVER, e);
+                }
             }
         }
     }
