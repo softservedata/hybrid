@@ -104,8 +104,8 @@ public final class WebElementWrapper {
         clear();
         getWebElement().sendKeys(text);
     }
-    public void sendKeysControl(Keys keys){
-    	getWebElement().sendKeys(keys);
+    public void sendKeysEnter(){
+    	getWebElement().sendKeys(Keys.ENTER);
     }
 
     public void setFocus() {

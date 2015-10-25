@@ -18,7 +18,16 @@ interface IMaxSizeEpmloyers{
 	IMaxTimeForFinishRequestInDays setMaxSizeEpmloyers(String maxSizeEpmloyer);
 }
 interface  IMaxTimeForFinishRequestInDays{
-	ILoginForSystemAdmin setMaxTimeForFinishRequestInDays(String maxTime);
+	IAdminFirstName setMaxTimeForFinishRequestInDays(String maxTime);
+}
+interface IAdminFirstName {
+	IAdminLastName setAdminFirstName(String firstname);
+}
+interface IAdminLastName{
+	IAdminSureName setAdminLastName(String lastname);
+}
+interface IAdminSureName{
+	ILoginForSystemAdmin setAdminSureName(String surename);
 }
 interface ILoginForSystemAdmin{
 	IPasswordForSystemAdmin setLoginForSystemAdmin(String login);
@@ -59,7 +68,7 @@ public class Organization implements IOrganizationName,IOrganizationTypeChoose,I
                                          IEmail,IMaxSizeEpmloyers,IMaxTimeForFinishRequestInDays,
                                          ILoginForSystemAdmin,IPasswordForSystemAdmin,
                                          IConfirmPasswordForSystemAdmin,ISelectRegionFromList,ISelectDistrictFromList,
-                                         ISelectCityFromList,IStreet,IHouse,IFlat,IBuildOrganization, IOrganization {
+                                         ISelectCityFromList,IStreet,IHouse,IFlat,IBuildOrganization, IOrganization,IAdminFirstName,IAdminLastName,IAdminSureName {
 	
 	String organizationName;
 	String organizationTypeChoose;
@@ -67,6 +76,9 @@ public class Organization implements IOrganizationName,IOrganizationTypeChoose,I
 	String email;
 	String maxSizeEpmloyers;
 	String maxTimeForFinishRequestInDays;
+	String adminFirstName;
+	String adminLastName;
+	String adminSureName;
 	String loginForSystemAdmin;
 	String passwordForSystemAdmin;
 	String confirmPasswordForSystemAdmin;
@@ -107,9 +119,22 @@ public class Organization implements IOrganizationName,IOrganizationTypeChoose,I
     	this.maxSizeEpmloyers = maxSizeEpmloyer;
     	return this;
     }
-    
-    public ILoginForSystemAdmin setMaxTimeForFinishRequestInDays(String maxTime){
+    public IAdminFirstName setMaxTimeForFinishRequestInDays(String maxTime){
     	this.maxTimeForFinishRequestInDays = maxTime;
+    	return this;
+    }
+    
+    public IAdminLastName setAdminFirstName(String firstname){
+    	this.adminFirstName = firstname;
+    	return this;
+    }
+    public IAdminSureName setAdminLastName(String lastname){
+    	this.adminLastName = lastname;
+    	return this;
+    }
+    
+    public ILoginForSystemAdmin setAdminSureName(String surename){
+    	this.adminSureName = surename;
     	return this;
     }
     public IPasswordForSystemAdmin setLoginForSystemAdmin(String login){
@@ -183,6 +208,15 @@ public class Organization implements IOrganizationName,IOrganizationTypeChoose,I
 		return maxTimeForFinishRequestInDays;
 	}
 	
+	public String getAdminFirstName(){
+		return adminFirstName;
+	}
+	public String getAdminLastName(){
+		return adminLastName;
+	}
+	public String getAdminSureName(){
+		return adminSureName;
+	}
 	public String getLoginForSystemAdmin() {
 		
 		return loginForSystemAdmin;

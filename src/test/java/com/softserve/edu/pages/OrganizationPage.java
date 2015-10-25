@@ -14,6 +14,7 @@ import com.softserve.edu.atqc.tools.controls.ILabelClickable;
 import com.softserve.edu.atqc.tools.controls.ITextField;
 import com.softserve.edu.atqc.tools.controls.LabelClickable;
 import com.softserve.edu.atqc.tools.controls.TextField;
+import com.softserve.edu.atqc.tools.search.KeysWrapper;
 import com.softserve.edu.testData.IOrganization;
 
 public class OrganizationPage {
@@ -41,7 +42,7 @@ public class OrganizationPage {
 			private IButton cancelButton;
 			
 			public OrganizationFormUIMap(){
-				
+				initOrganizationWebElements();
 			}
 			public void initOrganizationWebElements(){
 				this.organizationName = TextField.get().getByName("name");
@@ -91,204 +92,226 @@ public class OrganizationPage {
 		public void setOrganizationTypeChoose(String organizationType) {
 			
 			this.controlsForm.organizationTypeChoose.sendKeysClear(organizationType);
-			this.controlsForm.organizationTypeChoose.sendKeysControl(Keys.ENTER);
+			this.controlsForm.organizationTypeChoose.sendKeysEnter();
 		}
 
 		public void setPhoneNumber(String phoneNumber) {
-			this.phoneNumber.click();
-			this.phoneNumber.clear();
-			this.phoneNumber.sendKeys(phoneNumber);
+			
+			this.controlsForm.phoneNumber.sendKeysClear(phoneNumber);
 		}
 
 		public void setEmail(String email) {
-			this.email.click();
-			this.email.clear();
-			this.email.sendKeys(email);
+			
+			
+			this.controlsForm.email.sendKeysClear(email);
 			
 			
 		}
 
 		public void setMaxSizeEpmloyers(String maxSizeEpmloyers) {
-			this.maxSizeEpmloyers.clear();
-			this.maxSizeEpmloyers.click();
-			this.maxSizeEpmloyers.sendKeys(maxSizeEpmloyers);
+			
+			
+			this.controlsForm.maxSizeEpmloyers.sendKeysClear(maxSizeEpmloyers);
 		}
 
 		public void setMaxTimeForFinishRequestInDays(String maxTimeForFinishRequestInDays) {
-			this.maxTimeForFinishRequestInDays.clear();
-			this.maxTimeForFinishRequestInDays.click();
-			this.maxTimeForFinishRequestInDays.sendKeys(maxTimeForFinishRequestInDays);
+			
+			this.controlsForm.maxTimeForFinishRequestInDays.sendKeysClear(maxTimeForFinishRequestInDays);
 		}
 
 		public void selectRegionFromList(String region) {
-			this.selectRegionList.click();
-			this.searchRegionList.click();
-			this.searchRegionList.sendKeys(region);
-			this.searchRegionList.sendKeys(Keys.ENTER);
+			this.controlsForm.selectRegionList.click();
+			this.controlsForm.searchRegionList.click();
+			this.controlsForm.searchRegionList.sendKeys(region);
+			this.controlsForm.searchRegionList.sendKeysEnter();
 			
 		}
 
 		public void selectDistrictFromList(String district) throws InterruptedException {
 			
-			this.selectDistrictList.click();
-			this.searchDistrictlist.click();
-			this.searchDistrictlist.sendKeys(district);
-			this.searchDistrictlist.sendKeys(Keys.ENTER);
+			this.controlsForm.selectDistrictList.click();
+			this.controlsForm.searchDistrictlist.click();
+			this.controlsForm.searchDistrictlist.sendKeys(district);
+			this.controlsForm.searchDistrictlist.sendKeysEnter();
 		}
 
 		public void selectCityFromList(String city) {
-			this.selectCityList.click();
-			this.searchCityList.click();
-			this.searchCityList.sendKeys(city);
-			this.searchCityList.sendKeys(Keys.ENTER);
+			this.controlsForm.selectCityList.click();
+			this.controlsForm.searchCityList.click();
+			this.controlsForm.searchCityList.sendKeys(city);
+			this.controlsForm.searchCityList.sendKeysEnter();
 		}
 
 		public void setStreetInForm(String street) {
-			this.street.clear();
-			this.street.click();
-			this.street.sendKeys(street);
+			
+			this.controlsForm.street.sendKeysClear(street);
 		}
 
 		public void setHouseInForm(String house) {
-			this.house.clear();
-			this.house.click();
-			this.house.sendKeys(house);
+			
+			this.controlsForm.house.sendKeysClear(house);
 		}
 
 		public void setFlatInForm(String flat) {
-			this.flat.clear();
-			this.flat.click();
-			this.flat.sendKeys(flat);
+			
+			this.controlsForm.flat.sendKeys(flat);
 		}
 
 		public void submitButtonClick() {
-			this.submitButton.click();
+			this.controlsForm.submitButton.click();
 		}
 
 		public void resetButtonClick() {
-			this.resetFormButton.click();
+			this.controlsForm.resetFormButton.click();
 		}
 
 		public void cancelButtonClick() {
-			this.cancelButton.click();
+			this.controlsForm.cancelButton.click();
 		}
 
-		public WebElement getOrganizationName() {
-			return this.organizationName;
+		public ITextField getOrganizationName() {
+			return this.controlsForm.organizationName;
 		}
 
-		public WebElement getOrganizationTypeChoose() {
-			return this.organizationTypeChoose;
+		public ITextField getOrganizationTypeChoose() {
+			return this.controlsForm.organizationTypeChoose;
 		}
 
-		public WebElement getPhoneNumber() {
-			return this.phoneNumber;
+		public ITextField getPhoneNumber() {
+			return this.controlsForm.phoneNumber;
 		}
 
-		public WebElement getEmail() {
-			return this.email;
+		public ITextField getEmail() {
+			return this.controlsForm.email;
 		}
 
-		public WebElement getMaxSizeEpmloyers() {
-			return this.maxSizeEpmloyers;
+		public ITextField getMaxSizeEpmloyers() {
+			return this.controlsForm.maxSizeEpmloyers;
 		}
 
-		public WebElement getMaxTimeForFinishRequestInDays() {
-			return this.maxTimeForFinishRequestInDays;
+		public ITextField getMaxTimeForFinishRequestInDays() {
+			return this.controlsForm.maxTimeForFinishRequestInDays;
 		}
 
-		public WebElement getSelectRegionList() {
-			return this.selectRegionList;
+		public ILabelClickable getSelectRegionList() {
+			return this.controlsForm.selectRegionList;
 		}
 
-		public WebElement getSearchRegionList() {
-			return this.searchRegionList;
+		public ITextField getSearchRegionList() {
+			return this.controlsForm.searchRegionList;
 		}
 
-		public WebElement getSelectDistrictList() {
-			return this.selectDistrictList;
+		public ILabelClickable getSelectDistrictList() {
+			return this.controlsForm.selectDistrictList;
 		}
 
-		public WebElement getSearchDistrictlist() {
-			return this.searchDistrictlist;
+		public ITextField getSearchDistrictlist() {
+			return this.controlsForm.searchDistrictlist;
 		}
-		public WebElement getSelectCityList() {
-			return this.selectCityList;
+		public ILabelClickable getSelectCityList() {
+			return this.controlsForm.selectCityList;
 		}
-		public WebElement getStreet() {
-			return this.street;
-		}
-
-		public WebElement getHouse() {
-			return this.house;
+		public ITextField getStreet() {
+			return this.controlsForm.street;
 		}
 
-		public WebElement getFlat() {
-			return this.flat;
+		public ITextField getHouse() {
+			return this.controlsForm.house;
 		}
 
-		public WebElement getSubmitButton() {
-			return this.submitButton;
+		public ITextField getFlat() {
+			return this.controlsForm.flat;
 		}
 
-		public WebElement getResetFormButton() {
-			return this.resetFormButton;
+		public IButton getSubmitButton() {
+			return this.controlsForm.submitButton;
 		}
 
-		public WebElement getCancelButton() {
-			return this.cancelButton;
+		public IButton getResetFormButton() {
+			return this.controlsForm.resetFormButton;
+		}
+
+		public IButton getCancelButton() {
+			return this.controlsForm.cancelButton;
 		}
 
 	}
 
 	public  class AddNewOrganizationForm extends OrganizationForm {
-		private WebElement loginForSystemAdmin;
-		private WebElement passwordForSystemAdmin;
-		private WebElement confirmPasswordForSystemAdmin;
-
+		private class AddNewOrganizationFormUIMap{
+			private ITextField adminName;
+			private ITextField adminLastName;
+			private ITextField adminSureName;
+			private ITextField loginForSystemAdmin;
+			private ITextField passwordForSystemAdmin;
+			private ITextField confirmPasswordForSystemAdmin;
+			
+			public AddNewOrganizationFormUIMap(){
+				this.adminName = TextField.get().getById("firstName");
+				this.adminLastName = TextField.get().getByName("lastName");	
+				this.adminSureName = TextField.get().getById("middleName");
+				this.loginForSystemAdmin = TextField.get().getById("username");
+				this.passwordForSystemAdmin = TextField.get().getByName("password");
+				this.confirmPasswordForSystemAdmin = TextField.get().getByName("rePassword");
+			}
+		}
+		
+        AddNewOrganizationFormUIMap controlsFormAdd;
 		public  AddNewOrganizationForm() {
-
-			initWebElements();
+                this.controlsFormAdd = new AddNewOrganizationFormUIMap();
+			
 		}
 
-		public void initWebElements() {
-			this.loginForSystemAdmin = driver.findElement(By.id("username"));
-			this.passwordForSystemAdmin = driver.findElement(By.name("password"));
-			this.confirmPasswordForSystemAdmin = driver.findElement(By.name("rePassword"));
+		public void setAdminFirstName(String firstname){
+			this.controlsFormAdd.adminName.sendKeysClear(firstname);
 		}
 
+		public void setAdminLastName(String lastname){
+			this.controlsFormAdd.adminLastName.sendKeysClear(lastname);
+		}
+		public void setAdminSureName(String surename){
+			this.controlsFormAdd.adminSureName.sendKeysClear(surename);
+		}
+		
 		public void setLoginForSystemAdmin(String loginForSystemAdmin) {
-			this.loginForSystemAdmin.click();
-			this.loginForSystemAdmin.clear();
-			this.loginForSystemAdmin.sendKeys(loginForSystemAdmin);
+			this.controlsFormAdd.loginForSystemAdmin.sendKeysClear(loginForSystemAdmin);
 		}
 
 		public void setPasswordForSystemAdmin(String passwordForSystemAdmin) {
-			this.passwordForSystemAdmin.clear();
-			this.passwordForSystemAdmin.click();
-			this.passwordForSystemAdmin.sendKeys(passwordForSystemAdmin);
+			
+			this.controlsFormAdd.passwordForSystemAdmin.sendKeysClear(passwordForSystemAdmin);
 		}
 
 		public void setConfirmPasswordForSystemAdmin(String confirmPasswordForSystemAdmin) {
-			this.confirmPasswordForSystemAdmin.clear();
-			this.confirmPasswordForSystemAdmin.click();
-			this.confirmPasswordForSystemAdmin.sendKeys(confirmPasswordForSystemAdmin);
+			
+			this.controlsFormAdd.confirmPasswordForSystemAdmin.sendKeysClear(confirmPasswordForSystemAdmin);
 		}
 
-		public WebElement getLoginForSystemAdmin() {
-			return this.loginForSystemAdmin;
+		
+		
+		public ITextField getAdminFirstName(){
+			return this.controlsFormAdd.adminName;
+		}
+		public ITextField getAdminLastName(){
+			return this.controlsFormAdd.adminLastName;
+		}
+		public ITextField getAdminSureName(){
+			return this.controlsFormAdd.adminSureName;
+		}
+		public ITextField getLoginForSystemAdmin() {
+			return this.controlsFormAdd.loginForSystemAdmin;
 		}
 
-		public WebElement getPasswordForSystemAdmin() {
-			return this.passwordForSystemAdmin;
+		public ITextField getPasswordForSystemAdmin() {
+			return this.controlsFormAdd.passwordForSystemAdmin;
 		}
 
-		public WebElement getConfirmPasswordForSystemAdmin() {
-			return this.confirmPasswordForSystemAdmin;
+		public ITextField getConfirmPasswordForSystemAdmin() {
+			return this.controlsFormAdd.confirmPasswordForSystemAdmin;
 		}
 
 		private void setOrganizationData(IOrganization organization) throws InterruptedException {
-			WebDriverWait wait = new WebDriverWait(driver, 10);
+			
 			setOrganizationName(organization.getOrganizationName());
 			setOrganizationTypeChoose(organization.getOrganizationTypeChoose());
 			setPhoneNumber(organization.getPhoneNumber());
@@ -296,15 +319,16 @@ public class OrganizationPage {
 			setEmail(organization.getEmail());
 			setMaxSizeEpmloyers(organization.getMaxSizeEpmloyers());
 			setMaxTimeForFinishRequestInDays(organization.getMaxTimeForFinishRequestInDays());
+			setAdminFirstName(organization.getAdminFirstName());
+			setAdminLastName(organization.getAdminLastName());
+			setAdminSureName(organization.getAdminSureName());
 			setLoginForSystemAdmin(organization.getLoginForSystemAdmin());
 			setPasswordForSystemAdmin(organization.getPasswordForSystemAdmin());
 			setConfirmPasswordForSystemAdmin(organization.getConfirmPasswordForSystemAdmin());
 			selectRegionFromList(organization.getSearchRegionList());
-			Thread.sleep(2000);
-			//wait.until(ExpectedConditions.elementToBeClickable(getSelectDistrictList()));
+			
 			selectDistrictFromList(organization.getSearchDistrictlist());
-			Thread.sleep(2000);
-			//wait.until(ExpectedConditions.elementToBeClickable(getSelectCityList()));
+			
 			selectCityFromList(organization.getSearchCityList());
 			setStreetInForm(organization.getStreet());
 			setHouseInForm(organization.getHouse());
@@ -316,7 +340,7 @@ public class OrganizationPage {
 			//AddNewOrganizationForm newOrganization = new AddNewOrganizationForm();
 			//newOrganization.setOrganizationData(newOrg);
 			setOrganizationData(newOrg);
-			return new OrganizationPage(driver);
+			return new OrganizationPage();
 		}
 
 	}
@@ -328,16 +352,16 @@ public class OrganizationPage {
 		private WebElement pagButton;
 
 		OrganizationTable() {
-			initTableElements();
+			
 		}
 
-		public void initTableElements() {
-			this.nameRows = driver.findElements(By.xpath(".//*[@id='organizationsTable']/tbody/tr/td[2]"));
-			this.paginationsButtons = driver
-					.findElements(By.xpath(".//*[@id='page-wrapper']/div[3]/div/div/div[2]/div[3]/div/ul/li/a"));
-			this.pagButton = driver
-					.findElement(By.xpath(".//*[@id='page-wrapper']/div[3]/div/div/div[2]/div[3]/div/ul/li[5]/a"));
-		}
+//		public void initTableElements() {
+//			this.nameRows = driver.findElements(By.xpath(".//*[@id='organizationsTable']/tbody/tr/td[2]"));
+//			this.paginationsButtons = driver
+//					.findElements(By.xpath(".//*[@id='page-wrapper']/div[3]/div/div/div[2]/div[3]/div/ul/li/a"));
+//			this.pagButton = driver
+//					.findElement(By.xpath(".//*[@id='page-wrapper']/div[3]/div/div/div[2]/div[3]/div/ul/li[5]/a"));
+//		}
 
 		// TODO pagination
 //		public void pagNextButtonClick() {
@@ -367,21 +391,25 @@ public class OrganizationPage {
 //		}
 		// -------------------------------------------------------------------
 	}
-
-	private WebDriver driver;
-	private WebElement addOrganizationButton;
-
+    
+	private class OrganizationPageUIMap{
+		
+		private IButton addOrganizationButton;
+		public OrganizationPageUIMap(){
+			this.addOrganizationButton = Button.get().getByXpath(".//*[@id='page-wrapper']/div[2]/div/button");
+		}
+	}
+	
+    OrganizationPageUIMap organizationPageControls; 
 	public OrganizationPage() {
-		this.driver = driver;
-		initOrganizationPageElements();
+		this.organizationPageControls = new OrganizationPageUIMap();
+	
 	}
 
-	public void initOrganizationPageElements() {
-		this.addOrganizationButton = driver.findElement(By.xpath(".//*[@id='page-wrapper']/div[2]/div/button"));
-	}
+	
 
 	public void addOrganizationButtonClick() {
-		this.addOrganizationButton.click();
+		this.organizationPageControls.addOrganizationButton.click();
 	}
 
 	public AddNewOrganizationForm addNewOrganizationClick() {

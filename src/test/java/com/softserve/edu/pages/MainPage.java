@@ -2,6 +2,7 @@ package com.softserve.edu.pages;
 
 import com.softserve.edu.atqc.tools.controls.ILink;
 import com.softserve.edu.atqc.tools.controls.Link;
+import com.softserve.edu.atqc.tools.search.ContextUtils;
 
 public class MainPage {
 
@@ -23,10 +24,12 @@ public class MainPage {
 	}
 
 	public void logInButtonClick() {
+		
 		this.controls.logIn.click();
 	}
 
-	public LoginPage gotoLoginPage() {
+	public LoginPage gotoLoginPage() throws Exception {
+		//Thread.sleep(3);
 		logInButtonClick();
 		return new LoginPage();
 	}

@@ -2,6 +2,8 @@ package com.softserve.edu.atqc.tools.controls;
 
 import org.openqa.selenium.Keys;
 
+import com.softserve.edu.atqc.tools.search.KeysWrapper;
+
 abstract class GTextField<TComponent> extends GLabelClickable<TComponent>implements ITextField {
 
     // implements constructor
@@ -22,7 +24,7 @@ abstract class GTextField<TComponent> extends GLabelClickable<TComponent>impleme
         getWebElementWrapper().sendKeysClear(text);
     }
     
-    public void sendKeysControl(Keys keys){
-    	getWebElementWrapper().sendKeysControl(keys);
+    public void sendKeysEnter(){
+    	getWebElementWrapper().sendKeysEnter();
     }
 }

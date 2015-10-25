@@ -11,8 +11,10 @@ import com.softserve.edu.atqc.tools.controls.ILabelClickable;
 import com.softserve.edu.atqc.tools.controls.ILink;
 import com.softserve.edu.atqc.tools.controls.Label;
 import com.softserve.edu.atqc.tools.controls.Link;
+import com.softserve.edu.atqc.tools.search.ByWrapper;
+import com.softserve.edu.atqc.tools.search.ImplicitWrapper;
 
-public class AdminHomePage {
+public class AdminHomePage  {
 	private class AdminHomePageUIMap {
 		private ILabel pageHeader;
 		private IComponent leftSideBar;
@@ -24,9 +26,12 @@ public class AdminHomePage {
 			this.pageHeader = Label.get().getByXpath(".//*[@id='page-wrapper']/div[1]/div/h1");
 			this.leftSideBar = Component.get().getById("side-menu");
 			this.organizationTabLink = Link.get().getByXpath(".//*[@id='side-menu']/li[2]/a");
+			
+			
+			this.logoutDropDown = Link.get().getByXpath(".//*[@id='adminModule']/nav/ul/li");
 			this.logoutLink = Link.get().getByXpath(".//*[@id='adminModule']/nav/ul/li/ul/li[2]/div[3]/a");
-			this.logoutDropDown = Link.get().getByXpath(".//*[@id='adminModule']/nav/ul/li/a/i[1]");
 		}
+		
 	}
     AdminHomePageUIMap controls;
 	public AdminHomePage() {
@@ -50,9 +55,12 @@ public class AdminHomePage {
 		return getPageHeader().getText();
 	}
 
-	public void logOut() {
+	public MainPage logOut()  {
+		
 		controls.logoutDropDown.click();
+		
 		controls.logoutLink.click();
+		return new MainPage();
 	}
 
 	public OrganizationPage gotoOrganizationPage() {

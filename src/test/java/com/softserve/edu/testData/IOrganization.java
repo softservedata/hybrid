@@ -7,6 +7,9 @@ public interface IOrganization {
        String getEmail();
        String getMaxSizeEpmloyers();
        String getMaxTimeForFinishRequestInDays();
+       String getAdminFirstName();
+       String getAdminLastName();
+       String getAdminSureName();
        String getLoginForSystemAdmin();
        String getPasswordForSystemAdmin();
        String getConfirmPasswordForSystemAdmin();

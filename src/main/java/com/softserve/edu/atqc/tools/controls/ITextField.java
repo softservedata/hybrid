@@ -2,6 +2,8 @@ package com.softserve.edu.atqc.tools.controls;
 
 import org.openqa.selenium.Keys;
 
+import com.softserve.edu.atqc.tools.search.KeysWrapper;
+
 public interface ITextField extends ILabelClickable {
 
     void clear();
@@ -10,6 +12,6 @@ public interface ITextField extends ILabelClickable {
     
     void sendKeysClear(String text);
     
-    void sendKeysControl(Keys keys);
+    void sendKeysEnter();
 
 }

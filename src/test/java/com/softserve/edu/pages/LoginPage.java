@@ -9,6 +9,7 @@ import com.softserve.edu.atqc.tools.controls.Button;
 import com.softserve.edu.atqc.tools.controls.IButton;
 import com.softserve.edu.atqc.tools.controls.ITextField;
 import com.softserve.edu.atqc.tools.controls.TextField;
+import com.softserve.edu.atqc.tools.search.ImplicitWrapper;
 import com.softserve.edu.testData.IUsers;
 import com.softserve.edu.testData.User;
 
@@ -62,6 +63,7 @@ public class LoginPage {
 
 	public AdminHomePage successAdminLogin(IUsers adminUser) {
 		setLoginData(adminUser);
+		
 		// Return a new page object representing the destination.
 		return new AdminHomePage();
 	}
