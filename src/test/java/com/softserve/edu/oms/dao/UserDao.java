@@ -12,7 +12,8 @@ import com.softserve.edu.atqc.tools.exceptions.GeneralCustomException;
 import com.softserve.edu.oms.entity.UserDB;
 import com.softserve.edu.oms.entity.UserDB.UserDBQueries;
 
-public final class UserDao {
+//public final class UserDao {
+public class UserDao {
     private final static String DATABASE_READING_ERROR = "Database Reading Error";
     private static volatile UserDao instance = null;
     private DataSource dataSource;
