@@ -1,29 +1,35 @@
 package com.softserve.edu.pages;
 
+
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.Keys;
 
 import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
 import com.softserve.edu.atqc.tools.controls.Button;
 import com.softserve.edu.atqc.tools.controls.IButton;
 import com.softserve.edu.atqc.tools.controls.ITextField;
 import com.softserve.edu.atqc.tools.controls.TextField;
-import com.softserve.edu.atqc.tools.search.ImplicitWrapper;
+
 import com.softserve.edu.testData.IUsers;
-import com.softserve.edu.testData.User;
+
 
 public class LoginPage {
 
 	private class LoginPageUIMap {
-		private ITextField login;
-		private ITextField password;
-		private IButton submitLoginButton;
+		public final ITextField login;
+		public final ITextField password;
+		public final IButton submitLoginButton;
     public LoginPageUIMap(){
-    	this.login = TextField.get().getByXpath(".//*[@id='loginTable']/tbody/tr[1]/td[2]/input"); 
+    	this.login = TextField.get().getByXpath("//input[@ng-model='loginForm.username']"); 
     	this.password = TextField.get().getById("inputPassword");
     	this.submitLoginButton = Button.get().getByClassName("btn");
-      }
+    //System.out.println("*********Hello");
+    	//login.sendKeys("Hello");
+    	
+    	TextField.get().getByXpath("//input[@ng-model='loginForm.username']").sendKeys(Keys.ARROW_LEFT.toString());
+//    	TextField.get().getById("inputPassword").sendKeys("********");
+    }
 	}
     LoginPageUIMap controls;
 	public LoginPage() {
@@ -31,16 +37,28 @@ public class LoginPage {
 	}
 
 	public void setUsername(String login) {
-		this.controls.login.sendKeysClear(login);
+		System.out.println("+++++++++++++++Send keys " +login);
+		getUsername().clear();
+		
+		//this.controls.login.sendKeys(login);
+//		WebDriverUtils.get().getWebDriver().findElement(By.xpath(".//*[@id='loginTable']/tbody/tr[1]/td[2]/input")).sendKeys(login);
+        TextField.get().getByXpath(".//*[@id='loginTable']/tbody/tr[1]/td[2]/input").sendKeys(login); 
+		
+		//ITextField textField = TextField.get().getByXpath(".//*[@id='loginTable']/tbody/tr[1]/td[2]/input");
+		//textField.sendKeys(login);
+		System.out.println("+++++++++++++++Send done ");
+		
 	}
 
 	public void setPassword(String password) {
-		this.controls.password.sendKeysClear(password);
+		//getPassword().sendKeys(password);
+		TextField.get().getById("inputPassword").sendKeys(password);
 
 	}
 
 	public void submitLoginButtonClick() {
-		this.controls.submitLoginButton.click();
+		Button.get().getByClassName("btn").click();
+		//getLoginSubmitButton().click();
 	}
 
 	public ITextField getUsername() {

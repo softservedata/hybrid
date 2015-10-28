@@ -20,11 +20,17 @@ import com.softserve.edu.atqc.tools.search.KeysWrapper;
  */
 public class App 
 {
+	
+   private static WebElement in;
+   private static WebElement login;
+   private static WebElement pass;
+   private static WebElement btn;
+   
     public static void main( String[] args ) throws IOException, InterruptedException
     {
         System.out.println( "Hello World!" );
         WebDriver driver = new FirefoxDriver();
-        driver.get("www.google.com.ua");
+        driver.get("http://127.0.0.1:8080/");
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         //driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
         //driver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
@@ -51,10 +57,9 @@ public class App
 //        ILabel label =Label.get().getByXpath("");
         //ILabel label =Label.get().getByCssSelector("");
        // label.getText();
-        ITextField foo = TextField.get().getByName("q"); //= driver.findElement(By.name("q"));
-        WebElement foo1 = driver.findElement(By.className(""));
-        foo1.sendKeys("");
-        foo.sendKeys("");
-        foo.sendKeysEnter();
-        }
+       in = driver.findElement(By.partialLinkText("Увійти"));
+       in.click();
+       login = driver.findElement(By.xpath(".//*[@id='loginTable']/tbody/tr[1]/td[2]/input"));
+       login.sendKeys("admin");
+}
 }

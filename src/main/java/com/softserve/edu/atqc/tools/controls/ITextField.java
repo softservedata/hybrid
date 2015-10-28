@@ -13,5 +13,7 @@ public interface ITextField extends ILabelClickable {
     void sendKeysClear(String text);
     
     void sendKeysEnter();
+    
+    
 
 }

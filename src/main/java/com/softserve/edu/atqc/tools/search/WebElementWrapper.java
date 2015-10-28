@@ -13,7 +13,7 @@ public final class WebElementWrapper {
     private final String TAG_A = "a";
     private final String ATTRIBUTE_HREF = "href";
     private final String ATTRIBUTE_NAME = "name";
-    private WebElement webElement;
+    private static WebElement webElement;
 
     private WebElementWrapper(WebElement webElement) {
         this.webElement = webElement;
@@ -39,7 +39,7 @@ public final class WebElementWrapper {
         return new WebElementWrapper(ContextUtils.get().getPresentWebElement(byWrapper));
     }
 
-    WebElement getWebElement() {
+    static WebElement getWebElement() {
         return webElement;
     }
 
@@ -101,11 +101,13 @@ public final class WebElementWrapper {
     }
 
     public void sendKeysClear(String text) {
+    	
         clear();
         getWebElement().sendKeys(text);
     }
     public void sendKeysEnter(){
     	getWebElement().sendKeys(Keys.ENTER);
+    	
     }
 
     public void setFocus() {
