@@ -1,33 +1,56 @@
 package com.softserve.edu.counters.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.atqc.tools.controls.Button;
+import com.softserve.edu.atqc.tools.controls.IButton;
 
 public class CalibratorHomePage extends ForLoggedUserPage {
-
-	private WebElement employee;
-
-	public CalibratorHomePage() {
-		initVisibleWebElements();
-	}
 	
-	private void initVisibleWebElements() {
-		this.employee= WebDriverUtils.get().getWebDriver().findElement(By.linkText("Працівники"));
-	}
+	private class CalibratorHomePageUIMap {
+        public final IButton employee;
+        public final IButton measuringEquipments;
+
+        public CalibratorHomePageUIMap() {
+        	this.employee = Button.get().getByPartialLinkText("Працівники");
+        	this.measuringEquipments = Button.get().getByPartialLinkText("Довідник засобів вимірювальної техніки (вимірювальна лабораторія)");
+        }
+    }
+	
+	 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // Elements
+    private CalibratorHomePageUIMap controls;
+
+    public CalibratorHomePage() {
+        controls = new CalibratorHomePageUIMap();
+    }
+
+    // PageObject - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 	public void linkEmployeeClick() {
-		this.employee.click();
+		this.controls.employee.click();
 	}
 
-	public WebElement getEmployee() {
-		return this.employee;
+	public IButton getEmployee() {
+		return this.controls.employee;
 	}
 	
+	public void linkMeasuringEquipmentsClick() {
+		this.controls.measuringEquipments.click();
+	}
+
+	public IButton getMeasuringEquipments() {
+		return this.controls.measuringEquipments;
+	}
+	
+	// business - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	public EmployeePage goToEmployeePage() {
 		linkEmployeeClick();
 		return new EmployeePage();
+	}
+	
+	public MeasuringEquipmentPage goToMeasuringEquipmentsPage() {
+		linkMeasuringEquipmentsClick();
+		return new MeasuringEquipmentPage();
 	}
 
 }

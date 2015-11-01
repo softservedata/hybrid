@@ -68,36 +68,36 @@ interface IBuild {
 	IUser build();
 }
 
-
-public class User implements IUser, IFirstname, ILastname, IMiddleName, IPhoneNumber, IEmail, ILogin, IPassword, IRegion,
-		IDistrict, ICity, IStreet, IBuilding, IFlat, IRole, IOrganization, IWorkInProgress, IBuild {
+public class User implements IUser, IFirstname, ILastname, IMiddleName, IPhoneNumber, IEmail, ILogin, IPassword,
+		IRegion, IDistrict, ICity, IStreet, IBuilding, IFlat, IRole, IOrganization, IWorkInProgress, IBuild {
 
 	String firstname;
 	String lastname;
 	String middleName;
 	String phoneNumber;
 	String email;
-	
+
 	String login;
 	String password;
-	
+
 	String region;
 	String district;
 	String city;
 	String street;
 	String building;
 	String flat;
-	
+
 	String role;
 	String organization;
 	String workInProgress;
-	
-	private User() {}
-	
+
+	private User() {
+	}
+
 	public static IFirstname get() {
-        return new User();
-    }
-	
+		return new User();
+	}
+
 	public ILastname setFirstname(String firstname) {
 		this.firstname = firstname;
 		return this;
@@ -167,22 +167,22 @@ public class User implements IUser, IFirstname, ILastname, IMiddleName, IPhoneNu
 		this.role = role;
 		return this;
 	}
-	
+
 	public IWorkInProgress setOrganization(String organization) {
 		this.organization = organization;
 		return this;
 	}
-	
+
 	public IBuild setWorkInProgress(String workInProgress) {
 		this.workInProgress = workInProgress;
 		return this;
 	}
-	
+
 	public IUser build() {
-        return this;
-    }
-	
-	//----------------------------------------------
+		return this;
+	}
+
+	// ----------------------------------------------
 	public String getFirstname() {
 		return firstname;
 	}
@@ -242,11 +242,9 @@ public class User implements IUser, IFirstname, ILastname, IMiddleName, IPhoneNu
 	public String getOrganization() {
 		return organization;
 	}
+
 	public String getWorkInProgress() {
 		return workInProgress;
 	}
-
-
-
 
 }

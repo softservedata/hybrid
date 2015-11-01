@@ -16,7 +16,13 @@
 					<include name="addNewEmployee" />
 					<include name="changeNewEmployee" />
 					<include name="fireEmployee" />
-					<include name="restoreEmployee" />
+				</methods>
+			</class>
+			<class name="com.softserve.edu.counters.tests.MeasuringEquipmentTest">
+				<methods>
+					<include name="addEquipment" />
+					<include name="changedEquipmentProvider" />
+					<include name="deleteEquipment" />
 				</methods>
 			</class>
 		</classes>

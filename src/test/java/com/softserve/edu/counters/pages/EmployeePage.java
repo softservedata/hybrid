@@ -2,15 +2,20 @@ package com.softserve.edu.counters.pages;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.atqc.tools.controls.Button;
+import com.softserve.edu.atqc.tools.controls.Component;
+import com.softserve.edu.atqc.tools.controls.IButton;
+import com.softserve.edu.atqc.tools.controls.IComponent;
+import com.softserve.edu.atqc.tools.controls.ITextField;
+import com.softserve.edu.atqc.tools.controls.TextField;
+import com.softserve.edu.atqc.tools.search.ByWrapper;
+import com.softserve.edu.atqc.tools.search.ContextUtils;
+import com.softserve.edu.atqc.tools.search.ImplicitWrapper;
 import com.softserve.edu.counters.data.AttributeRepository.Attribute;
 import com.softserve.edu.counters.data.IUser;
 
@@ -81,156 +86,159 @@ public class EmployeePage extends ForLoggedUserPage {
 
 	private abstract class FormForEmployee implements FormOnPage {
 
-		public final WebElement firstname;
-		public final WebElement lastname;
-		public final WebElement middleName;
-		public final WebElement phoneNumber;
-		public final WebElement email;
+		private class DropDownList {
+			List<WebElement> allOptions;
 
-		public final WebElement login;
+			public DropDownList() {
+				ImplicitWrapper.get().getPresentWebElement(ByWrapper.getByClassName("active-result"));
+				allOptions = WebDriverUtils.get().getWebDriver().findElements(By.className("active-result"));
+			}
 
-		public final WebElement region;
-		public final WebElement regionSearch;
-		public final WebElement district;
-		public final WebElement districtSearch;
-		public final WebElement city;
-		public final WebElement citySearch;
-		public final WebElement street;
-		public final WebElement building;
-		public final WebElement flat;
-
-		FormForEmployee() {
-			this.firstname = WebDriverUtils.get().getWebDriver().findElement(By.id("firstName"));
-			this.lastname = WebDriverUtils.get().getWebDriver().findElement(By.id("lastName"));
-			this.middleName = WebDriverUtils.get().getWebDriver().findElement(By.id("middleName"));
-			this.phoneNumber = WebDriverUtils.get().getWebDriver().findElement(By.id("phone"));
-			this.email = WebDriverUtils.get().getWebDriver().findElement(By.id("email"));
-			this.login = WebDriverUtils.get().getWebDriver().findElement(By.id("username"));
-			this.region = WebDriverUtils.get().getWebDriver()
-					.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[1]/div[2]/div/a/span"));
-			this.regionSearch = WebDriverUtils.get().getWebDriver()
-					.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[1]/div[2]/div/div/div/input"));
-			this.district = WebDriverUtils.get().getWebDriver()
-					.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[2]/div[2]/div/a/span"));
-			this.districtSearch = WebDriverUtils.get().getWebDriver()
-					.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[2]/div[2]/div/div/div/input"));
-			this.city = WebDriverUtils.get().getWebDriver()
-					.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[3]/div[2]/div/a/span"));
-			this.citySearch = WebDriverUtils.get().getWebDriver()
-					.findElement(By.xpath("//form/div[4]/div/div/div[2]/div/div[3]/div[2]/div/div/div/input"));
-			this.street = WebDriverUtils.get().getWebDriver().findElement(By.name("street"));
-			this.building = WebDriverUtils.get().getWebDriver().findElement(By.name("building"));
-			this.flat = WebDriverUtils.get().getWebDriver().findElement(By.name("flat"));
+			public void chooseElement(String element) {
+				for (WebElement option : allOptions) {
+					if (option.getText().equals(element)) {
+						option.click();
+						break;
+					}
+				}
+			}
 		}
 
+		private class FormForEmployeeUIMap {
+			public final ITextField firstname;
+			public final ITextField lastname;
+			public final ITextField middleName;
+			public final ITextField phoneNumber;
+			public final ITextField email;
+
+			public final ITextField login;
+
+			public final IButton region;
+			public final IButton district;
+			public final IButton city;
+			public final ITextField street;
+			public final ITextField building;
+			public final ITextField flat;
+
+			public FormForEmployeeUIMap() {
+
+				this.firstname = TextField.get().getById("firstName");
+				this.lastname = TextField.get().getById("lastName");
+				this.middleName = TextField.get().getById("middleName");
+				this.phoneNumber = TextField.get().getById("phone");
+				this.email = TextField.get().getById("email");
+				this.login = TextField.get().getById("username");
+
+				this.region = Button.get().getByXpath("//form/div[4]/div/div/div[2]/div/div[1]/div[2]/div/a/span");
+				this.district = Button.get().getByXpath("//form/div[4]/div/div/div[2]/div/div[2]/div[2]/div/a/span");
+				this.city = Button.get().getByXpath("//form/div[4]/div/div/div[2]/div/div[3]/div[2]/div/a/span");
+				this.street = TextField.get().getByName("street");
+				this.building = TextField.get().getByName("building");
+				this.flat = TextField.get().getByName("flat");
+
+			}
+		}
+
+		// Elements
+		private FormForEmployeeUIMap controls;
+
+		public FormForEmployee() {
+			controls = new FormForEmployeeUIMap();
+		}
+
+		// PageObject - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 		public void setFirstname(String firstname) {
-			this.firstname.click();
-			this.firstname.clear();
-			this.firstname.sendKeys(firstname);
+			this.controls.firstname.sendKeysClear(firstname);
 		}
 
 		public void setLastname(String lastname) {
-			this.lastname.clear();
-			this.lastname.click();
-			this.lastname.sendKeys(lastname);
+			this.controls.lastname.sendKeysClear(lastname);
 		}
 
 		public void setMiddleName(String middleName) {
-			this.middleName.clear();
-			this.middleName.click();
-			this.middleName.sendKeys(middleName);
+			this.controls.middleName.sendKeysClear(middleName);
 		}
 
 		public void setPhoneNumber(String phoneNumber) {
-			this.phoneNumber.clear();
-			this.phoneNumber.click();
-			this.phoneNumber.sendKeys(phoneNumber);
+			this.controls.phoneNumber.sendKeysClear(phoneNumber);
 		}
 
 		public void setEmail(String email) {
-			this.email.clear();
-			this.email.click();
-			this.email.sendKeys(email);
+			this.controls.email.sendKeysClear(email);
 		}
 
 		public void setLogin(String login) {
-			this.login.clear();
-			this.login.click();
-			this.login.sendKeys(login);
+			this.controls.login.sendKeysClear(login);
 		}
 
 		public void setRegion(String region) {
-			this.region.click();
-			this.regionSearch.sendKeys(region);
-			this.regionSearch.sendKeys(Keys.ENTER);
+			this.controls.region.click();
+			new DropDownList().chooseElement(region);
 		}
 
 		public void setDistrict(String district) {
-			// // 
-			WebDriverUtils.get().getWebDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-			(new WebDriverWait(WebDriverUtils.get().getWebDriver(), 10))
-			.until(ExpectedConditions.invisibilityOfElementLocated(By.className("active-result")));
-			this.district.click();
-			(new WebDriverWait(WebDriverUtils.get().getWebDriver(), 10))
-					.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("active-result")));
-			this.districtSearch.sendKeys(district);
-			this.districtSearch.sendKeys(Keys.ENTER);
+			ImplicitWrapper.get().isInvisibleWebElement(ByWrapper.getByClassName("active-result"));
+			this.controls.district.click();
+			new DropDownList().chooseElement(district);
 		}
 
-		public void setCity(String city) {
-			// ///
-			WebDriverUtils.get().getWebDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-			(new WebDriverWait(WebDriverUtils.get().getWebDriver(), 10))
-			.until(ExpectedConditions.invisibilityOfElementLocated(By.className("active-result")));
-			this.city.click();
-			(new WebDriverWait(WebDriverUtils.get().getWebDriver(), 10))
-					.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("active-result")));
-			this.citySearch.sendKeys(city);
-			this.citySearch.sendKeys(Keys.ENTER);
+		public void setCity(String sity) {
+			ImplicitWrapper.get().isInvisibleWebElement(ByWrapper.getByClassName("active-result"));
+			this.controls.city.click();
+			new DropDownList().chooseElement(sity);
 		}
 
+		// TODO
 		public void setStreet(String street) {
-			this.street.clear();
-			this.street.click();
-			this.street.sendKeys(street);
+			this.controls.street.sendKeysClear(street);
 		}
 
 		public void setBuilding(String building) {
-			this.building.clear();
-			this.building.click();
-			this.building.sendKeys(building);
+			this.controls.building.sendKeysClear(building);
 		}
 
 		public void setFlat(String flat) {
-			this.flat.clear();
-			this.flat.click();
-			this.flat.sendKeys(flat);
+			this.controls.flat.sendKeysClear(flat);
 		}
 
 	}
 
 	private class AddNewEmployeeForm extends FormForEmployee {
 
-		public final WebElement password;
-		public final WebElement rePassword;
-		public final WebElement submit;
+		private class AddNewEmployeeFormUIMap {
+			public final ITextField password;
+			public final ITextField rePassword;
+			public final IButton submit;
 
-		AddNewEmployeeForm() {
-			this.password = WebDriverUtils.get().getWebDriver().findElement(By.name("password"));
-			this.rePassword = WebDriverUtils.get().getWebDriver().findElement(By.name("rePassword"));
-			this.submit = WebDriverUtils.get().getWebDriver().findElement(By.xpath("(//button[@type='submit'])[2]"));
+			public final IComponent form;
+
+			public AddNewEmployeeFormUIMap() {
+				
+				this.password = TextField.get().getByName("password");
+				this.rePassword = TextField.get().getByName("rePassword");
+				this.submit = Button.get().getByXpath("(//button[@type='submit'])[2]");
+				form = Component.get().getByXpath("//div[@class='modal-dialog']");
+			}
 		}
 
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+		// Elements
+		private AddNewEmployeeFormUIMap controls;
+
+		public AddNewEmployeeForm() {
+			controls = new AddNewEmployeeFormUIMap();
+		}
+
+		// PageObject - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 		public void setPassword(String password) {
-			this.password.clear();
-			this.password.click();
-			this.password.sendKeys(password);
+			this.controls.password.sendKeysClear(password);
 		}
 
 		public void setRePassword(String rePassword) {
-			this.rePassword.clear();
-			this.rePassword.click();
-			this.rePassword.sendKeys(rePassword);
+			this.controls.rePassword.sendKeysClear(rePassword);
 		}
 
 		public void setAddNewEmployeeData(IUser user) {
@@ -248,139 +256,152 @@ public class EmployeePage extends ForLoggedUserPage {
 			setStreet(user.getStreet());
 			setBuilding(user.getBuilding());
 			setFlat(user.getFlat());
-			submit.click();
+			controls.submit.click();
 		}
 	}
 
 	private class RestoreForm implements FormOnPage {
-		public final WebElement restore;
+		public final IButton restore;
 
 		RestoreForm() {
-			this.restore = WebDriverUtils.get().getWebDriver()
-					.findElement(By.xpath("/html/body/div[3]/div/div/div[2]/div/div/button"));
+			this.restore = Button.get().getByXpath("/html/body/div[3]/div/div/div[2]/div/div/button");
 		}
 	}
 
 	private class ChangeEmployeeForm extends FormForEmployee {
+		private class ChangeEmployeeFormUIMap {
+			public final IButton save;
+			public final IButton fire;
+			public final IComponent form;
 
-		public final WebElement save;
-		public final WebElement fire;
-
-		ChangeEmployeeForm() {
-			this.save = WebDriverUtils.get().getWebDriver().findElement(By.xpath("(//button[@type='submit'])[3]"));
-			this.fire = WebDriverUtils.get().getWebDriver().findElement(By.linkText("Звільнити"));
+			public ChangeEmployeeFormUIMap() {
+				this.save = Button.get().getByXpath("(//button[@type='submit'])[3]");
+				this.fire = Button.get().getByPartialLinkText("Звільнити");
+				form = Component.get().getByXpath("//div[@class='modal-dialog']");
+			}
 		}
 
+		// Elements
+		private ChangeEmployeeFormUIMap controls;
+
+		public ChangeEmployeeForm() {
+			controls = new ChangeEmployeeFormUIMap();
+		}
 	}
 
-	private WebElement addNewEmployee;
-	private WebElement fieldForSearchLogin;
-	private Table table;
+	private class EmployeePageUIMap {
+		public final IButton addNewEmployee;
+		public final ITextField fieldForSearchLogin;
+		public Table table;
+
+		public EmployeePageUIMap() {
+			this.addNewEmployee = Button.get().getByXpath("//button[@type='submit']");
+			this.fieldForSearchLogin = TextField.get()
+					.getByXpath("//tr[@class='ng-table-filters ng-scope']/th[1]//input");
+			this.table = new Table();
+		}
+	}
+
+	// Elements
+	private EmployeePageUIMap controls;
 
 	public EmployeePage() {
-		initVisibleWebElements();
+		controls = new EmployeePageUIMap();
 	}
 
-	private void initVisibleWebElements() {
-		this.addNewEmployee = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//button[@type='submit']"));
-		this.fieldForSearchLogin = WebDriverUtils.get().getWebDriver()
-				.findElement(By.xpath("//tr[@class='ng-table-filters ng-scope']/th[1]//input"));
-		this.table = new Table();
-	}
-
+	// PageObject - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	public void addNewEmployeeClick() {
-		this.addNewEmployee = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//button[@type='submit']"));
-		addNewEmployee.click();
+		controls.addNewEmployee.click();
 	}
 
 	public void setFieldForSearchLogin(String login) {
 		searchLogin(login);
-		
-		WebDriverUtils.get().getWebDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-		(new WebDriverWait(WebDriverUtils.get().getWebDriver(), 10))
-				.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("(//tr[2]/td[1])")));
-		(new WebDriverWait(WebDriverUtils.get().getWebDriver(), 10))
-				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//tr[1]/td[1])")));
-		WebDriverUtils.get().getWebDriver().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
-		this.table = new Table();
+		ImplicitWrapper.get().isInvisibleWebElement(ByWrapper.getByXPath("(//tr[2]/td[1])"));
+		ImplicitWrapper.get().getVisibleWebElement(ByWrapper.getByXPath("(//tr[1]/td[1])"));
+
+		this.controls.table = new Table();
 	}
 
-	public WebElement getAddNewEmployee() {
-		return this.addNewEmployee;
+	public IButton getAddNewEmployee() {
+		return this.controls.addNewEmployee;
 	}
 
-	public WebElement getFieldForSearchLogin() {
-		return this.fieldForSearchLogin;
+	public ITextField getFieldForSearchLogin() {
+		return this.controls.fieldForSearchLogin;
 	}
-
-//	private Table getTable() {
-//		return this.table;
-//	}
 
 	public String getLoginText(IUser user) {
-		return this.table.getRow(user.getLogin()).login.getText();
+		return this.controls.table.getRow(user.getLogin()).login.getText();
 	}
 
 	public void searchLogin(String login) {
-		this.fieldForSearchLogin.clear();
+		this.controls.fieldForSearchLogin.clear();
 		for (int i = 0; i < login.length(); i++) {
-			this.fieldForSearchLogin.sendKeys("" + login.charAt(i));
+			this.controls.fieldForSearchLogin.sendKeys("" + login.charAt(i));
 		}
 		// this.fieldForSearchLogin.sendKeys(login);
 	}
 
 	public void successAddEmployee(IUser user) {
 		addNewEmployeeClick();
-		(new AddNewEmployeeForm()).setAddNewEmployeeData(user);
+		AddNewEmployeeForm addNewEmployeeForm = new AddNewEmployeeForm();
+		addNewEmployeeForm.setAddNewEmployeeData(user);
+		// TODO
+		ContextUtils.get().isStatelessOfWebElement(addNewEmployeeForm.controls.form.getWrapper());
 	}
 
 	public void restoreEmployee(IUser user) {
-		((RestoreForm) this.table.getRow(user.getLogin()).editClick()).restore.click();
-		(new ChangeEmployeeForm()).save.click();
+		((RestoreForm) this.controls.table.getRow(user.getLogin()).editClick()).restore.click();
+		(new ChangeEmployeeForm()).controls.save.click();
 	}
 
 	public void fireEmployee(IUser user) {
-		((ChangeEmployeeForm) this.table.getRow(user.getLogin()).editClick()).fire.click();
+		ChangeEmployeeForm changeEmployeeForm = ((ChangeEmployeeForm) this.controls.table.getRow(user.getLogin())
+				.editClick());
+		changeEmployeeForm.controls.fire.click();
+		ContextUtils.get().isStatelessOfWebElement(changeEmployeeForm.controls.form.getWrapper());
+		// }
 	}
 
 	public void changeLastNameEmployee(IUser changedEmployee) {
-		ChangeEmployeeForm changeEmployeeForm = ((ChangeEmployeeForm) this.table.getRow(changedEmployee.getLogin())
-				.editClick());
+		ChangeEmployeeForm changeEmployeeForm = ((ChangeEmployeeForm) this.controls.table
+				.getRow(changedEmployee.getLogin()).editClick());
 		changeEmployeeForm.setLastname(changedEmployee.getLastname());
-		changeEmployeeForm.save.click();
+		changeEmployeeForm.controls.save.click();
+		ContextUtils.get().isStatelessOfWebElement(changeEmployeeForm.controls.form.getWrapper());
 	}
 
 	public String getAttributeRow(IUser user) {
-		return this.table.getRow(user.getLogin()).row.getAttribute(Attribute.CLASS.toString());
+		return this.controls.table.getRow(user.getLogin()).row.getAttribute(Attribute.CLASS.toString());
 	}
 
 	public String getLoginFromRow(IUser user) {
-		return this.table.getRow(user.getLogin()).login.getText();
+		return this.controls.table.getRow(user.getLogin()).login.getText();
 	}
 
 	public String getRoleFromRow(IUser user) {
-		return this.table.getRow(user.getLogin()).role.getText();
+		return this.controls.table.getRow(user.getLogin()).role.getText();
 	}
 
 	public String getFirstnameFromRow(IUser user) {
-		return this.table.getRow(user.getLogin()).firstname.getText();
+		return this.controls.table.getRow(user.getLogin()).firstname.getText();
 	}
 
 	public String getLastnameFromRow(IUser user) {
-		return this.table.getRow(user.getLogin()).lastname.getText();
+		return this.controls.table.getRow(user.getLogin()).lastname.getText();
 	}
 
 	public String getOrganizationFromRow(IUser user) {
-		return this.table.getRow(user.getLogin()).organization.getText();
+		return this.controls.table.getRow(user.getLogin()).organization.getText();
 	}
 
 	public String getPhoneNumberFromRow(IUser user) {
-		return this.table.getRow(user.getLogin()).phoneNumber.getText();
+		return this.controls.table.getRow(user.getLogin()).phoneNumber.getText();
 	}
 
 	public String getWorkInProgressFromRow(IUser user) {
-		return this.table.getRow(user.getLogin()).workInProgress.getText();
+		return this.controls.table.getRow(user.getLogin()).workInProgress.getText();
 	}
 
 }

@@ -3,7 +3,7 @@ package com.softserve.edu.counters.data;
 public class UserRepository {
 	
 	public static IUser getCalibratorUser() {
-		return User.get().setFirstname("")
+		return User.get().setFirstname("Людмила")
 				.setLastname("")
 				.setMiddleName("")
 				.setPhoneNumber("")
@@ -47,6 +47,7 @@ public class UserRepository {
 				.setFirstname("Роксолана")
 				.setLastname("Яоемкевич")
 				.setMiddleName("Ігорівна")
+				//.setPhoneNumber("+380981323157")
 				.setPhoneNumber("+380981323157")
 				.setEmail("Yaremkevych.Roksolana@gmail.com")
 				.setLogin("roksik")

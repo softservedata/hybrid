@@ -1,44 +1,78 @@
 package com.softserve.edu.counters.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.atqc.tools.controls.Button;
+import com.softserve.edu.atqc.tools.controls.IButton;
+import com.softserve.edu.atqc.tools.search.ByWrapper;
+import com.softserve.edu.atqc.tools.search.WebElementWrapper;
 
 public class ForLoggedUserPage {
 
 	private class DropDownList {
-		public final WebElement logOut;
 
-		public DropDownList() {
-			this.logOut = WebDriverUtils.get().getWebDriver().findElement(By.linkText("Вилогуватись"));
+		private class DropDownListUIMap {
+			public final IButton logOut;
+
+			public DropDownListUIMap() {
+				this.logOut = Button.get().getByPartialLinkText("Вилогуватись");
+			}
+		}
+
+		private DropDownListUIMap controls;
+
+		protected DropDownList() {
+			this.controls = new DropDownListUIMap();
+		}
+
+	}
+
+	private class ForLoggedUserPageUIMap {
+		public final IButton nameUser;
+		//TODO
+	//	public ByWrapper nameUserWrapper;
+
+		public ForLoggedUserPageUIMap() {
+			this.nameUser = Button.get().getByXpath("//a[@class='dropdown-toggle']/label");
+		//	this.nameUserWrapper = ByWrapper.getByXPath("//a[@class='dropdown-toggle']/label");
 		}
 	}
 
-	private WebElement nameUser;
 	private DropDownList dropDownList;
 
-	public ForLoggedUserPage() {
-		initVisibleWebElements();
+	// Elements
+	private ForLoggedUserPageUIMap controls;
+
+	protected ForLoggedUserPage() {
+		this.controls = new ForLoggedUserPageUIMap();
 	}
 
-	private void initVisibleWebElements() {
-		this.nameUser = WebDriverUtils.get().getWebDriver()
-				.findElement(By.xpath("//a[@class='dropdown-toggle']/label"));
-	}
+	// PageObject - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 	public void nameUserClick() {
-		this.nameUser.click();
+		this.controls.nameUser.click();
 		this.dropDownList = new DropDownList();
 	}
 
-	public WebElement getNameUser() {
-		return this.nameUser;
+	public IButton getNameUser() {
+		return this.controls.nameUser;
 	}
 
+	// business - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	public String getNameUserText() {
+		return this.controls.nameUser.getText();
+	}
+	
+	public WebElementWrapper getNameUserWrapper() {
+		return this.controls.nameUser.getWrapper();
+	}
+	
+	public ByWrapper getNameUserByWrapper() {
+		return this.controls.nameUser.getByWrapperOfElement();
+	}
+	
 	public MainPage logout() {
 		nameUserClick();
-		dropDownList.logOut.click();
+		dropDownList.controls.logOut.click();
 		return new MainPage();
 	}
 

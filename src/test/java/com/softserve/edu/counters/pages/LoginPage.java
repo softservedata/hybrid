@@ -1,60 +1,65 @@
 package com.softserve.edu.counters.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.atqc.tools.controls.Button;
+import com.softserve.edu.atqc.tools.controls.IButton;
+import com.softserve.edu.atqc.tools.controls.ITextField;
+import com.softserve.edu.atqc.tools.controls.TextField;
 import com.softserve.edu.counters.data.IUser;
 
 public class LoginPage {
 	
-    private WebElement login;
-    private WebElement password;
-    private WebElement submit;
-    private WebElement incorrectLoginMessage;
+	private class LoginPageUIMap {
+        public final  ITextField login;
+        public final  ITextField password;
+        public final  IButton submit;
+
+        public LoginPageUIMap() {
+        	this.login = TextField.get().getByXpath("//input[@type='text']");
+        	this.password = TextField.get().getById("inputPassword");
+            this.submit = Button.get().getByTagName("button");
+        }
+    }
+	
+	 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // Elements
+    private LoginPageUIMap controls;
 
     public LoginPage() {
-    	initVisibleWebElements();
-    }
-    
-    private void initVisibleWebElements() {
-    	this.login = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//input[@type='text']"));
-        this.password = WebDriverUtils.get().getWebDriver().findElement(By.xpath("//input[@type='password']"));
-        this.submit = WebDriverUtils.get().getWebDriver().findElement(By.tagName("button"));
-        this.incorrectLoginMessage = WebDriverUtils.get().getWebDriver().findElement(By.id("incorrectLoginMessage"));
+        controls = new LoginPageUIMap();
     }
 
+    // PageObject - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     public void setLogin(String login) {
-        this.login.click();
-        this.login.clear();
-        this.login.sendKeys(login);
+        this.controls.login.click();
+        this.controls.login.clear();
+        this.controls.login.sendKeys(login);
     }
     
     public void setPassword(String password) {
-        this.password.click();
-        this.password.clear();
-        this.password.sendKeys(password);
+        this.controls.password.click();
+        this.controls.password.clear();
+        this.controls.password.sendKeys(password);
     }
 
     public void buttonSubmitClick() {
-        this.submit.click();
+        this.controls.submit.click();
     }
     
-    public WebElement getLogin() {
-        return this.login;
+    public ITextField getLogin() {
+        return this.controls.login;
     }
 
-    public WebElement getPassword() {
-        return this.password;
+    public ITextField getPassword() {
+        return this.controls.password;
     }
 
-    public WebElement getSubmit() {
-        return this.submit;
+    public IButton getSubmit() {
+        return this.controls.submit;
     }
     
-    public WebElement getIncorrectLoginMessage() {
-        return this.incorrectLoginMessage;
-    }
+    // business - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     
     private void setLoginData(IUser user) {
         setLogin(user.getLogin());
@@ -72,9 +77,9 @@ public class LoginPage {
         return new CalibratorEmployeeHomePage();
     }
 
-    public LoginPage unSuccesfulLogin(IUser invalidUser) {
+    public LoginPageValidator unSuccesfulLogin(IUser invalidUser) {
         setLoginData(invalidUser);
-        return this;
+        return new LoginPageValidator();
     }
     
     

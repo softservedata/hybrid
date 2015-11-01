@@ -1,30 +1,38 @@
 package com.softserve.edu.counters.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import com.softserve.edu.atqc.tools.browsers.WebDriverUtils;
+import com.softserve.edu.atqc.tools.controls.Button;
+import com.softserve.edu.atqc.tools.controls.IButton;
 
 public class MainPage {
+	
+	private class MainPageUIMap {
+        public final IButton logIn;
 
-	private WebElement logIn;
+        public MainPageUIMap() {
+            this.logIn = Button.get().getByPartialLinkText("Увійти");
+        }
+    }
+	
+	 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-	public MainPage() {
-		initVisibleWebElements();
-	}
+    // Elements
+    private MainPageUIMap controls;
 
-	private void initVisibleWebElements() {
-		this.logIn = WebDriverUtils.get().getWebDriver().findElement(By.linkText("Увійти"));
-	}
+    public MainPage() {
+        controls = new MainPageUIMap();
+    }
+
+    // PageObject - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 	public void linkLogInClick() {
-		logIn.click();
+		this.controls.logIn.click();
 	}
 
-	public WebElement getLogIn() {
-		return this.logIn;
+	public IButton getLogIn() {
+		return this.controls.logIn;
 	}
 
+    // business - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	public LoginPage goToLoginPage() {
 		linkLogInClick();
 		return new LoginPage();
