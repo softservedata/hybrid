@@ -23,11 +23,12 @@ import com.softserve.edu.atqc.tools.search.ImplicitWrapper;
 import com.softserve.edu.atqc.tools.verifications.AssertWrapper;
 
 import com.softserve.edu.pages.AdminHomePage;
-
+import com.softserve.edu.pages.AdminHomePage.ValidationHeader;
 import com.softserve.edu.pages.LoginPage;
 import com.softserve.edu.pages.OrganizationPage;
 import com.softserve.edu.pages.StartMainPage;
 import com.softserve.edu.pages.MainPage;
+import com.softserve.edu.testData.IOrganization;
 import com.softserve.edu.testData.IUsers;
 import com.softserve.edu.testData.OrganizationsRepository;
 import com.softserve.edu.testData.UrlRepository;
@@ -55,23 +56,33 @@ public void AdministratorLogin(ABrowser browser, String url, IUsers adminUser) t
 	AdminHomePage adminHomePage = loginPage.successAdminLogin(UserRepository.getAdminUser());
 	//Thread.sleep(3000);
 	//ExplicitWrapper.get().getPresentWebElement(ByWrapper.getByXPath(".//*[@id='adminModule']/nav/ul/li/a/div/label"));
-	AssertWrapper.get().forElement(adminHomePage.getPageHeaderText()).valueMatch(adminHomePage.getPageHeaderText());
+	AssertWrapper.get().forElement(adminHomePage.getPageHeaderText()).valueMatch(ValidationHeader.HEADER.toString());
 	
 	AssertWrapper.get().check();
 	adminHomePage.logOut();//
 	
 }
 
-//@Test
-public void organizationCreation() throws Exception{
+@DataProvider//(parallel = true)
+public Object[][] organizationCreate() {
+    return new Object[][] {
+        { BrowserRepository.getDefault(),
+            Urls.LOCAL_HOST.toString(), UserRepository.getAdminUser(), OrganizationsRepository.getNewOrganizationData()},
+        
+       
+    };
+}
+
+@Test(dataProvider = "organizationCreate")
+public void organizationCreation(ABrowser browser, String url, IUsers adminUser, IOrganization newOrg) throws Exception{
 	
 	
-	LoginPage loginPage = (new MainPage()).gotoLoginPage();
-	AdminHomePage adminHomePage = loginPage.successAdminLogin(UserRepository.getAdminUser());
+	//LoginPage loginPage = (new MainPage()).gotoLoginPage();
+	AdminHomePage adminHomePage = (new MainPage()).gotoLoginPage().successAdminLogin(adminUser);
 	
 	OrganizationPage orgPage = adminHomePage.gotoOrganizationPage();
 	OrganizationPage.AddNewOrganizationForm newForm = orgPage.addNewOrganizationClick();
-	newForm.successAddOrganization(OrganizationsRepository.getNewOrganizationData());
+	newForm.successAddOrganization(newOrg);
     
     }
 

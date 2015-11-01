@@ -23,11 +23,11 @@ public class LoginPage {
     public LoginPageUIMap(){
     	this.login = TextField.get().getByXpath("//input[@ng-model='loginForm.username']"); 
     	this.password = TextField.get().getById("inputPassword");
-    	this.submitLoginButton = Button.get().getByClassName("btn");
+    	this.submitLoginButton = Button.get().getByXpath(".//*[@id='loginSection']/div/div/div[2]/form/button");
     //System.out.println("*********Hello");
     	//login.sendKeys("Hello");
     	
-    	TextField.get().getByXpath("//input[@ng-model='loginForm.username']").sendKeys(Keys.ARROW_LEFT.toString());
+    //	TextField.get().getByXpath("//input[@ng-model='loginForm.username']").sendKeys(Keys.ARROW_LEFT.toString());
 //    	TextField.get().getById("inputPassword").sendKeys("********");
     }
 	}
@@ -38,11 +38,11 @@ public class LoginPage {
 
 	public void setUsername(String login) {
 		System.out.println("+++++++++++++++Send keys " +login);
-		getUsername().clear();
+		//getUsername().clear();
 		
-		//this.controls.login.sendKeys(login);
+		this.controls.login.sendKeys(login);
 //		WebDriverUtils.get().getWebDriver().findElement(By.xpath(".//*[@id='loginTable']/tbody/tr[1]/td[2]/input")).sendKeys(login);
-        TextField.get().getByXpath(".//*[@id='loginTable']/tbody/tr[1]/td[2]/input").sendKeys(login); 
+        //TextField.get().getByXpath(".//*[@id='loginTable']/tbody/tr[1]/td[2]/input").sendKeys(login); 
 		
 		//ITextField textField = TextField.get().getByXpath(".//*[@id='loginTable']/tbody/tr[1]/td[2]/input");
 		//textField.sendKeys(login);
@@ -51,14 +51,14 @@ public class LoginPage {
 	}
 
 	public void setPassword(String password) {
-		//getPassword().sendKeys(password);
-		TextField.get().getById("inputPassword").sendKeys(password);
+		getPassword().sendKeys(password);
+		//TextField.get().getById("inputPassword").sendKeys(password);
 
 	}
 
 	public void submitLoginButtonClick() {
-		Button.get().getByClassName("btn").click();
-		//getLoginSubmitButton().click();
+		//Button.get().getByClassName("btn").click();
+		getLoginSubmitButton().click();
 	}
 
 	public ITextField getUsername() {

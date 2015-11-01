@@ -1,6 +1,7 @@
 package com.softserve.edu.atqc.tools.controls;
 
 import com.softserve.edu.atqc.tools.search.ByWrapper;
+import com.softserve.edu.atqc.tools.search.ContextUtils;
 import com.softserve.edu.atqc.tools.search.WebElementWrapper;
 
 public abstract class AComponent<TComponent> {
@@ -9,6 +10,8 @@ public abstract class AComponent<TComponent> {
     private TComponent tComponent;
 
     protected AComponent() {
+        // TODO
+        //tComponent = this;
     }
 
     public TComponent getById(String id) {
@@ -34,12 +37,10 @@ public abstract class AComponent<TComponent> {
     public TComponent getByTagName(String tagName) {
         return get(ByWrapper.getByTagName(tagName));
     }
-    public TComponent getByClassName(String className){
-    	return get(ByWrapper.getByClassName(className));
-    }
-    
+
     private TComponent get(ByWrapper byWrapper) {
         this.byWrapper = byWrapper;
+        // TODO Set strategy for Searching Elements
         this.webElementWrapper = WebElementWrapper.getVisibleWebElement(byWrapper);
         return tComponent;
     }
@@ -49,15 +50,19 @@ public abstract class AComponent<TComponent> {
     // implements getters and setters
 
     WebElementWrapper getWebElementWrapper() {
-        return webElementWrapper;
+        return this.webElementWrapper;
     }
 
     ByWrapper getByWrapper() {
-        return byWrapper;
+        return this.byWrapper;
     }
 
     protected void setTComponent(TComponent tComponent) {
         this.tComponent = tComponent;
     }
-    
+
+    public boolean isInvisibleWebElementById(String id) {
+        return ContextUtils.get().isInvisibleWebElementById(id);
+    }
+
 }

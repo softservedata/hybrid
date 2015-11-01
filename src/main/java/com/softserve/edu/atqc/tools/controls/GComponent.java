@@ -41,6 +41,10 @@ abstract class GComponent<TComponent> extends AComponent<TComponent> implements 
 		return getWebElementWrapper().isSelected();
 	}
 
+    public boolean isInvisibleWebElement() {
+        return ContextUtils.get().isInvisibleWebElement(getByWrapper());
+    }
+
 	public boolean isStatelessOf() {
 		return ContextUtils.get().isStatelessOfWebElement(getWebElementWrapper());
 	}
