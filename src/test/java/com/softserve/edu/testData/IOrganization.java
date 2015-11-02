@@ -3,6 +3,7 @@ package com.softserve.edu.testData;
 public interface IOrganization {
        String getOrganizationName();
        String getOrganizationTypeChoose();
+       String getDeviceType();
        String getPhoneNumber();
        String getEmail();
        String getMaxSizeEpmloyers();

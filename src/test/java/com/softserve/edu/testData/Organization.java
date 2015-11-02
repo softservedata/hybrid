@@ -57,9 +57,11 @@ interface IHouse{
 }
 
 interface IFlat{
-	IBuildOrganization setFlatInForm(String flat);
+	IDeviceType setFlatInForm(String flat);
 }
-
+interface IDeviceType{
+	IBuildOrganization setDeviceType(String type);
+}
 interface IBuildOrganization{
 	IOrganization build();
 }
@@ -68,9 +70,10 @@ public class Organization implements IOrganizationName,IOrganizationTypeChoose,I
                                          IEmail,IMaxSizeEpmloyers,IMaxTimeForFinishRequestInDays,
                                          ILoginForSystemAdmin,IPasswordForSystemAdmin,
                                          IConfirmPasswordForSystemAdmin,ISelectRegionFromList,ISelectDistrictFromList,
-                                         ISelectCityFromList,IStreet,IHouse,IFlat,IBuildOrganization, IOrganization,IAdminFirstName,IAdminLastName,IAdminSureName {
+                                         ISelectCityFromList,IStreet,IHouse,IFlat,IBuildOrganization, IOrganization,IAdminFirstName,IAdminLastName,IAdminSureName,IDeviceType {
 	
 	String organizationName;
+	String deviceType;
 	String organizationTypeChoose;
 	String phoneNumber;
 	String email;
@@ -100,7 +103,7 @@ public class Organization implements IOrganizationName,IOrganizationTypeChoose,I
     	this.organizationName = organizationName;
     	return this;
     }
-    
+   
     public IPhoneNumber setOrganizationTypeChoose(String organizationType){
     	this.organizationTypeChoose = organizationType;
     	return this;
@@ -112,6 +115,7 @@ public class Organization implements IOrganizationName,IOrganizationTypeChoose,I
     }
     
     public IMaxSizeEpmloyers setEmail(String email){
+    	this.email = email;
     	return this;
     }
     
@@ -173,7 +177,11 @@ public class Organization implements IOrganizationName,IOrganizationTypeChoose,I
     	this.house = house;
     	return this;
     }
-    public IBuildOrganization setFlatInForm(String flat){
+    public IBuildOrganization setDeviceType(String deviceType){
+    	this.deviceType = deviceType;
+    	return this;
+    }
+    public IDeviceType setFlatInForm(String flat){
     	this.flat = flat;
     	return this;
     }
@@ -184,7 +192,9 @@ public class Organization implements IOrganizationName,IOrganizationTypeChoose,I
 	public String getOrganizationName() {
 		return organizationName;
 	}
-	
+	public String getDeviceType(){
+		return deviceType;
+	}
 	public String getOrganizationTypeChoose() {
 		return organizationTypeChoose;
 	}

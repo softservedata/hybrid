@@ -23,6 +23,7 @@ public class OrganizationPage {
 		private class OrganizationFormUIMap{
 			private ITextField organizationName;
 			private ITextField organizationTypeChoose;
+			private ITextField deviceType;
 			private ITextField phoneNumber;
 			private ITextField email;
 			private ITextField maxSizeEpmloyers;
@@ -40,6 +41,7 @@ public class OrganizationPage {
 			private IButton submitButton;
 			private IButton resetFormButton;
 			private IButton cancelButton;
+			private ILabelClickable serviceAreaRegion;
 			
 			public OrganizationFormUIMap(){
 				initOrganizationWebElements();
@@ -48,6 +50,7 @@ public class OrganizationPage {
 				this.organizationName = TextField.get().getByXpath(".//*[@id='name']");
 				//TODO Fix get By
 				this.organizationTypeChoose = TextField.get().getByXpath(".//*[@id='types']/ul/li/input");
+				this.deviceType = TextField.get().getByXpath(".//*[@id='counters']/ul/li/input");
 				this.phoneNumber = TextField.get().getById("phoneNumber");
 				this.email = TextField.get().getById("email");
 				this.maxSizeEpmloyers = TextField.get().getById("capacity");
@@ -61,12 +64,12 @@ public class OrganizationPage {
 				this.selectDistrictList = LabelClickable.get()
 						.getByXpath(".//*[@id='district']/a/span[1]");
 			
-				this.searchDistrictlist = TextField.get()
-						.getByXpath(".//*[@id='district']/div/div/input");
+//				this.searchDistrictlist = TextField.get()
+//						.getByXpath(".//*[@id='district']/div/div/input");
 				this.selectCityList = LabelClickable.get()
 						.getByXpath(".//*[@id='locality']/a/span[1]");
-				this.searchCityList = TextField.get()
-						.getByXpath(".//*[@id='locality']/div/div/input");
+//				this.searchCityList = TextField.get()
+//						.getByXpath(".//*[@id='locality']/div/div/input");
 				this.street = TextField.get().getById("street");
 				this.house = TextField.get().getById("building");
 				this.flat = TextField.get().getById("flat");
@@ -76,6 +79,7 @@ public class OrganizationPage {
 						.getByXpath(".//*[@id='organizationForm']/div[5]/div[2]/button");
 				this.resetFormButton = Button.get()
 						.getByXpath(".//*[@id='organizationForm']/div[5]/div[1]/button[2]");
+			    this.serviceAreaRegion = LabelClickable.get().getByXpath(".//*[@id='serviceAreaRegion']/a/span[1]");
 			}
 		}
 		OrganizationFormUIMap controlsForm;
@@ -96,6 +100,10 @@ public class OrganizationPage {
 			this.controlsForm.organizationTypeChoose.sendKeys(Keys.ENTER.toString());
 		}
 
+		public void setDeviceType(String type){
+			getDeviceType().sendKeysClear(type);
+			getDeviceType().sendKeys(Keys.ENTER.toString());
+		}
 		public void setPhoneNumber(String phoneNumber) {
 			
 			this.controlsForm.phoneNumber.sendKeysClear(phoneNumber);
@@ -103,9 +111,9 @@ public class OrganizationPage {
 
 		public void setEmail(String email) {
 			
-			
-			this.controlsForm.email.sendKeysClear(email);
-			
+			System.out.println("Send email"+email);
+			this.controlsForm.email.sendKeys(email);
+			System.out.println("Send email done");
 			
 		}
 
@@ -121,31 +129,32 @@ public class OrganizationPage {
 		}
 
 		public void selectRegionFromList(String region) {
-			this.controlsForm.selectRegionList.click();
-			this.controlsForm.searchRegionList.click();
-			this.controlsForm.searchRegionList.sendKeys(region);
-			this.controlsForm.searchRegionList.sendKeys(Keys.ENTER.toString());
+			getSelectRegionList().click();
+			getSearchRegionList().sendKeys(region);
+			
+			getSearchRegionList().sendKeys(Keys.ENTER.toString());
 			
 		}
 
 		public void selectDistrictFromList(String district) throws InterruptedException {
 			
-			this.controlsForm.selectDistrictList.click();
-			this.controlsForm.searchDistrictlist.click();
-			this.controlsForm.searchDistrictlist.sendKeys(district);
-			this.controlsForm.searchDistrictlist.sendKeys(Keys.ENTER.toString());
+			getSelectDistrictList().click();
+			getSearchDistrictList().sendKeys(district);
+			
+			getSearchDistrictList().sendKeys(Keys.ENTER.toString());
 		}
 
 		public void selectCityFromList(String city) {
-			this.controlsForm.selectCityList.click();
-			this.controlsForm.searchCityList.click();
-			this.controlsForm.searchCityList.sendKeys(city);
-			this.controlsForm.searchCityList.sendKeys(Keys.ENTER.toString());
+			getSelectCityList().click();
+			getSearchCityList().sendKeys(city);
+			
+			getSearchCityList().sendKeys(Keys.ENTER.toString());
 		}
 
 		public void setStreetInForm(String street) {
 			
 			this.controlsForm.street.sendKeysClear(street);
+			this.controlsForm.street.sendKeys(Keys.ENTER.toString());
 		}
 
 		public void setHouseInForm(String house) {
@@ -169,13 +178,24 @@ public class OrganizationPage {
 		public void cancelButtonClick() {
 			this.controlsForm.cancelButton.click();
 		}
-
+        public void selectServiceArea(String area){
+        	getServiceAreaRegion().click();
+        	getSearchServiceArea().sendKeysClear(area);
+        	getSearchServiceArea().sendKeys(Keys.ENTER.toString());
+        }
+        public void setServiceAreaBox(){
+        	getServiceAreaBox().click();
+        }
 		public ITextField getOrganizationName() {
 			return this.controlsForm.organizationName;
 		}
 
 		public ITextField getOrganizationTypeChoose() {
 			return this.controlsForm.organizationTypeChoose;
+		}
+		
+		public ITextField getDeviceType(){
+			return this.controlsForm.deviceType;
 		}
 
 		public ITextField getPhoneNumber() {
@@ -199,21 +219,30 @@ public class OrganizationPage {
 		}
 
 		public ITextField getSearchRegionList() {
-			 getSelectRegionList().click();
+			
 			 return TextField.get()
 						.getByXpath(".//*[@id='region']/div/div/input");
 			//return this.controlsForm.searchRegionList;
 		}
 
 		public ILabelClickable getSelectDistrictList() {
+			
 			return this.controlsForm.selectDistrictList;
 		}
 
-		public ITextField getSearchDistrictlist() {
-			return this.controlsForm.searchDistrictlist;
+		public ITextField getSearchDistrictList() {
+			
+			return TextField.get()
+					.getByXpath(".//*[@id='district']/div/div/input");
+			//return this.controlsForm.searchDistrictlist;
 		}
 		public ILabelClickable getSelectCityList() {
 			return this.controlsForm.selectCityList;
+		}
+		public ITextField getSearchCityList(){
+			
+			return TextField.get()
+					.getByXpath(".//*[@id='locality']/div/div/input");
 		}
 		public ITextField getStreet() {
 			return this.controlsForm.street;
@@ -238,7 +267,15 @@ public class OrganizationPage {
 		public IButton getCancelButton() {
 			return this.controlsForm.cancelButton;
 		}
-
+		public ILabelClickable getServiceAreaRegion(){
+			return this.controlsForm.serviceAreaRegion;
+		}
+        public ITextField getSearchServiceArea(){
+        	return TextField.get().getByXpath(".//*[@id='serviceAreaRegion']/div/div/input");
+        }
+        public ILabelClickable getServiceAreaBox(){
+        	return LabelClickable.get().getByXpath(".//*[@id='organizationForm']//accordion/div/div[10]/div/div[1]/h4/a/input");
+        }
 	}
 
 	public  class AddNewOrganizationForm extends OrganizationForm {
@@ -318,6 +355,7 @@ public class OrganizationPage {
 			
 			setOrganizationName(organization.getOrganizationName());
 			setOrganizationTypeChoose(organization.getOrganizationTypeChoose());
+			setDeviceType(organization.getDeviceType());
 			setPhoneNumber(organization.getPhoneNumber());
 			
 			setEmail(organization.getEmail());
@@ -337,7 +375,9 @@ public class OrganizationPage {
 			setStreetInForm(organization.getStreet());
 			setHouseInForm(organization.getHouse());
 			setFlatInForm(organization.getFlat());
-			submitButtonClick();
+			selectServiceArea(organization.getSearchRegionList());
+			setServiceAreaBox();
+			//submitButtonClick();
 		}
 		public OrganizationPage successAddOrganization(IOrganization newOrg) throws InterruptedException {
 			//addNewOrganizationClick();
