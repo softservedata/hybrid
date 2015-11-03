@@ -2,6 +2,7 @@ package com.softserve.edu;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
@@ -54,5 +55,6 @@ public class App
         ILabel label =Label.get().getByXpath("");
         //ILabel label =Label.get().getByCssSelector("");
         label.getText();
+        Calendar calendar;
         }
 }
